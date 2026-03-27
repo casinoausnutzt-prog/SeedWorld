@@ -1,11 +1,11 @@
 import { spawn } from 'node:child_process';
-import { access } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { constants as fsConstants, existsSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { PATCH_PHASES } from './constants.mjs';
 import { createBackups, applyNormalizedManifest, rollbackBackups } from './backup.mjs';
 import { stageInput, unpackIfZip, detectManifest } from './intake.mjs';
-import { acquireLock, releaseLock } from './lock.mjs';
+import { acquireLock, releaseLockWithAudit } from './lock.mjs';
 import {
   appendAudit,
   appendJsonLine,
@@ -21,6 +21,90 @@ import { classifyRisk, normalizeManifest, resolveRepoPath } from './normalize.mj
 
 function isoNow() {
   return new Date().toISOString();
+}
+
+function riskRank(risk) {
+  const map = { low: 0, medium: 1, high: 2 };
+  return map[risk] ?? 99;
+}
+
+const DEFAULT_LLM_GATE_POLICY = Object.freeze({
+  policyVersion: '1.0.0-default',
+  allowedPatchKinds: ['kernel-patch', 'file'],
+  allowedFileWritePrefixes: ['patches/'],
+  forbiddenOperations: ['delete'],
+  forbiddenKernelSchemaTypes: ['debug'],
+  maxRisk: 'medium',
+  requiredKernelValidationFlags: ['deterministic']
+});
+
+async function loadLlmGatePolicy(rootDir) {
+  const policyPath = resolve(rootDir, 'docs', 'llm-gate-policy.json');
+  try {
+    const raw = await readFile(policyPath, 'utf8');
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') {
+      const error = new Error('Invalid llm-gate policy');
+      error.code = 'LLM_GATE_POLICY_INVALID';
+      throw error;
+    }
+    return parsed;
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return DEFAULT_LLM_GATE_POLICY;
+    }
+    throw error;
+  }
+}
+
+function evaluateLlmGates(normalizedManifest, risk, policy) {
+  const reasons = [];
+  const maxRisk = typeof policy.maxRisk === 'string' ? policy.maxRisk : 'medium';
+  const allowedKinds = new Set(Array.isArray(policy.allowedPatchKinds) ? policy.allowedPatchKinds : []);
+  const forbiddenOperations = new Set(Array.isArray(policy.forbiddenOperations) ? policy.forbiddenOperations : []);
+  const forbiddenKernelSchemaTypes = new Set(Array.isArray(policy.forbiddenKernelSchemaTypes) ? policy.forbiddenKernelSchemaTypes : []);
+  const requiredValidationFlags = Array.isArray(policy.requiredKernelValidationFlags) ? policy.requiredKernelValidationFlags : [];
+  const filePrefixes = Array.isArray(policy.allowedFileWritePrefixes) ? policy.allowedFileWritePrefixes : [];
+
+  if (riskRank(risk.risk) > riskRank(maxRisk)) {
+    reasons.push(`risk:${risk.risk}:exceeds:${maxRisk}`);
+  }
+
+  for (const patch of normalizedManifest.patches) {
+    if (allowedKinds.size > 0 && !allowedKinds.has(patch.kind)) {
+      reasons.push(`patch:${patch.id}:kind-not-allowed:${patch.kind}`);
+    }
+
+    if (forbiddenOperations.has(patch.operation)) {
+      reasons.push(`patch:${patch.id}:operation-forbidden:${patch.operation}`);
+    }
+
+    if (patch.kind === 'file') {
+      const prefixAllowed = filePrefixes.some((prefix) => patch.targetFile.startsWith(prefix));
+      if (!prefixAllowed) {
+        reasons.push(`patch:${patch.id}:file-target-forbidden:${patch.targetFile}`);
+      }
+    }
+
+    if (patch.kind === 'kernel-patch') {
+      const schemaType = patch.patch?.schema?.type;
+      if (schemaType && forbiddenKernelSchemaTypes.has(schemaType)) {
+        reasons.push(`patch:${patch.id}:kernel-schema-forbidden:${schemaType}`);
+      }
+
+      for (const requiredFlag of requiredValidationFlags) {
+        if (patch.patch?.validation?.[requiredFlag] !== true) {
+          reasons.push(`patch:${patch.id}:validation-flag-missing:${requiredFlag}`);
+        }
+      }
+    }
+  }
+
+  return {
+    decision: reasons.length === 0 ? 'pass' : 'deny',
+    reasons,
+    policyVersion: String(policy.policyVersion || 'unknown')
+  };
 }
 
 function phaseProgress(phase) {
@@ -179,7 +263,8 @@ export async function runPatchSession({
     error: null,
     currentFile: null,
     currentPatchId: null,
-    risk: null
+    risk: null,
+    llmGate: null
   };
 
   await writeJson(paths.statusPath, baseStatus);
@@ -245,11 +330,20 @@ export async function runPatchSession({
     await updateStatus(paths.statusPath, { lock: lockHandle.lock });
 
     await setPhase(paths, 'llm-gates');
+    const gatePolicy = await loadLlmGatePolicy(rootDir);
+    const llmGate = evaluateLlmGates(normalizedManifest, risk, gatePolicy);
+    await updateStatus(paths.statusPath, { llmGate });
     await writeLog(paths.logPath, {
       type: 'llm-gates',
-      decision: 'pass',
-      reason: 'terminal-authority-cli'
+      llmGate
     });
+    if (llmGate.decision === 'deny') {
+      const error = new Error('LLM gate denied the patch session');
+      error.code = 'LLM_GATE_DENIED';
+      error.phase = 'llm-gates';
+      error.details = llmGate;
+      throw error;
+    }
     await checkCancelled(paths, 'llm-gates');
 
     await setPhase(paths, 'backup');
@@ -342,6 +436,12 @@ export async function runPatchSession({
           ? 'Wait for the active session to finish or let the lock expire before retrying.'
           : error.code === 'PATCH_PATH_INVALID'
             ? 'Use only repo-relative target paths without .. segments, absolute roots, or drive prefixes.'
+          : error.code === 'PATCH_TYPE_INVALID'
+            ? 'Adjust mutation values to the expected types in the typed mutation matrix.'
+          : error.code === 'PATCH_RANGE_INVALID'
+            ? 'Adjust mutation values to fit min/max ranges in the typed mutation matrix.'
+          : error.code === 'LLM_GATE_DENIED'
+            ? 'Review docs/llm-gate-policy.json and remove denied operations before retry.'
           : error.code === 'SESSION_CANCELLED'
             ? 'Retry with a fresh session if you still want to apply the patch.'
             : 'Inspect the session logs and summary for the failing file or patch.'
@@ -383,12 +483,14 @@ export async function runPatchSession({
   } finally {
     await setPhase(paths, 'release-lock');
     if (lockHandle) {
-      await releaseLock({
+      await releaseLockWithAudit({
+        rootDir,
         lockPath: paths.lockPath,
-        heartbeat: lockHandle.heartbeat
+        heartbeat: lockHandle.heartbeat,
+        ownership: lockHandle.ownership,
+        actor
       });
     }
-    const current = await readJson(paths.statusPath, baseStatus);
     await updateStatus(paths.statusPath, {
       lock: null,
       phase: 'release-lock'

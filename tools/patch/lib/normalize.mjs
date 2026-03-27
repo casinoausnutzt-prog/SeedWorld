@@ -1,4 +1,5 @@
 import { isAbsolute, posix as pathPosix, resolve, sep } from 'node:path';
+import { mutationMatrixAllowedPaths, mutationMatrixConstraints } from '../../../src/game/contracts/mutationMatrixConstraints.js';
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -57,10 +58,99 @@ function stablePatchId(patch, index) {
   return `patch-${String(index + 1).padStart(3, '0')}`;
 }
 
+function throwTypedError(code, message, details) {
+  const error = new Error(message);
+  error.code = code;
+  error.details = details;
+  throw error;
+}
+
+function flattenMutationObject(value, prefix = '', into = []) {
+  if (value === null || value === undefined) {
+    return into;
+  }
+
+  if (Array.isArray(value)) {
+    throwTypedError('PATCH_TYPE_INVALID', 'Mutation values must not use arrays', { path: prefix || '<root>' });
+  }
+
+  if (typeof value !== 'object') {
+    into.push([prefix, value]);
+    return into;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    const path = prefix ? `${prefix}.${key}` : key;
+    if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+      flattenMutationObject(nested, path, into);
+      continue;
+    }
+    into.push([path, nested]);
+  }
+
+  return into;
+}
+
+function validateTypedConstraint(path, value, patchId) {
+  const constraint = mutationMatrixConstraints[path];
+  if (!constraint) {
+    throwTypedError(
+      'PATCH_TYPE_INVALID',
+      `Mutation path is not allowed: ${path}`,
+      { patchId, path, allowedPaths: mutationMatrixAllowedPaths }
+    );
+  }
+
+  if (constraint.type === 'string') {
+    if (typeof value !== 'string') {
+      throwTypedError('PATCH_TYPE_INVALID', `Mutation ${path} must be a string`, { patchId, path, value });
+    }
+    if (typeof constraint.minLength === 'number' && value.length < constraint.minLength) {
+      throwTypedError('PATCH_RANGE_INVALID', `Mutation ${path} is below minimum length`, { patchId, path, value });
+    }
+    if (typeof constraint.maxLength === 'number' && value.length > constraint.maxLength) {
+      throwTypedError('PATCH_RANGE_INVALID', `Mutation ${path} exceeds maximum length`, { patchId, path, value });
+    }
+    return;
+  }
+
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    throwTypedError('PATCH_TYPE_INVALID', `Mutation ${path} must be a finite number`, { patchId, path, value });
+  }
+
+  if (constraint.integer && !Number.isInteger(value)) {
+    throwTypedError('PATCH_TYPE_INVALID', `Mutation ${path} must be an integer`, { patchId, path, value });
+  }
+
+  if (typeof constraint.min === 'number' && value < constraint.min) {
+    throwTypedError('PATCH_RANGE_INVALID', `Mutation ${path} is below minimum`, { patchId, path, value, min: constraint.min });
+  }
+
+  if (typeof constraint.max === 'number' && value > constraint.max) {
+    throwTypedError('PATCH_RANGE_INVALID', `Mutation ${path} exceeds maximum`, { patchId, path, value, max: constraint.max });
+  }
+}
+
+export function validateKernelPatchMutations(patch, patchId) {
+  if (!patch || typeof patch !== 'object') {
+    return;
+  }
+
+  if (!patch.mutations) {
+    return;
+  }
+
+  const leafMutations = flattenMutationObject(patch.mutations);
+  for (const [path, value] of leafMutations) {
+    validateTypedConstraint(path, value, patchId);
+  }
+}
+
 function normalizeKernelPatch(patch, index) {
   const normalizedPatch = clone(patch);
   normalizedPatch.id = stablePatchId(normalizedPatch, index);
   normalizedPatch.version = normalizedPatch.version || '1.0.0';
+  validateKernelPatchMutations(normalizedPatch, normalizedPatch.id);
   return {
     id: normalizedPatch.id,
     kind: 'kernel-patch',

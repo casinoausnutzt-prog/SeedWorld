@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 import { spawn } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { basename, extname, join, resolve } from 'node:path';
@@ -14,6 +15,9 @@ import { readSessionLogs, readSessionStatus } from './tools/patch/lib/orchestrat
 
 const ROOT_DIR = process.cwd();
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+const MAX_CANCEL_BODY_BYTES = 32 * 1024;
+const CANCEL_RATE_WINDOW_MS = 5000;
+const CANCEL_RATE_MAX = 4;
 const SRC_DIR = resolve(ROOT_DIR, 'src');
 const PATCH_SCHEMA_PATHS = new Set([
   '/patches/patch-schema.json',
@@ -33,6 +37,7 @@ const contentTypes = {
 };
 
 const activeProcesses = new Map();
+const cancelRate = new Map();
 
 function json(res, status, payload) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -182,6 +187,7 @@ async function handleCreateSession(req, res) {
 
   const sessionId = createSessionId();
   const actor = (fields.actor || 'browser-ui').trim() || 'browser-ui';
+  const cancelToken = randomUUID();
   const paths = await ensureSessionFilesystem(ROOT_DIR, sessionId);
   const uploadPath = join(paths.uploadsDir, `${sessionId}-${inputFile.filename}`);
   await writeFile(uploadPath, inputFile.content);
@@ -203,7 +209,9 @@ async function handleCreateSession(req, res) {
     error: null,
     currentFile: inputFile.filename,
     currentPatchId: null,
-    risk: null
+    risk: null,
+    llmGate: null,
+    cancelToken
   });
 
   const child = spawn(process.execPath, ['tools/patch/apply.mjs', '--input', uploadPath, '--actor', actor, '--session-id', sessionId], {
@@ -218,7 +226,8 @@ async function handleCreateSession(req, res) {
 
   json(res, 202, {
     sessionId,
-    statusPath: paths.statusPath
+    statusPath: paths.statusPath,
+    cancelToken
   });
 }
 
@@ -241,6 +250,7 @@ async function handleLogs(res, sessionId) {
   const summary = existsSync(status.summaryPath) ? await readFile(status.summaryPath, 'utf8') : '';
   json(res, 200, {
     ...logs,
+    llmGate: status.llmGate || null,
     summary
   });
 }
@@ -260,6 +270,7 @@ async function handleResult(res, sessionId) {
     sessionId,
     finalStatus: status.finalStatus,
     result: status.result,
+    llmGate: status.llmGate || null,
     error: status.error,
     summary,
     logPath: status.logPath,
@@ -267,19 +278,77 @@ async function handleResult(res, sessionId) {
   });
 }
 
-async function handleCancel(res, sessionId) {
+function consumeCancelBudget(sessionId) {
+  const now = Date.now();
+  const current = cancelRate.get(sessionId) || { ts: now, count: 0 };
+  if (now - current.ts > CANCEL_RATE_WINDOW_MS) {
+    current.ts = now;
+    current.count = 0;
+  }
+  current.count += 1;
+  cancelRate.set(sessionId, current);
+  return current.count <= CANCEL_RATE_MAX;
+}
+
+async function parseCancelTokenFromRequest(req) {
+  const headerToken = req.headers['x-patch-cancel-token'];
+  if (typeof headerToken === 'string' && headerToken.trim()) {
+    return headerToken.trim();
+  }
+
+  const contentType = req.headers['content-type'] || '';
+  if (!contentType.toLowerCase().includes('application/json')) {
+    return null;
+  }
+
+  const rawBody = await collectBody(req, MAX_CANCEL_BODY_BYTES);
+  if (!rawBody.length) {
+    return null;
+  }
+
+  try {
+    const payload = JSON.parse(rawBody.toString('utf8'));
+    return typeof payload.cancelToken === 'string' && payload.cancelToken.trim()
+      ? payload.cancelToken.trim()
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+async function handleCancel(req, res, sessionId) {
   const status = await readSessionStatus(ROOT_DIR, sessionId);
   if (!status) {
     json(res, 404, { error: 'session not found' });
     return;
   }
+  if (!consumeCancelBudget(sessionId)) {
+    json(res, 429, { error: 'cancel rate limit exceeded' });
+    return;
+  }
+
+  const cancelToken = await parseCancelTokenFromRequest(req);
+  if (status.cancelToken && status.cancelToken !== cancelToken) {
+    json(res, 403, { error: 'invalid cancel token', sessionId });
+    return;
+  }
 
   const paths = getSessionPaths(ROOT_DIR, sessionId);
+  if (existsSync(paths.cancelPath)) {
+    json(res, 202, {
+      sessionId,
+      cancelRequested: true,
+      alreadyRequested: true
+    });
+    return;
+  }
+
   await mkdir(resolve(join(paths.cancelPath, '..')), { recursive: true });
   await writeFile(paths.cancelPath, `${new Date().toISOString()}\n`, 'utf8');
   json(res, 202, {
     sessionId,
-    cancelRequested: true
+    cancelRequested: true,
+    alreadyRequested: false
   });
 }
 
@@ -361,7 +430,7 @@ async function routeRequest(req, res) {
       return;
     }
     if (action === 'cancel' && req.method === 'POST') {
-      await handleCancel(res, sessionId);
+      await handleCancel(req, res, sessionId);
       return;
     }
 

@@ -55,6 +55,21 @@ Entfernte Legacy-Endpunkte:
 - Status: `.patch-manager/sessions/<session-id>.status.json`
 - Logs: `.patch-manager/logs/<session-id>.jsonl`
 - Summary: `.patch-manager/logs/<session-id>.summary.txt`
+- Test-Evidence: `.patch-manager/logs/test-run-<timestamp>.json`
+
+## LLM Gate Policy
+
+- Policy-Datei: `docs/llm-gate-policy.json`
+- Gate-Ergebnis im Session-Status: `llmGate = { decision, reasons, policyVersion }`
+- Verweigerung beendet den Lauf fail-closed mit `LLM_GATE_DENIED`
+
+## Cancel Contract
+
+- `POST /api/patch-sessions` gibt `cancelToken` zurueck.
+- `POST /api/patch-sessions/:id/cancel` akzeptiert:
+  - Header: `X-Patch-Cancel-Token`
+  - Fallback: JSON-Body `{ "cancelToken": "..." }`
+- Cancel ist idempotent, session-spezifisch und leicht rate-limitiert.
 
 ## Tests
 

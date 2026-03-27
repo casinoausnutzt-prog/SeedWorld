@@ -6,7 +6,8 @@ import JSZip from 'jszip';
 import { detectManifest } from '../tools/patch/lib/intake.mjs';
 import { classifyRisk, normalizeManifest } from '../tools/patch/lib/normalize.mjs';
 import { acquireLock, releaseLock } from '../tools/patch/lib/lock.mjs';
-import { ensureSessionFilesystem, writeJson } from '../tools/patch/lib/session-store.mjs';
+import { LOCK_HEARTBEAT_MS } from '../tools/patch/lib/constants.mjs';
+import { ensureSessionFilesystem, getSessionPaths, writeJson } from '../tools/patch/lib/session-store.mjs';
 import { runPatchSession } from '../tools/patch/lib/orchestrator.mjs';
 import { PatchServer } from '../patchServer.mjs';
 
@@ -109,6 +110,32 @@ async function testLocking() {
     heartbeat: second.heartbeat,
     ownership: second.ownership
   });
+
+  const third = await acquireLock({
+    rootDir: repo,
+    lockPath: paths.lockPath,
+    sessionId: 'heartbeat-owner',
+    actor: 'tester'
+  });
+  await writeJson(paths.lockPath, {
+    pid: 9,
+    sessionId: 'stolen-lock',
+    actor: 'other',
+    ownerNonce: 'other-owner',
+    startedAt: new Date().toISOString(),
+    heartbeatAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 60_000).toISOString()
+  });
+  await new Promise((resolvePromise) => setTimeout(resolvePromise, LOCK_HEARTBEAT_MS + 300));
+  const auditRaw = await readFile(join(repo, '.patch-manager', 'audit.jsonl'), 'utf8');
+  assert.ok(auditRaw.includes('"type":"lock-heartbeat-stopped"'));
+  await releaseLock({
+    rootDir: repo,
+    lockPath: paths.lockPath,
+    heartbeat: third.heartbeat,
+    ownership: third.ownership,
+    actor: 'tester'
+  });
 }
 
 async function testManifestAmbiguityFailsClosed() {
@@ -149,6 +176,8 @@ async function testZipSessionSuccess() {
       {
         id: 'zip-demo',
         version: '1.0.0',
+        schema: { type: 'gameplay' },
+        validation: { deterministic: true },
         hooks: {
           advanceTick: {
             code: 'return state;'
@@ -172,10 +201,12 @@ async function testZipSessionSuccess() {
   assert.equal(status.finalStatus, 'succeeded');
   const written = JSON.parse(await readFile(join(repo, 'patches', 'zip-demo.json'), 'utf8'));
   assert.equal(written.id, 'zip-demo');
+  assert.equal(status.llmGate?.decision, 'pass');
 }
 
 async function testRollbackAfterFailingTests() {
   const repo = await createTempRepo();
+  await mkdir(join(repo, 'patches'), { recursive: true });
   await writeJson(join(repo, 'package.json'), {
     name: 'temp-repo',
     private: true,
@@ -183,15 +214,18 @@ async function testRollbackAfterFailingTests() {
       test: 'node -e "process.exit(1)"'
     }
   });
-  await writeFile(join(repo, 'notes.txt'), 'original', 'utf8');
 
   const inputPath = join(repo, 'patches.json');
   await writeJson(inputPath, {
     patches: [
       {
-        id: 'rewrite-note',
-        path: 'notes.txt',
-        content: 'changed by patch flow'
+        id: 'rollback-kernel',
+        version: '1.0.0',
+        schema: { type: 'gameplay' },
+        validation: { deterministic: true },
+        hooks: {
+          advanceTick: { code: 'return state;' }
+        }
       }
     ]
   });
@@ -205,7 +239,13 @@ async function testRollbackAfterFailingTests() {
   });
 
   assert.equal(status.finalStatus, 'failed_rolled_back');
-  assert.equal(await readFile(join(repo, 'notes.txt'), 'utf8'), 'original');
+  let exists = true;
+  try {
+    await readFile(join(repo, 'patches', 'rollback-kernel.json'), 'utf8');
+  } catch {
+    exists = false;
+  }
+  assert.equal(exists, false);
 }
 
 async function testPathTraversalIsRejected() {
@@ -252,6 +292,43 @@ async function testPathTraversalIsRejected() {
   assert.equal(escapedExists, false);
 }
 
+async function testLlmGateDeny() {
+  const repo = await createTempRepo();
+  await writeJson(join(repo, 'package.json'), {
+    name: 'temp-repo',
+    private: true,
+    scripts: {
+      test: 'node -e "process.exit(0)"'
+    }
+  });
+  await writeFile(join(repo, 'notes.txt'), 'orig', 'utf8');
+
+  const inputPath = join(repo, 'patches.json');
+  await writeJson(inputPath, {
+    patches: [
+      {
+        id: 'forbidden-file-write',
+        kind: 'file',
+        path: 'notes.txt',
+        operation: 'write',
+        content: 'x'
+      }
+    ]
+  });
+
+  const status = await runPatchSession({
+    rootDir: repo,
+    inputPath,
+    actor: 'test',
+    sessionId: 'llm-gate-deny',
+    runTests: true
+  });
+
+  assert.equal(status.finalStatus, 'failed_rolled_back');
+  assert.equal(status.error?.code, 'LLM_GATE_DENIED');
+  assert.equal(status.llmGate?.decision, 'deny');
+}
+
 async function testPatchServerLegacyApisRemoved() {
   const server = new PatchServer(0);
   await server.listen();
@@ -274,6 +351,82 @@ async function testPatchServerLegacyApisRemoved() {
   await server.close();
 }
 
+async function testPatchServerCancelAuthAndRateLimit() {
+  const rootDir = process.cwd();
+  const sessionId = `cancel-test-${Date.now().toString(36)}`;
+  const token = 'cancel-token-123';
+  const paths = getSessionPaths(rootDir, sessionId);
+  await ensureSessionFilesystem(rootDir, sessionId);
+  await writeJson(paths.statusPath, {
+    sessionId,
+    phase: 'apply',
+    state: 'running',
+    finalStatus: null,
+    cancelToken: token
+  });
+  await rm(paths.cancelPath, { force: true });
+
+  const server = new PatchServer(0);
+  await server.listen();
+  const port = server.server.address().port;
+
+  const missingToken = await fetch(`http://127.0.0.1:${port}/api/patch-sessions/${sessionId}/cancel`, {
+    method: 'POST'
+  });
+  assert.equal(missingToken.status, 403);
+
+  const wrongToken = await fetch(`http://127.0.0.1:${port}/api/patch-sessions/${sessionId}/cancel`, {
+    method: 'POST',
+    headers: { 'X-Patch-Cancel-Token': 'wrong' }
+  });
+  assert.equal(wrongToken.status, 403);
+
+  const okBodyToken = await fetch(`http://127.0.0.1:${port}/api/patch-sessions/${sessionId}/cancel`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cancelToken: token })
+  });
+  assert.equal(okBodyToken.status, 202);
+  const okBodyPayload = await okBodyToken.json();
+  assert.equal(okBodyPayload.alreadyRequested, false);
+
+  const idempotent = await fetch(`http://127.0.0.1:${port}/api/patch-sessions/${sessionId}/cancel`, {
+    method: 'POST',
+    headers: { 'X-Patch-Cancel-Token': token }
+  });
+  assert.equal(idempotent.status, 202);
+  const idempotentPayload = await idempotent.json();
+  assert.equal(idempotentPayload.alreadyRequested, true);
+
+  const rateSession = `cancel-rate-${Date.now().toString(36)}`;
+  const ratePaths = getSessionPaths(rootDir, rateSession);
+  await ensureSessionFilesystem(rootDir, rateSession);
+  await writeJson(ratePaths.statusPath, {
+    sessionId: rateSession,
+    phase: 'apply',
+    state: 'running',
+    finalStatus: null,
+    cancelToken: 'rate-token'
+  });
+  await rm(ratePaths.cancelPath, { force: true });
+
+  let lastStatus = 0;
+  for (let i = 0; i < 5; i += 1) {
+    const response = await fetch(`http://127.0.0.1:${port}/api/patch-sessions/${rateSession}/cancel`, {
+      method: 'POST',
+      headers: { 'X-Patch-Cancel-Token': 'wrong' }
+    });
+    lastStatus = response.status;
+  }
+  assert.equal(lastStatus, 429);
+
+  await server.close();
+  await rm(paths.statusPath, { force: true });
+  await rm(paths.cancelPath, { force: true });
+  await rm(ratePaths.statusPath, { force: true });
+  await rm(ratePaths.cancelPath, { force: true });
+}
+
 await testManifestDetectionError();
 await testManifestAmbiguityFailsClosed();
 await testNormalizationDeterminism();
@@ -281,6 +434,8 @@ await testLocking();
 await testZipSessionSuccess();
 await testRollbackAfterFailingTests();
 await testPathTraversalIsRejected();
+await testLlmGateDeny();
 await testPatchServerLegacyApisRemoved();
+await testPatchServerCancelAuthAndRateLimit();
 
 console.log('[patch-flow-test] ok');

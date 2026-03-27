@@ -30,6 +30,7 @@ Aktive API:
 - `GET /api/patch-sessions/:id/logs`
 - `GET /api/patch-sessions/:id/result`
 - `POST /api/patch-sessions/:id/cancel`
+  - Header `X-Patch-Cancel-Token` oder Body-Fallback `{ cancelToken }`
 
 Entfernt:
 - alte `/api/patches`-Pfade
@@ -42,3 +43,6 @@ Entfernt:
 - Manifest-Autofind bevorzugt `patches*.json`.
 - Session-Statusdatei ist die Wahrheit fuer UI und Popup.
 - Browser startet nur orchestrierte Sessions und fuehrt nie selbst Gates aus.
+- `llm-gates` verwenden die statische Policy in `docs/llm-gate-policy.json`.
+- Typed constraints fuer Mutationen liegen in `src/game/contracts/mutationMatrixConstraints.js`.
+- `npm test` erzeugt ein maschinenlesbares Evidence-Artefakt unter `.patch-manager/logs/`.

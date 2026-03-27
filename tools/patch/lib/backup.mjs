@@ -1,7 +1,7 @@
 import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { resolveRepoPath } from './normalize.mjs';
+import { resolveRepoPath, validateKernelPatchMutations } from './normalize.mjs';
 import { writeJson } from './session-store.mjs';
 
 function backupName(index, filePath) {
@@ -50,6 +50,7 @@ export async function applyNormalizedManifest({ rootDir, patches }) {
 
     await mkdir(dirname(absolutePath), { recursive: true });
     if (patch.kind === 'kernel-patch') {
+      validateKernelPatchMutations(patch.patch, patch.id);
       await writeFile(absolutePath, `${JSON.stringify(patch.patch, null, 2)}\n`, 'utf8');
     } else {
       await writeFile(absolutePath, patch.content, 'utf8');

@@ -84,6 +84,13 @@ export async function acquireLock({ rootDir, lockPath, sessionId, actor }) {
     const current = await readCurrentLock(lockPath);
     if (!ownsLock(current, ownership)) {
       clearInterval(interval);
+      await appendAudit(rootDir, {
+        ts: nowIso(),
+        type: 'lock-heartbeat-stopped',
+        sessionId,
+        actor,
+        reason: 'ownership-mismatch'
+      });
       return;
     }
 
@@ -111,5 +118,37 @@ export async function releaseLock({ lockPath, heartbeat, ownership }) {
   const current = await readCurrentLock(lockPath);
   if (ownsLock(current, ownership)) {
     await rm(lockPath, { force: true });
+    return { released: true, reason: 'ownership-match' };
   }
+
+  return {
+    released: false,
+    reason: current ? 'ownership-mismatch' : 'lock-missing'
+  };
+}
+
+export async function releaseLockWithAudit({
+  rootDir,
+  lockPath,
+  heartbeat,
+  ownership,
+  actor
+}) {
+  const outcome = await releaseLock({
+    lockPath,
+    heartbeat,
+    ownership
+  });
+
+  if (!outcome.released) {
+    await appendAudit(rootDir, {
+      ts: nowIso(),
+      type: 'lock-release-skipped',
+      sessionId: ownership?.sessionId || null,
+      actor: actor || null,
+      reason: outcome.reason
+    });
+  }
+
+  return outcome;
 }
