@@ -260,6 +260,10 @@ export class GameUIController extends BaseUIController {
       clearInterval(this.tickTimer);
       this.tickTimer = null;
     }
+
+    if (this.tileGridRenderer && typeof this.tileGridRenderer.destroy === "function") {
+      this.tileGridRenderer.destroy();
+    }
     
     await super.destroy();
   }

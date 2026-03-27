@@ -10,6 +10,7 @@
     "server": "node patchServer.mjs",
     "patch:server": "node patchServer.mjs",
     "patch:apply": "node tools/patch/apply.mjs",
+    "cleanup:baseline": "node scripts/repo-cleanup-baseline.mjs --write",
     "test": "node scripts/test-runner.mjs",
     "preflight": "node scripts/test-runner.mjs"
   },
