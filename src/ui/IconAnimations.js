@@ -1,82 +1,114 @@
-export const TICKS_PER_SECOND = 25;
-export const MS_PER_TICK = 40;
+import { getWorldTile } from "../plugins/radialBuildController.js";
 
-function clamp01(value) {
-  if (value <= 0) {
-    return 0;
+export const TICKS_PER_SECOND = 24;
+export const MS_PER_TICK = 1000 / TICKS_PER_SECOND;
+export const ORE_PER_MINER_CYCLE = 1;
+export const SMELTER_INPUT_ORE = 5;
+export const SMELTER_OUTPUT_IRON = 1;
+export const BASE_STORAGE_CAPACITY = 10;
+export const STORAGE_CAPACITY_BONUS = 10;
+
+function cloneState(state) {
+  return structuredClone(state);
+}
+
+export function getStorageCapacity(state) {
+  const storagesBuilt = Number.isFinite(state?.stats?.storagesBuilt) ? state.stats.storagesBuilt : 0;
+  return BASE_STORAGE_CAPACITY + storagesBuilt * STORAGE_CAPACITY_BONUS;
+}
+
+function getStructuresByType(state, type) {
+  return Array.isArray(state?.structures)
+    ? state.structures.filter((structure) => structure.type === type)
+    : [];
+}
+
+function mineOre(state) {
+  const miners = getStructuresByType(state, "miner").filter((structure) => {
+    const tile = getWorldTile(state.world, structure.x, structure.y);
+    return tile?.terrain === "ore";
+  });
+
+  let ore = Number.isFinite(state.resources?.ore) ? state.resources.ore : 0;
+  const capacity = getStorageCapacity(state);
+  let mined = 0;
+
+  for (const miner of miners) {
+    if (!miner || ore >= capacity) {
+      continue;
+    }
+
+    const remaining = capacity - ore;
+    const delta = Math.min(ORE_PER_MINER_CYCLE, remaining);
+    if (delta <= 0) {
+      continue;
+    }
+
+    ore += delta;
+    mined += delta;
   }
 
-  if (value >= 1) {
-    return 1;
+  state.resources.ore = ore;
+  state.stats.minedTotal += mined;
+  return mined;
+}
+
+function smeltIron(state) {
+  const smelters = getStructuresByType(state, "smelter");
+  let ore = Number.isFinite(state.resources?.ore) ? state.resources.ore : 0;
+  let iron = Number.isFinite(state.resources?.iron) ? state.resources.iron : 0;
+  let smelted = 0;
+
+  for (const smelter of smelters) {
+    if (!smelter || ore < SMELTER_INPUT_ORE) {
+      continue;
+    }
+
+    ore -= SMELTER_INPUT_ORE;
+    iron += SMELTER_OUTPUT_IRON;
+    smelted += SMELTER_OUTPUT_IRON;
   }
 
-  return value;
+  state.resources.ore = ore;
+  state.resources.iron = iron;
+  state.stats.smeltedTotal += smelted;
+  return smelted;
 }
 
-function cyclePosition(currentTick, periodTicks) {
-  const safePeriod = periodTicks > 0 ? periodTicks : 1;
-  const tick = Number.isFinite(currentTick) ? currentTick : 0;
-  const normalized = (tick % safePeriod) / safePeriod;
-  return normalized < 0 ? normalized + 1 : normalized;
+function updateStatusText(state, mined, smelted) {
+  const statusParts = [
+    `Tick ${state.clock.tick}`,
+    `${state.clock.secondsElapsed}s`
+  ];
+
+  if (mined > 0) {
+    statusParts.push(`+${mined} Erz`);
+  }
+  if (smelted > 0) {
+    statusParts.push(`+${smelted} Eisen`);
+  }
+  if (mined === 0 && smelted === 0) {
+    statusParts.push("Automatik wartet");
+  }
+
+  state.meta.statusText = statusParts.join(" · ");
+  state.meta.summaryText = "Abbauer laufen nur auf Erzfeldern. Schmelzen wandeln 5 Erz automatisch in 1 Eisen.";
 }
 
-function sineDegrees(currentTick, periodTicks, amplitudeDegrees, phaseOffset = 0) {
-  const position = cyclePosition(currentTick + phaseOffset, periodTicks);
-  return Math.sin(position * Math.PI * 2) * amplitudeDegrees;
-}
+export function advanceTickState(state, steps = 1) {
+  const next = cloneState(state);
+  const totalSteps = Math.max(1, Math.trunc(steps) || 1);
 
-function triangleWave(currentTick, periodTicks) {
-  const position = cyclePosition(currentTick, periodTicks);
-  return position < 0.5 ? position * 2 : (1 - position) * 2;
-}
-
-function pulseOpacity(currentTick, periodTicks, minOpacity, maxOpacity) {
-  const wave = triangleWave(currentTick, periodTicks);
-  return minOpacity + (maxOpacity - minOpacity) * wave;
-}
-
-export const IconAnimations = {
-  mine: {
-    swing(currentTick) {
-      return sineDegrees(currentTick, Math.round(TICKS_PER_SECOND * 1.5), 5);
-    },
-
-    pickaxe(currentTick, isActive) {
-      if (!isActive) {
-        return "scale(1)";
-      }
-
-      const periodTicks = Math.max(1, Math.round(TICKS_PER_SECOND * 0.3));
-      const wave = triangleWave(currentTick, periodTicks);
-      const scale = 0.8 + wave * 0.3;
-      const rotate = -6 + wave * 12;
-      return `rotate(${rotate.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-    }
-  },
-
-  factory: {
-    rotate(currentTick) {
-      const periodTicks = TICKS_PER_SECOND * 3;
-      return cyclePosition(currentTick, periodTicks) * 360;
-    },
-
-    opacity(isActive) {
-      return isActive ? 1 : 0.5;
-    }
-  },
-
-  connector: {
-    pulseFlow(currentTick) {
-      const periodTicks = TICKS_PER_SECOND * 2;
-      return cyclePosition(currentTick, periodTicks) * 100;
-    },
-
-    blink(currentTick, isEmpty) {
-      if (!isEmpty) {
-        return 1;
-      }
-
-      return clamp01(pulseOpacity(currentTick, TICKS_PER_SECOND, 0.3, 1));
+  for (let index = 0; index < totalSteps; index += 1) {
+    next.clock.tick += 1;
+    if (next.clock.tick % TICKS_PER_SECOND === 0) {
+      next.clock.secondsElapsed += 1;
+      const mined = mineOre(next);
+      const smelted = smeltIron(next);
+      updateStatusText(next, mined, smelted);
     }
   }
-};
+
+  next.meta.lastAction = "tick";
+  return next;
+}

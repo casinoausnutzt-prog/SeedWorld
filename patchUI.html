@@ -128,6 +128,10 @@
       <section class="panel">
         <h1>Patch Operator Panel</h1>
         <p class="muted">Ein einheitlicher Flow: Intake -> Session Status -> Logs -> Result. Browser ist nur Control Plane.</p>
+        <div class="row" style="margin-top:0.55rem;">
+          <button id="go-menu" class="secondary" type="button">Zum Game-Menue</button>
+          <button id="go-game" class="secondary" type="button">Direkt ins Spiel</button>
+        </div>
       </section>
 
       <section id="intake" class="panel">
@@ -215,7 +219,9 @@
         resultStatus: document.getElementById("result-status"),
         resultCounts: document.getElementById("result-counts"),
         resultDetails: document.getElementById("result-details"),
-        summaryBtn: document.getElementById("summary-btn")
+        summaryBtn: document.getElementById("summary-btn"),
+        goMenuBtn: document.getElementById("go-menu"),
+        goGameBtn: document.getElementById("go-game")
       };
 
       const appState = {
@@ -400,6 +406,14 @@
           win.document.write(`<pre style=\"white-space:pre-wrap;font-family:Consolas,monospace;padding:12px;\">${appState.summary.replaceAll("<", "&lt;")}</pre>`);
           win.document.close();
         }
+      });
+
+      ui.goMenuBtn?.addEventListener("click", () => {
+        window.location.href = "./index.html";
+      });
+
+      ui.goGameBtn?.addEventListener("click", () => {
+        window.location.href = "./game.html";
       });
 
       switchInputMode();

@@ -7,7 +7,11 @@
     "triggerPrefixes": [
       "src/ui/",
       "src/app/",
-      "docs/llm/ui/"
+      "docs/llm/ui/",
+      "game.html",
+      "patchUI.html",
+      "patchPopup.html",
+      "index.html"
     ],
     "requiredEntry": "docs/llm/ui/UI_TASK_ENTRY.md"
   },
