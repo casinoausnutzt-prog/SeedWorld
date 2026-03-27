@@ -1,3 +1,5 @@
+import { TileAnimationSDK } from "./TileAnimationSDK.js";
+
 function svgUrl(markup) {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(markup)}")`;
 }
@@ -38,6 +40,10 @@ export class TileGridRenderer {
     this.tileSize = tileSize;
     this.clickCallback = null;
     this.entries = new Map();
+    this.animationSdk = null;
+
+    this.stage = document.createElement("div");
+    this.stage.className = "tile-grid-stage";
 
     this.root = document.createElement("div");
     this.root.className = "tile-grid";
@@ -52,8 +58,18 @@ export class TileGridRenderer {
       this.clickCallback({ x: Number(tile.dataset.x), y: Number(tile.dataset.y), event });
     });
 
-    this.container.replaceChildren(this.root);
+    this.overlayCanvas = document.createElement("canvas");
+    this.overlayCanvas.className = "tile-grid-canvas";
+    this.overlayCanvas.setAttribute("aria-hidden", "true");
+
+    this.stage.append(this.root, this.overlayCanvas);
+    this.container.replaceChildren(this.stage);
     this.#buildGrid();
+    this.animationSdk = new TileAnimationSDK(this.overlayCanvas, {
+      width: this.width,
+      height: this.height,
+      tileSize: this.tileSize
+    });
   }
 
   onTileClick(callback) {
@@ -89,6 +105,17 @@ export class TileGridRenderer {
         entry.structure.style.backgroundImage = "none";
         entry.label.textContent = tile.terrain === "ore" ? "ERZ" : tile.terrain.toUpperCase();
       }
+    }
+
+    if (this.animationSdk) {
+      this.animationSdk.update(state, selectedTile);
+    }
+  }
+
+  destroy() {
+    if (this.animationSdk) {
+      this.animationSdk.destroy();
+      this.animationSdk = null;
     }
   }
 

@@ -1,3 +1,5 @@
+@import "./ui/tileGrid.css";
+
 :root {
   --bg-top: #f7f3e8;
   --bg-bottom: #d2e6d4;
@@ -163,5 +165,135 @@ dd {
   .card,
   .hero {
     padding: 1.25rem;
+  }
+}
+
+/* Game UI layout */
+#app {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.app-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+}
+
+.header-left,
+.header-right {
+  display: grid;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.header-right {
+  grid-auto-flow: column;
+  justify-content: end;
+  gap: 0.8rem;
+}
+
+.mode-content {
+  min-height: 0;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.game-sidebar {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.hud-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem;
+}
+
+.resource-display,
+.stats-display {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.resource,
+.stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.game-main {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.game-world {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem;
+  overflow: auto;
+  min-height: 300px;
+  display: grid;
+  align-content: start;
+  justify-content: start;
+}
+
+.game-status {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+}
+
+.connection-status {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-dot.online {
+  background: #2d9b67;
+}
+
+.status-dot.offline {
+  background: #b14a3f;
+}
+
+@media (max-width: 900px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    grid-template-columns: 1fr;
+  }
+
+  .header-right {
+    grid-auto-flow: row;
+    justify-content: start;
   }
 }

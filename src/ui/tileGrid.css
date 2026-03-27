@@ -1,3 +1,8 @@
+.tile-grid-stage {
+  position: relative;
+  width: fit-content;
+}
+
 .tile-grid {
   display: grid;
   gap: 6px;
@@ -5,6 +10,15 @@
   align-content: start;
   justify-content: start;
   image-rendering: pixelated;
+  position: relative;
+  z-index: 1;
+}
+
+.tile-grid-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .tile {
