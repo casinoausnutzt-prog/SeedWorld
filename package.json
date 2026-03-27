@@ -13,9 +13,16 @@
   },
   "dependencies": {
     "jszip": "^3.10.1",
+    "playwright": "^1.58.2",
     "ws": "^8.14.2"
   },
-  "keywords": ["deterministic", "browser-game", "rts", "kernel", "no-patching"],
+  "keywords": [
+    "deterministic",
+    "browser-game",
+    "rts",
+    "kernel",
+    "no-patching"
+  ],
   "author": "SeedWorld Team",
   "license": "MIT"
 }

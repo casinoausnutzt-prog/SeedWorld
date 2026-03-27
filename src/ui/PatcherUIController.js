@@ -14,6 +14,9 @@ export class PatcherUIController extends BaseUIController {
   }
 
   createBaseStructure() {
+    // Ensure the mode container is clean before (re)rendering this controller
+    this.elementRoot.innerHTML = '';
+
     // Create main patcher layout
     const layout = this.createElement('div', { className: 'patcher-layout' });
     
@@ -31,6 +34,7 @@ export class PatcherUIController extends BaseUIController {
     layout.appendChild(main);
     
     this.elementRoot.appendChild(layout);
+    this.rootNode = layout;
     
     // Store element references
     this.elements = {

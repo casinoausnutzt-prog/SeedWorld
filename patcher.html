@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeedWorld - Game UI</title>
+    <title>SeedWorld - Patcher UI</title>
     <link rel="stylesheet" href="src/styles.css">
 </head>
-<body>
+<body class="patcher-mode-active">
     <div id="app">
         <header class="app-header">
             <div class="header-left">
                 <h1>SeedWorld</h1>
-                <span class="mode-indicator">GAME MODE</span>
+                <span class="mode-indicator">PATCHER MODE</span>
             </div>
             <div class="header-right">
-                <button id="openPatcher" class="mode-toggle">
-                    <span class="toggle-text">Open Patcher UI</span>
+                <button id="openGame" class="mode-toggle">
+                    <span class="toggle-text">Open Game UI</span>
                 </button>
                 <div class="connection-status" id="connectionStatus">
                     <span class="status-dot offline"></span>
@@ -24,21 +24,20 @@
             </div>
         </header>
 
-        <main id="gameMode" class="mode-content game-mode"></main>
+        <main id="patcherMode" class="mode-content patcher-mode"></main>
     </div>
 
     <script type="module">
-        import { GameLogicController } from './src/game/GameLogicController.js';
-        import { GameUIController } from './src/ui/GameUIController.js';
+        import { PatcherUIController } from './src/ui/PatcherUIController.js';
 
-        const gameMode = document.getElementById('gameMode');
-        const openPatcher = document.getElementById('openPatcher');
+        const patcherMode = document.getElementById('patcherMode');
+        const openGame = document.getElementById('openGame');
         const statusElement = document.getElementById('connectionStatus');
         const statusDot = statusElement.querySelector('.status-dot');
         const statusText = statusElement.querySelector('.status-text');
 
-        openPatcher.addEventListener('click', () => {
-            window.location.href = './patcher.html';
+        openGame.addEventListener('click', () => {
+            window.location.href = './index.html';
         });
 
         function initializeWebSocket() {
@@ -65,9 +64,9 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             initializeWebSocket();
-            const gameController = new GameLogicController();
-            const gameUIController = new GameUIController(gameController);
-            await gameUIController.initialize(gameMode);
+            const patcherUIController = new PatcherUIController();
+            await patcherUIController.initialize(patcherMode);
+            await patcherUIController.refreshPatches();
         });
     </script>
 </body>
