@@ -12,6 +12,10 @@ Diese Dateien/Artefakte sind als potenziell redundant oder veraltet isoliert und
   - Grund: historischer Snapshot mit veralteten Pfaden/Annahmen.
   - Status: isolated pending consolidation into canonical docs.
 
+- `sot/` (verschoben nach `UNVERFID/sot-legacy/`)
+  - Grund: veraltete zweite SoT-Struktur neben `src/sot` und `docs/SOT`.
+  - Status: isolated; `src/sot` ist jetzt die technische SoT-Quelle.
+
 ## Weitere Kandidaten (noch nicht verschoben)
 
 - `output/` lokal erzeugte Artefakte
