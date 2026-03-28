@@ -8,11 +8,11 @@ Diese Dateien/Artefakte sind als potenziell redundant oder veraltet isoliert und
   - Grund: Doppelung zum Root-README, Risiko widerspruechlicher Aussagen.
   - Status: pending review before delete or merge.
 
-## Weitere Kandidaten (noch nicht verschoben)
+- `docs/audit/` (verschoben nach `UNVERFID/docs-audit/`)
+  - Grund: historischer Snapshot mit veralteten Pfaden/Annahmen.
+  - Status: isolated pending consolidation into canonical docs.
 
-- `docs/audit/` historische Snapshot-Berichte
-  - Grund: hoher Informationswert, aber nicht immer fuer Runtime relevant.
-  - Aktion: erst nach Team-Freigabe deduplizieren oder archivieren.
+## Weitere Kandidaten (noch nicht verschoben)
 
 - `output/` lokal erzeugte Artefakte
   - Grund: Build/Test-Reste koennen unklar sein.
