@@ -23,7 +23,7 @@ SeedWorld LLM combines:
 ## Repository references
 
 - Root README: [README](https://github.com/Vannon0911/seedWorldLLM/blob/main/README.md)
-- Dev notes: [README-DEV](https://github.com/Vannon0911/seedWorldLLM/blob/main/README-DEV.md)
+- Docs Index: [INDEX](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/INDEX.md)
 - Orientation: [ORIENTATION](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/ORIENTATION.md)
 - Workflow: [WORKFLOW](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/WORKFLOW.md)
 

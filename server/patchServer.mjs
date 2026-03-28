@@ -4,9 +4,9 @@ import { createHash, randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import { spawn } from "node:child_process";
 import { URL, fileURLToPath } from "node:url";
-import { executeKernelCommand } from "./src/kernel/interface.js";
-import { classifyPatchRisk, parseUniversalPatch, snapshotFiles, validateAgainstLocks } from "./server/patchUtils.js";
-import { handleStaticRequest } from "./server/staticHandler.mjs";
+import { executeKernelCommand } from "../src/kernel/interface.js";
+import { classifyPatchRisk, parseUniversalPatch, snapshotFiles, validateAgainstLocks } from "./patchUtils.js";
+import { handleStaticRequest } from "./staticHandler.mjs";
 import {
   handleCancel,
   handleCreateSession,
@@ -14,7 +14,7 @@ import {
   handleLogs,
   handleResult,
   handleStatus
-} from "./server/sessionRoutes.mjs";
+} from "./sessionRoutes.mjs";
 
 const ROOT = process.cwd();
 const PORT = Number(process.env.PATCH_PORT || 3000);
@@ -50,7 +50,7 @@ const DEFAULT_ALLOWED_FILE_PREFIXES = [
   "server/",
   "README.md",
   "package.json",
-  "patchServer.mjs",
+  "server/patchServer.mjs",
   "patches.json"
 ];
 const PROTECTED_GATE_FILES = new Set([

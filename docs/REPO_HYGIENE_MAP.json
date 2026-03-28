@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-28T22:05:25.549Z",
+  "generatedAt": "2026-03-28T22:23:01.685Z",
   "entrypoints": [
     "src/main.js",
-    "patchServer.mjs",
+    "server/patchServer.mjs",
     "start-server.js",
     "scripts/smoke-test.mjs",
     "scripts/runtime-guards-test.mjs",
@@ -42,7 +42,7 @@
       "name": "Patch Runtime",
       "prefixes": [
         "tools/patch/",
-        "patchServer.mjs",
+        "server/patchServer.mjs",
         "public/patchUI.html",
         "public/patch-popup.html",
         "public/index.html",
@@ -71,8 +71,8 @@
     }
   ],
   "fileCounts": {
-    "allFiles": 86,
-    "codeFiles": 79
+    "allFiles": 88,
+    "codeFiles": 81
   },
   "unownedFiles": [
     "start-server.js"
@@ -116,8 +116,10 @@
     "tools/runtime/installGitHooks.mjs",
     "tools/runtime/new-action-template.mjs",
     "tools/runtime/preflight.mjs",
+    "tools/runtime/release-guard.mjs",
     "tools/runtime/repo-hygiene-map.mjs",
     "tools/runtime/repo-hygiene-why.mjs",
+    "tools/runtime/signing-guard.mjs",
     "tools/runtime/syncDocs.mjs",
     "tools/runtime/updateFunctionSot.mjs"
   ],
@@ -149,33 +151,17 @@
     "tools/runtime/installGitHooks.mjs",
     "tools/runtime/new-action-template.mjs",
     "tools/runtime/preflight.mjs",
+    "tools/runtime/release-guard.mjs",
     "tools/runtime/repo-hygiene-map.mjs",
     "tools/runtime/repo-hygiene-why.mjs",
+    "tools/runtime/signing-guard.mjs",
     "tools/runtime/syncDocs.mjs",
     "tools/runtime/updateFunctionSot.mjs"
   ],
   "crossOwnerImports": [
     {
-      "from": "patchServer.mjs",
-      "to": "server/sessionRoutes.mjs",
-      "fromOwner": "Patch Runtime",
-      "toOwner": "Runtime Tooling"
-    },
-    {
-      "from": "patchServer.mjs",
-      "to": "server/staticHandler.mjs",
-      "fromOwner": "Patch Runtime",
-      "toOwner": "Runtime Tooling"
-    },
-    {
-      "from": "patchServer.mjs",
-      "to": "src/kernel/interface.js",
-      "fromOwner": "Patch Runtime",
-      "toOwner": "Kernel Core"
-    },
-    {
       "from": "scripts/patch-flow-test.mjs",
-      "to": "patchServer.mjs",
+      "to": "server/patchServer.mjs",
       "fromOwner": "Runtime Tooling",
       "toOwner": "Patch Runtime"
     },
@@ -223,7 +209,7 @@
     },
     {
       "from": "scripts/smoke-test.mjs",
-      "to": "patchServer.mjs",
+      "to": "server/patchServer.mjs",
       "fromOwner": "Runtime Tooling",
       "toOwner": "Patch Runtime"
     },
@@ -243,6 +229,24 @@
       "from": "scripts/test-runner.mjs",
       "to": "src/kernel/fingerprint.js",
       "fromOwner": "Runtime Tooling",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "server/patchServer.mjs",
+      "to": "server/sessionRoutes.mjs",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Runtime Tooling"
+    },
+    {
+      "from": "server/patchServer.mjs",
+      "to": "server/staticHandler.mjs",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Runtime Tooling"
+    },
+    {
+      "from": "server/patchServer.mjs",
+      "to": "src/kernel/interface.js",
+      "fromOwner": "Patch Runtime",
       "toOwner": "Kernel Core"
     },
     {
@@ -295,7 +299,7 @@
     },
     {
       "from": "start-server.js",
-      "to": "patchServer.mjs",
+      "to": "server/patchServer.mjs",
       "fromOwner": "UNOWNED",
       "toOwner": "Patch Runtime"
     },
@@ -307,7 +311,6 @@
     }
   ],
   "inboundCounts": {
-    "patchServer.mjs": 3,
     "scripts/build-evidence-bundle.mjs": 0,
     "scripts/patch-flow-test.mjs": 0,
     "scripts/playwright-tiles-full.mjs": 0,
@@ -316,6 +319,7 @@
     "scripts/smoke-test.mjs": 0,
     "scripts/test-runner.mjs": 0,
     "scripts/verify-evidence.mjs": 0,
+    "server/patchServer.mjs": 3,
     "server/patchUtils.js": 1,
     "server/runtimeCheckHandler.mjs": 0,
     "server/sessionRoutes.mjs": 1,
@@ -382,21 +386,17 @@
     "tools/runtime/installGitHooks.mjs": 0,
     "tools/runtime/new-action-template.mjs": 0,
     "tools/runtime/preflight.mjs": 0,
+    "tools/runtime/release-guard.mjs": 0,
     "tools/runtime/repo-hygiene-map.mjs": 0,
     "tools/runtime/repo-hygiene-why.mjs": 0,
+    "tools/runtime/signing-guard.mjs": 0,
     "tools/runtime/syncDocs.mjs": 0,
     "tools/runtime/updateFunctionSot.mjs": 0
   },
   "imports": {
-    "patchServer.mjs": [
-      "server/patchUtils.js",
-      "server/sessionRoutes.mjs",
-      "server/staticHandler.mjs",
-      "src/kernel/interface.js"
-    ],
     "scripts/build-evidence-bundle.mjs": [],
     "scripts/patch-flow-test.mjs": [
-      "patchServer.mjs",
+      "server/patchServer.mjs",
       "tools/patch/lib/constants.mjs",
       "tools/patch/lib/intake.mjs",
       "tools/patch/lib/lock.mjs",
@@ -410,7 +410,7 @@
       "src/kernel/runtimeGuards.js"
     ],
     "scripts/smoke-test.mjs": [
-      "patchServer.mjs",
+      "server/patchServer.mjs",
       "src/ui/UIPluginController.js"
     ],
     "scripts/test-runner.mjs": [
@@ -418,6 +418,12 @@
       "src/kernel/fingerprint.js"
     ],
     "scripts/verify-evidence.mjs": [],
+    "server/patchServer.mjs": [
+      "server/patchUtils.js",
+      "server/sessionRoutes.mjs",
+      "server/staticHandler.mjs",
+      "src/kernel/interface.js"
+    ],
     "server/patchUtils.js": [],
     "server/runtimeCheckHandler.mjs": [],
     "server/sessionRoutes.mjs": [
@@ -511,7 +517,7 @@
     "src/ui/ViewportManager.js": [],
     "src/workers/worldRenderWorker.js": [],
     "start-server.js": [
-      "patchServer.mjs"
+      "server/patchServer.mjs"
     ],
     "tests/helpers/runScriptTest.mjs": [],
     "tests/MainTest.mjs": [],
@@ -565,8 +571,10 @@
     "tools/runtime/installGitHooks.mjs": [],
     "tools/runtime/new-action-template.mjs": [],
     "tools/runtime/preflight.mjs": [],
+    "tools/runtime/release-guard.mjs": [],
     "tools/runtime/repo-hygiene-map.mjs": [],
     "tools/runtime/repo-hygiene-why.mjs": [],
+    "tools/runtime/signing-guard.mjs": [],
     "tools/runtime/syncDocs.mjs": [],
     "tools/runtime/updateFunctionSot.mjs": []
   }

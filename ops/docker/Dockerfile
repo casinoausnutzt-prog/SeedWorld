@@ -13,7 +13,6 @@ RUN npm ci --only=production
 # Copy application source
 COPY src/ ./src/
 COPY public/ ./public/
-COPY patchServer.mjs ./
 COPY server/ ./server/
 COPY patches/ ./patches/
 COPY tools/ ./tools/

@@ -8,7 +8,8 @@ const hooksDir = resolve(root, ".githooks");
 const preCommit = `#!/bin/sh
 set -e
 
-echo "[hook:pre-commit] sync docs + preflight"
+echo "[hook:pre-commit] signing config + sync docs + preflight"
+npm run signing:guard -- --config-only
 npm run sync:docs
 git add docs/ORIENTATION.md
 npm run preflight
@@ -17,7 +18,8 @@ npm run preflight
 const prePush = `#!/bin/sh
 set -e
 
-echo "[hook:pre-push] running tests"
+echo "[hook:pre-push] signing config + run tests"
+npm run signing:guard -- --config-only
 npm test
 `;
 

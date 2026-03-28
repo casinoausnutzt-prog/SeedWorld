@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 
-function runNodeScript(scriptPath) {
+function runNodeScript(scriptPath, args = []) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [scriptPath], {
+    const child = spawn(process.execPath, [scriptPath, ...args], {
       cwd: process.cwd(),
       stdio: "inherit"
     });
@@ -19,6 +19,7 @@ function runNodeScript(scriptPath) {
 
 await runNodeScript("scripts/smoke-test.mjs");
 await runNodeScript("scripts/runtime-guards-test.mjs");
+await runNodeScript("tools/runtime/signing-guard.mjs", ["--config-only"]);
 await runNodeScript("tools/runtime/governance-verify.mjs");
 await runNodeScript("tools/runtime/syncDocs.mjs");
 console.log("[PREFLIGHT] OK");

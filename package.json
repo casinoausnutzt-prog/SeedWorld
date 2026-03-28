@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "preflight": "node tools/runtime/preflight.mjs",
-    "patch:server": "node patchServer.mjs",
+    "server": "node start-server.js",
+    "patch:server": "node server/patchServer.mjs",
     "patch:flow-test": "node scripts/patch-flow-test.mjs",
     "patch:matrix:validate": "node tools/patch/validate-patch-matrix.mjs",
     "llm:classify": "node tools/llm-preflight.mjs classify",
@@ -14,6 +15,8 @@
     "llm:check": "node tools/llm-preflight.mjs check",
     "llm:update-lock": "node tools/llm-preflight.mjs update-lock",
     "governance:verify": "node tools/runtime/governance-verify.mjs",
+    "signing:guard": "node tools/runtime/signing-guard.mjs",
+    "release:guard": "node tools/runtime/release-guard.mjs",
     "hygiene:map": "node tools/runtime/repo-hygiene-map.mjs",
     "hygiene:why": "node tools/runtime/repo-hygiene-why.mjs",
     "sync:function-sot": "node tools/runtime/updateFunctionSot.mjs",
@@ -24,7 +27,7 @@
     "hooks:install": "node tools/runtime/installGitHooks.mjs",
     "test": "node tests/MainTest.mjs",
     "test:all": "npm test",
-    "start": "npm run preflight && python3 -m http.server 8080",
+    "start": "npm run preflight && npm run server",
     "patch:dispatch": "node tools/patch/import-dispatch.mjs"
     ,
     "evidence:verify": "node scripts/verify-evidence.mjs",

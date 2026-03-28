@@ -2,10 +2,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
-const target = path.join(root, "docs", "ORIENTATION.md");
+const orientationTarget = path.join(root, "docs", "ORIENTATION.md");
+const indexTarget = path.join(root, "docs", "INDEX.md");
 const today = new Date().toISOString().slice(0, 10);
 
-const content = `# SeedWorld Orientation (Synced: ${today})
+const orientationContent = `# SeedWorld Orientation (Synced: ${today})
 
 ## 1) System Map
 
@@ -38,15 +39,53 @@ npm start
 - Terrain/DOM/SVG-Rendering ist getrennt: Canvas unten, DOM Mitte, SVG oben.
 `;
 
-let current = "";
+const indexContent = `# SeedWorld Docs Index (Synced: ${today})
+
+## Canonical Entry
+
+- Root Start: \`README.md\`
+- Runtime Entry: \`start-server.js\` + \`server/patchServer.mjs\`
+- Test Entry: \`tests/MainTest.mjs\`
+
+## Core Docs
+
+- [ORIENTATION.md](./ORIENTATION.md)
+- [WORKFLOW.md](./WORKFLOW.md)
+- [DETERMINISM_INVENTORY.md](./DETERMINISM_INVENTORY.md)
+- [REPO_HYGIENE_MAP.md](./REPO_HYGIENE_MAP.md)
+- [deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)
+- [wiki/Home.md](./wiki/Home.md)
+
+## Governance & Release
+
+- [llm-gate-policy.json](./llm-gate-policy.json)
+- [release-manifest.json](./release-manifest.json)
+
+## Isolation Zone
+
+- [../UNVERFID/CANDIDATES.md](../UNVERFID/CANDIDATES.md)
+`;
+
+let currentOrientation = "";
 try {
-  current = await readFile(target, "utf8");
+  currentOrientation = await readFile(orientationTarget, "utf8");
 } catch {
-  current = "";
+  currentOrientation = "";
 }
 
-if (current !== content) {
-  await writeFile(target, content, "utf8");
+if (currentOrientation !== orientationContent) {
+  await writeFile(orientationTarget, orientationContent, "utf8");
+}
+
+let currentIndex = "";
+try {
+  currentIndex = await readFile(indexTarget, "utf8");
+} catch {
+  currentIndex = "";
+}
+
+if (currentIndex !== indexContent) {
+  await writeFile(indexTarget, indexContent, "utf8");
 }
 
 console.log("[SYNC_DOCS] OK");

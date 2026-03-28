@@ -9,7 +9,7 @@ import { acquireLock, releaseLock } from '../tools/patch/lib/lock.mjs';
 import { LOCK_HEARTBEAT_MS } from '../tools/patch/lib/constants.mjs';
 import { ensureSessionFilesystem, getSessionPaths, writeJson } from '../tools/patch/lib/session-store.mjs';
 import { runPatchSession } from '../tools/patch/lib/orchestrator.mjs';
-import { PatchServer } from '../patchServer.mjs';
+import { PatchServer } from '../server/patchServer.mjs';
 
 async function createTempRepo() {
   return mkdtemp(join(tmpdir(), 'seedworld-patch-'));

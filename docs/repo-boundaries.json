@@ -17,7 +17,7 @@
     },
     {
       "name": "Patch Runtime",
-      "prefixes": ["tools/patch/", "patchServer.mjs", "public/patchUI.html", "public/patch-popup.html", "public/index.html", "public/menu.html", "public/game.html", "server/patchUtils.js"],
+      "prefixes": ["tools/patch/", "server/patchServer.mjs", "public/patchUI.html", "public/patch-popup.html", "public/index.html", "public/menu.html", "public/game.html", "server/patchUtils.js"],
       "purpose": "Terminal patch flow and browser control-plane API"
     },
     {
@@ -33,7 +33,7 @@
   ],
   "entrypoints": [
     "src/main.js",
-    "patchServer.mjs",
+    "server/patchServer.mjs",
     "start-server.js",
     "scripts/smoke-test.mjs",
     "scripts/runtime-guards-test.mjs",

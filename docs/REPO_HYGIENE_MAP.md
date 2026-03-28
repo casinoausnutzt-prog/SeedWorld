@@ -8,7 +8,7 @@
 - **UI Layer**: Rendering, input and browser-side orchestration
   prefixes: src/ui/, src/plugins/, src/workers/, src/browser/, src/main.js, src/styles.css, src/patch-control.css, src/SeedWorld_WorldGen.mjs
 - **Patch Runtime**: Terminal patch flow and browser control-plane API
-  prefixes: tools/patch/, patchServer.mjs, public/patchUI.html, public/patch-popup.html, public/index.html, public/menu.html, public/game.html, server/patchUtils.js
+  prefixes: tools/patch/, server/patchServer.mjs, public/patchUI.html, public/patch-popup.html, public/index.html, public/menu.html, public/game.html, server/patchUtils.js
 - **Runtime Tooling**: Verification, docs sync, server handlers and regression harnesses
   prefixes: tools/runtime/, scripts/, tests/, server/
 - **Documentation**: Contracts, orientation, audit and operational notes
@@ -16,7 +16,7 @@
 
 ## Entry Points
 - src/main.js
-- patchServer.mjs
+- server/patchServer.mjs
 - start-server.js
 - scripts/smoke-test.mjs
 - scripts/runtime-guards-test.mjs
@@ -65,8 +65,10 @@
 - tools/runtime/installGitHooks.mjs
 - tools/runtime/new-action-template.mjs
 - tools/runtime/preflight.mjs
+- tools/runtime/release-guard.mjs
 - tools/runtime/repo-hygiene-map.mjs
 - tools/runtime/repo-hygiene-why.mjs
+- tools/runtime/signing-guard.mjs
 - tools/runtime/syncDocs.mjs
 - tools/runtime/updateFunctionSot.mjs
 
@@ -98,16 +100,15 @@
 - tools/runtime/installGitHooks.mjs
 - tools/runtime/new-action-template.mjs
 - tools/runtime/preflight.mjs
+- tools/runtime/release-guard.mjs
 - tools/runtime/repo-hygiene-map.mjs
 - tools/runtime/repo-hygiene-why.mjs
+- tools/runtime/signing-guard.mjs
 - tools/runtime/syncDocs.mjs
 - tools/runtime/updateFunctionSot.mjs
 
 ## Cross-Owner Imports
-- patchServer.mjs (Patch Runtime) -> server/sessionRoutes.mjs (Runtime Tooling)
-- patchServer.mjs (Patch Runtime) -> server/staticHandler.mjs (Runtime Tooling)
-- patchServer.mjs (Patch Runtime) -> src/kernel/interface.js (Kernel Core)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> patchServer.mjs (Patch Runtime)
+- scripts/patch-flow-test.mjs (Runtime Tooling) -> server/patchServer.mjs (Patch Runtime)
 - scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/constants.mjs (Patch Runtime)
 - scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/intake.mjs (Patch Runtime)
 - scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/lock.mjs (Patch Runtime)
@@ -115,10 +116,13 @@
 - scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/orchestrator.mjs (Patch Runtime)
 - scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/session-store.mjs (Patch Runtime)
 - scripts/runtime-guards-test.mjs (Runtime Tooling) -> src/kernel/runtimeGuards.js (Kernel Core)
-- scripts/smoke-test.mjs (Runtime Tooling) -> patchServer.mjs (Patch Runtime)
+- scripts/smoke-test.mjs (Runtime Tooling) -> server/patchServer.mjs (Patch Runtime)
 - scripts/smoke-test.mjs (Runtime Tooling) -> src/ui/UIPluginController.js (UI Layer)
 - scripts/test-runner.mjs (Runtime Tooling) -> src/kernel/deterministicKernel.js (Kernel Core)
 - scripts/test-runner.mjs (Runtime Tooling) -> src/kernel/fingerprint.js (Kernel Core)
+- server/patchServer.mjs (Patch Runtime) -> server/sessionRoutes.mjs (Runtime Tooling)
+- server/patchServer.mjs (Patch Runtime) -> server/staticHandler.mjs (Runtime Tooling)
+- server/patchServer.mjs (Patch Runtime) -> src/kernel/interface.js (Kernel Core)
 - server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/constants.mjs (Patch Runtime)
 - server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/orchestrator.mjs (Patch Runtime)
 - server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/session-store.mjs (Patch Runtime)
@@ -127,7 +131,7 @@
 - src/main.js (UI Layer) -> src/kernel/interface.js (Kernel Core)
 - src/main.js (UI Layer) -> src/kernel/KernelController.js (Kernel Core)
 - src/ui/UIController.js (UI Layer) -> src/game/worldGen.js (Game Logic)
-- start-server.js (UNOWNED) -> patchServer.mjs (Patch Runtime)
+- start-server.js (UNOWNED) -> server/patchServer.mjs (Patch Runtime)
 - tools/patch/lib/normalize.mjs (Patch Runtime) -> src/game/contracts/mutationMatrixConstraints.js (Game Logic)
 
 ## Notes

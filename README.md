@@ -2,7 +2,7 @@
 
 [![CI](https://img.shields.io/badge/CI-required-success)](https://github.com/Vannon0911/seedWorldLLM/actions)
 [![Governance](https://img.shields.io/badge/governance-fail--closed-blue)](./src/kernel/KernelController.js)
-[![Docs](https://img.shields.io/badge/docs-synced-informational)](./docs/ORIENTATION.md)
+[![Docs](https://img.shields.io/badge/docs-synced-informational)](./docs/INDEX.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 SeedWorld LLM is a deterministic RTS playground with a strict terminal-authority patch pipeline and enforced kernel governance.
@@ -54,6 +54,7 @@ npm run hygiene:why -- src/ui/TileAnimationSDK.js
 
 Detailed docs:
 
+- Docs Index: [docs/INDEX.md](./docs/INDEX.md)
 - Orientation: [docs/ORIENTATION.md](./docs/ORIENTATION.md)
 - Workflow: [docs/WORKFLOW.md](./docs/WORKFLOW.md)
 - Determinism inventory: [docs/DETERMINISM_INVENTORY.md](./docs/DETERMINISM_INVENTORY.md)
@@ -93,4 +94,4 @@ Project wiki pages:
 
 ---
 
-For deeper internal notes, see [README-DEV.md](./README-DEV.md).
+Canonical docs entry is [docs/INDEX.md](./docs/INDEX.md). Redundant notes are isolated under [UNVERFID](./UNVERFID/CANDIDATES.md).
