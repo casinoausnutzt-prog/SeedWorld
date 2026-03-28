@@ -1,9 +1,9 @@
 # SeedWorld LLM
 
 [![CI](https://img.shields.io/badge/CI-required-success)](https://github.com/Vannon0911/seedWorldLLM/actions)
-[![Governance](https://img.shields.io/badge/governance-fail--closed-blue)](./src/kernel/KernelController.js)
+[![Governance](https://img.shields.io/badge/governance-fail--closed-blue)](./app/src/kernel/KernelController.js)
 [![Docs](https://img.shields.io/badge/docs-synced-informational)](./docs/INDEX.md)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](./legacy/UNVERFID/root-legacy/LICENSE)
 
 SeedWorld LLM is a deterministic RTS playground with a strict terminal-authority patch pipeline and enforced kernel governance.
 
@@ -41,16 +41,16 @@ npm run test:playwright:fulltiles
 # Governance & hygiene
 npm run governance:verify
 npm run hygiene:map
-npm run hygiene:why -- src/ui/TileAnimationSDK.js
+npm run hygiene:why -- app/src/ui/TileAnimationSDK.js
 ```
 
 ## Architecture at a glance
 
-- `src/kernel/` deterministic routing, governance enforcement, patch acknowledgements
-- `src/game/` action schema, mutation matrix, domain patch planning
-- `src/ui/` rendering, input, viewport orchestration
-- `tools/patch/` terminal patch apply workflow
-- `tools/runtime/` verification, docs sync, hygiene tooling
+- `app/src/kernel/` deterministic routing, governance enforcement, patch acknowledgements
+- `app/src/game/` action schema, mutation matrix, domain patch planning
+- `app/src/ui/` rendering, input, viewport orchestration
+- `dev/tools/patch/` terminal patch apply workflow
+- `dev/tools/runtime/` verification, docs sync, hygiene tooling
 
 Detailed docs:
 
@@ -94,4 +94,4 @@ Project wiki pages:
 
 ---
 
-Canonical docs entry is [docs/INDEX.md](./docs/INDEX.md). Redundant notes are isolated under [UNVERFID](./UNVERFID/CANDIDATES.md).
+Canonical docs entry is [docs/INDEX.md](./docs/INDEX.md). Redundant notes are isolated under [legacy/UNVERFID](./legacy/UNVERFID/CANDIDATES.md).

@@ -1,5 +1,5 @@
 // Simple server starter
-import { PatchServer } from './server/patchServer.mjs';
+import { PatchServer } from './app/server/patchServer.mjs';
 
 console.log('[START] Starting SeedWorld Development Server...');
 

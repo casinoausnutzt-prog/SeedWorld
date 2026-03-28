@@ -2,11 +2,11 @@
 
 ## 1) System Map
 
-- `src/ui/`: Rendering und Input, keine direkten Domain-State Writes.
-- `src/game/`: Gameplay-Regeln und erlaubte Patch-Berechnung.
-- `src/kernel/`: Deterministische Domain-Grenzen und Mutationskontrolle.
-- `tools/patch/`: Intake, Locking, Normalisierung, Orchestrierung.
-- `tests/`: Einstieg `tests/MainTest.mjs`, Module unter `tests/modules/`.
+- `app/src/ui/`: Rendering und Input, keine direkten Domain-State Writes.
+- `app/src/game/`: Gameplay-Regeln und erlaubte Patch-Berechnung.
+- `app/src/kernel/`: Deterministische Domain-Grenzen und Mutationskontrolle.
+- `dev/tools/patch/`: Intake, Locking, Normalisierung, Orchestrierung.
+- `dev/tests/`: Einstieg `dev/tests/MainTest.mjs`, Module unter `dev/tests/modules/`.
 
 ## 2) Lokale Reihenfolge
 
@@ -20,10 +20,10 @@ npm start
 
 ## 3) Verifizierte Testlinie
 
-- `node scripts/smoke-test.mjs`
-- `node scripts/runtime-guards-test.mjs`
-- `node scripts/patch-flow-test.mjs`
-- `node scripts/test-runner.mjs`
+- `node dev/scripts/smoke-test.mjs`
+- `node dev/scripts/runtime-guards-test.mjs`
+- `node dev/scripts/patch-flow-test.mjs`
+- `node dev/scripts/test-runner.mjs`
 
 ## 4) Hinweise
 

@@ -22,6 +22,6 @@ logs/
 *.log
 .tmp/
 .temp/
-.patch-manager/
-output/
+runtime/.patch-manager/
+runtime/output/
 .windsurf/

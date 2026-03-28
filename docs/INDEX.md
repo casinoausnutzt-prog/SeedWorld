@@ -12,8 +12,8 @@ Dieser Ordner enthaelt nur dieses Mapping plus Bereichsordner.
 ## Wichtige Einstiegspunkte
 
 - Root Start: `README.md`
-- Runtime Entry: `start-server.js` + `server/patchServer.mjs`
-- Test Entry: `tests/MainTest.mjs`
+- Runtime Entry: `start-server.js` + `app/server/patchServer.mjs`
+- Test Entry: `dev/tests/MainTest.mjs`
 
 ## Mapping
 
@@ -28,13 +28,13 @@ Dieser Ordner enthaelt nur dieses Mapping plus Bereichsordner.
 - LLM:
   - [Policy Doku](./LLM/)
 - Source SoT (Runtime/LLM):
-  - [src/sot/repo-boundaries.json](../src/sot/repo-boundaries.json)
-  - [src/sot/release-manifest.json](../src/sot/release-manifest.json)
-  - [src/sot/patches.schema.json](../src/sot/patches.schema.json)
-  - [src/sot/FUNCTION_SOT.json](../src/sot/FUNCTION_SOT.json)
-  - [src/sot/REPO_HYGIENE_MAP.json](../src/sot/REPO_HYGIENE_MAP.json)
-  - [src/llm/llm-gate-policy.json](../src/llm/llm-gate-policy.json)
+  - [app/src/sot/repo-boundaries.json](../app/src/sot/repo-boundaries.json)
+  - [app/src/sot/release-manifest.json](../app/src/sot/release-manifest.json)
+  - [app/src/sot/patches.schema.json](../app/src/sot/patches.schema.json)
+  - [app/src/sot/FUNCTION_SOT.json](../app/src/sot/FUNCTION_SOT.json)
+  - [app/src/sot/REPO_HYGIENE_MAP.json](../app/src/sot/REPO_HYGIENE_MAP.json)
+  - [app/src/llm/llm-gate-policy.json](../app/src/llm/llm-gate-policy.json)
 - IN PLANUNG:
   - [cleanup-reports](./IN%20PLANUNG/cleanup-reports/REPO_CLEANUP_BASELINE_2026-03-27.md)
-  - [UNVERFID candidates](../UNVERFID/CANDIDATES.md)
+  - [UNVERFID candidates](../legacy/UNVERFID/CANDIDATES.md)
 

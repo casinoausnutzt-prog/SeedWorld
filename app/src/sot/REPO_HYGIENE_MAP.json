@@ -1,0 +1,596 @@
+{
+  "generatedAt": "2026-03-28T23:14:10.870Z",
+  "entrypoints": [
+    "app/src/main.js",
+    "app/server/patchServer.mjs",
+    "start-server.js",
+    "dev/scripts/smoke-test.mjs",
+    "dev/scripts/runtime-guards-test.mjs",
+    "dev/scripts/patch-flow-test.mjs",
+    "dev/tests/MainTest.mjs"
+  ],
+  "owners": [
+    {
+      "name": "Kernel Core",
+      "prefixes": [
+        "app/src/kernel/"
+      ],
+      "purpose": "Determinism, governance, routing and patch acknowledgements"
+    },
+    {
+      "name": "Game Logic",
+      "prefixes": [
+        "app/src/game/"
+      ],
+      "purpose": "Action schema, mutation matrix, world/domain calculations"
+    },
+    {
+      "name": "UI Layer",
+      "prefixes": [
+        "app/src/ui/",
+        "app/src/plugins/",
+        "app/src/workers/",
+        "app/src/browser/",
+        "app/src/main.js",
+        "app/src/styles.css",
+        "app/src/patch-control.css",
+        "app/src/SeedWorld_WorldGen.mjs"
+      ],
+      "purpose": "Rendering, input and browser-side orchestration"
+    },
+    {
+      "name": "Patch Runtime",
+      "prefixes": [
+        "dev/tools/patch/",
+        "app/server/patchServer.mjs",
+        "app/public/patchUI.html",
+        "app/public/patch-popup.html",
+        "app/public/index.html",
+        "app/public/menu.html",
+        "app/public/game.html",
+        "app/server/patchUtils.js"
+      ],
+      "purpose": "Terminal patch flow and browser control-plane API"
+    },
+    {
+      "name": "Runtime Tooling",
+      "prefixes": [
+        "dev/tools/runtime/",
+        "dev/scripts/",
+        "dev/tests/",
+        "app/server/"
+      ],
+      "purpose": "Verification, docs sync, server handlers and regression harnesses"
+    },
+    {
+      "name": "Documentation",
+      "prefixes": [
+        "docs/"
+      ],
+      "purpose": "Contracts, orientation, audit and operational notes"
+    }
+  ],
+  "fileCounts": {
+    "allFiles": 96,
+    "codeFiles": 83
+  },
+  "unownedFiles": [
+    "app/src/llm/llm-gate-policy.json",
+    "app/src/sot/FUNCTION_SOT.json",
+    "app/src/sot/REPO_HYGIENE_MAP.json",
+    "app/src/sot/patches.schema.json",
+    "app/src/sot/release-manifest.json",
+    "app/src/sot/repo-boundaries.json",
+    "dev/tools/llm-preflight.mjs",
+    "start-server.js"
+  ],
+  "unreachableCode": [
+    "app/server/runtimeCheckHandler.mjs",
+    "app/src/SeedWorld_WorldGen.mjs",
+    "app/src/browser/BrowserPatchRunner.js",
+    "app/src/browser/LogBus.js",
+    "app/src/game/gameConstants.js",
+    "app/src/kernel/deterministicKernel.js",
+    "app/src/kernel/fingerprint.js",
+    "app/src/kernel/seedGuard.js",
+    "app/src/plugins/radialBuildController.js",
+    "app/src/ui/BaseUIController.js",
+    "app/src/ui/DevUIController.js",
+    "app/src/ui/GameUIController.js",
+    "app/src/ui/MainMenuController.js",
+    "app/src/ui/TileAnimationSDK.js",
+    "app/src/ui/events.js",
+    "app/src/ui/plugins/ExampleUIPlugin.js",
+    "app/src/workers/worldRenderWorker.js",
+    "dev/scripts/build-evidence-bundle.mjs",
+    "dev/scripts/playwright-tiles-full.mjs",
+    "dev/scripts/repo-cleanup-baseline.mjs",
+    "dev/scripts/test-runner.mjs",
+    "dev/scripts/verify-evidence.mjs",
+    "dev/tests/helpers/runScriptTest.mjs",
+    "dev/tests/modules/00.smoke-script.module.mjs",
+    "dev/tests/modules/01.runtime-guards-script.module.mjs",
+    "dev/tests/modules/02.patch-flow-script.module.mjs",
+    "dev/tests/modules/03.kernel-same-action-same-tick.module.mjs",
+    "dev/tests/modules/04.patch-utils.module.mjs",
+    "dev/tests/modules/05.static-handler-security.module.mjs",
+    "dev/tests/modules/06.governance-enforcement.module.mjs",
+    "dev/tests/modules/15.worldgen-deterministic.module.mjs",
+    "dev/tools/llm-preflight.mjs",
+    "dev/tools/patch/apply.mjs",
+    "dev/tools/patch/import-dispatch.mjs",
+    "dev/tools/patch/patchMatrix.js",
+    "dev/tools/patch/validate-patch-matrix.mjs",
+    "dev/tools/runtime/governance-verify.mjs",
+    "dev/tools/runtime/installGitHooks.mjs",
+    "dev/tools/runtime/new-action-template.mjs",
+    "dev/tools/runtime/preflight.mjs",
+    "dev/tools/runtime/release-guard.mjs",
+    "dev/tools/runtime/repo-hygiene-map.mjs",
+    "dev/tools/runtime/repo-hygiene-why.mjs",
+    "dev/tools/runtime/signing-guard.mjs",
+    "dev/tools/runtime/syncDocs.mjs",
+    "dev/tools/runtime/updateFunctionSot.mjs"
+  ],
+  "zeroInboundNonEntrypoints": [
+    "app/server/runtimeCheckHandler.mjs",
+    "app/src/SeedWorld_WorldGen.mjs",
+    "app/src/browser/BrowserPatchRunner.js",
+    "app/src/game/gameConstants.js",
+    "app/src/ui/MainMenuController.js",
+    "app/src/ui/TileAnimationSDK.js",
+    "app/src/ui/plugins/ExampleUIPlugin.js",
+    "app/src/workers/worldRenderWorker.js",
+    "dev/scripts/build-evidence-bundle.mjs",
+    "dev/scripts/playwright-tiles-full.mjs",
+    "dev/scripts/repo-cleanup-baseline.mjs",
+    "dev/scripts/test-runner.mjs",
+    "dev/scripts/verify-evidence.mjs",
+    "dev/tests/modules/00.smoke-script.module.mjs",
+    "dev/tests/modules/01.runtime-guards-script.module.mjs",
+    "dev/tests/modules/02.patch-flow-script.module.mjs",
+    "dev/tests/modules/03.kernel-same-action-same-tick.module.mjs",
+    "dev/tests/modules/04.patch-utils.module.mjs",
+    "dev/tests/modules/05.static-handler-security.module.mjs",
+    "dev/tests/modules/06.governance-enforcement.module.mjs",
+    "dev/tests/modules/15.worldgen-deterministic.module.mjs",
+    "dev/tools/llm-preflight.mjs",
+    "dev/tools/patch/apply.mjs",
+    "dev/tools/patch/import-dispatch.mjs",
+    "dev/tools/patch/validate-patch-matrix.mjs",
+    "dev/tools/runtime/governance-verify.mjs",
+    "dev/tools/runtime/installGitHooks.mjs",
+    "dev/tools/runtime/new-action-template.mjs",
+    "dev/tools/runtime/preflight.mjs",
+    "dev/tools/runtime/release-guard.mjs",
+    "dev/tools/runtime/repo-hygiene-map.mjs",
+    "dev/tools/runtime/repo-hygiene-why.mjs",
+    "dev/tools/runtime/signing-guard.mjs",
+    "dev/tools/runtime/syncDocs.mjs",
+    "dev/tools/runtime/updateFunctionSot.mjs"
+  ],
+  "crossOwnerImports": [
+    {
+      "from": "app/server/patchServer.mjs",
+      "to": "app/server/sessionRoutes.mjs",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Runtime Tooling"
+    },
+    {
+      "from": "app/server/patchServer.mjs",
+      "to": "app/server/staticHandler.mjs",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Runtime Tooling"
+    },
+    {
+      "from": "app/server/patchServer.mjs",
+      "to": "app/src/kernel/interface.js",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "app/server/sessionRoutes.mjs",
+      "to": "dev/tools/patch/lib/constants.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "app/server/sessionRoutes.mjs",
+      "to": "dev/tools/patch/lib/orchestrator.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "app/server/sessionRoutes.mjs",
+      "to": "dev/tools/patch/lib/session-store.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "app/src/game/gameConstants.js",
+      "to": "app/src/plugins/radialBuildController.js",
+      "fromOwner": "Game Logic",
+      "toOwner": "UI Layer"
+    },
+    {
+      "from": "app/src/main.js",
+      "to": "app/src/game/GameLogicController.js",
+      "fromOwner": "UI Layer",
+      "toOwner": "Game Logic"
+    },
+    {
+      "from": "app/src/main.js",
+      "to": "app/src/kernel/interface.js",
+      "fromOwner": "UI Layer",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "app/src/main.js",
+      "to": "app/src/kernel/KernelController.js",
+      "fromOwner": "UI Layer",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "app/src/ui/UIController.js",
+      "to": "app/src/game/worldGen.js",
+      "fromOwner": "UI Layer",
+      "toOwner": "Game Logic"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "app/server/patchServer.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/constants.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/intake.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/lock.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/normalize.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/orchestrator.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/patch-flow-test.mjs",
+      "to": "dev/tools/patch/lib/session-store.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/runtime-guards-test.mjs",
+      "to": "app/src/kernel/runtimeGuards.js",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "dev/scripts/smoke-test.mjs",
+      "to": "app/server/patchServer.mjs",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Patch Runtime"
+    },
+    {
+      "from": "dev/scripts/smoke-test.mjs",
+      "to": "app/src/ui/UIPluginController.js",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "UI Layer"
+    },
+    {
+      "from": "dev/scripts/test-runner.mjs",
+      "to": "app/src/kernel/deterministicKernel.js",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "dev/scripts/test-runner.mjs",
+      "to": "app/src/kernel/fingerprint.js",
+      "fromOwner": "Runtime Tooling",
+      "toOwner": "Kernel Core"
+    },
+    {
+      "from": "dev/tools/patch/lib/normalize.mjs",
+      "to": "app/src/game/contracts/mutationMatrixConstraints.js",
+      "fromOwner": "Patch Runtime",
+      "toOwner": "Game Logic"
+    },
+    {
+      "from": "start-server.js",
+      "to": "app/server/patchServer.mjs",
+      "fromOwner": "UNOWNED",
+      "toOwner": "Patch Runtime"
+    }
+  ],
+  "inboundCounts": {
+    "app/server/patchServer.mjs": 3,
+    "app/server/patchUtils.js": 1,
+    "app/server/runtimeCheckHandler.mjs": 0,
+    "app/server/sessionRoutes.mjs": 1,
+    "app/server/staticHandler.mjs": 1,
+    "app/src/browser/BrowserPatchRunner.js": 0,
+    "app/src/browser/LogBus.js": 1,
+    "app/src/game/actions/buildAction.js": 1,
+    "app/src/game/actions/transportAction.js": 1,
+    "app/src/game/contracts/mutationMatrixConstraints.js": 1,
+    "app/src/game/gameConstants.js": 0,
+    "app/src/game/GameLogicController.js": 1,
+    "app/src/game/worldGen.js": 2,
+    "app/src/kernel/ActionRegistry.js": 1,
+    "app/src/kernel/deterministicKernel.js": 1,
+    "app/src/kernel/fingerprint.js": 3,
+    "app/src/kernel/GateManager.js": 1,
+    "app/src/kernel/gates/accessGates.js": 1,
+    "app/src/kernel/gates/operationGates.js": 1,
+    "app/src/kernel/interface.js": 2,
+    "app/src/kernel/KernelController.js": 3,
+    "app/src/kernel/KernelGates.js": 1,
+    "app/src/kernel/KernelRouter.js": 1,
+    "app/src/kernel/PatchOrchestrator.js": 1,
+    "app/src/kernel/runtimeGuards.js": 3,
+    "app/src/kernel/seedGuard.js": 1,
+    "app/src/main.js": 0,
+    "app/src/plugins/radialBuildController.js": 1,
+    "app/src/SeedWorld_WorldGen.mjs": 0,
+    "app/src/ui/BaseUIController.js": 3,
+    "app/src/ui/DevUIController.js": 1,
+    "app/src/ui/events.js": 1,
+    "app/src/ui/GameUIController.js": 1,
+    "app/src/ui/IconAnimations.js": 1,
+    "app/src/ui/MainMenuController.js": 0,
+    "app/src/ui/plugins/ExampleUIPlugin.js": 0,
+    "app/src/ui/TileAnimationSDK.js": 0,
+    "app/src/ui/TileGridRenderer.js": 2,
+    "app/src/ui/UIController.js": 1,
+    "app/src/ui/UIPluginController.js": 1,
+    "app/src/ui/ViewportManager.js": 1,
+    "app/src/workers/worldRenderWorker.js": 0,
+    "dev/scripts/build-evidence-bundle.mjs": 0,
+    "dev/scripts/patch-flow-test.mjs": 0,
+    "dev/scripts/playwright-tiles-full.mjs": 0,
+    "dev/scripts/repo-cleanup-baseline.mjs": 0,
+    "dev/scripts/runtime-guards-test.mjs": 0,
+    "dev/scripts/smoke-test.mjs": 0,
+    "dev/scripts/test-runner.mjs": 0,
+    "dev/scripts/verify-evidence.mjs": 0,
+    "dev/tests/helpers/runScriptTest.mjs": 3,
+    "dev/tests/MainTest.mjs": 0,
+    "dev/tests/modules/00.smoke-script.module.mjs": 0,
+    "dev/tests/modules/01.runtime-guards-script.module.mjs": 0,
+    "dev/tests/modules/02.patch-flow-script.module.mjs": 0,
+    "dev/tests/modules/03.kernel-same-action-same-tick.module.mjs": 0,
+    "dev/tests/modules/04.patch-utils.module.mjs": 0,
+    "dev/tests/modules/05.static-handler-security.module.mjs": 0,
+    "dev/tests/modules/06.governance-enforcement.module.mjs": 0,
+    "dev/tests/modules/15.worldgen-deterministic.module.mjs": 0,
+    "dev/tools/llm-preflight.mjs": 0,
+    "dev/tools/patch/apply.mjs": 0,
+    "dev/tools/patch/import-dispatch.mjs": 0,
+    "dev/tools/patch/lib/backup.mjs": 1,
+    "dev/tools/patch/lib/constants.mjs": 5,
+    "dev/tools/patch/lib/intake.mjs": 2,
+    "dev/tools/patch/lib/lock.mjs": 2,
+    "dev/tools/patch/lib/normalize.mjs": 3,
+    "dev/tools/patch/lib/orchestrator.mjs": 3,
+    "dev/tools/patch/lib/session-store.mjs": 6,
+    "dev/tools/patch/patchMatrix.js": 1,
+    "dev/tools/patch/validate-patch-matrix.mjs": 0,
+    "dev/tools/runtime/governance-verify.mjs": 0,
+    "dev/tools/runtime/installGitHooks.mjs": 0,
+    "dev/tools/runtime/new-action-template.mjs": 0,
+    "dev/tools/runtime/preflight.mjs": 0,
+    "dev/tools/runtime/release-guard.mjs": 0,
+    "dev/tools/runtime/repo-hygiene-map.mjs": 0,
+    "dev/tools/runtime/repo-hygiene-why.mjs": 0,
+    "dev/tools/runtime/signing-guard.mjs": 0,
+    "dev/tools/runtime/syncDocs.mjs": 0,
+    "dev/tools/runtime/updateFunctionSot.mjs": 0,
+    "start-server.js": 0
+  },
+  "imports": {
+    "app/server/patchServer.mjs": [
+      "app/server/patchUtils.js",
+      "app/server/sessionRoutes.mjs",
+      "app/server/staticHandler.mjs",
+      "app/src/kernel/interface.js"
+    ],
+    "app/server/patchUtils.js": [],
+    "app/server/runtimeCheckHandler.mjs": [],
+    "app/server/sessionRoutes.mjs": [
+      "dev/tools/patch/lib/constants.mjs",
+      "dev/tools/patch/lib/orchestrator.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "app/server/staticHandler.mjs": [],
+    "app/src/browser/BrowserPatchRunner.js": [
+      "app/src/browser/LogBus.js"
+    ],
+    "app/src/browser/LogBus.js": [],
+    "app/src/game/actions/buildAction.js": [],
+    "app/src/game/actions/transportAction.js": [],
+    "app/src/game/contracts/mutationMatrixConstraints.js": [],
+    "app/src/game/gameConstants.js": [
+      "app/src/plugins/radialBuildController.js"
+    ],
+    "app/src/game/GameLogicController.js": [
+      "app/src/game/actions/buildAction.js",
+      "app/src/game/actions/transportAction.js",
+      "app/src/game/worldGen.js"
+    ],
+    "app/src/game/worldGen.js": [],
+    "app/src/kernel/ActionRegistry.js": [],
+    "app/src/kernel/deterministicKernel.js": [
+      "app/src/kernel/KernelController.js",
+      "app/src/kernel/fingerprint.js",
+      "app/src/kernel/runtimeGuards.js",
+      "app/src/kernel/seedGuard.js"
+    ],
+    "app/src/kernel/fingerprint.js": [],
+    "app/src/kernel/GateManager.js": [],
+    "app/src/kernel/gates/accessGates.js": [],
+    "app/src/kernel/gates/operationGates.js": [],
+    "app/src/kernel/interface.js": [
+      "app/src/kernel/KernelController.js"
+    ],
+    "app/src/kernel/KernelController.js": [
+      "app/src/kernel/ActionRegistry.js",
+      "app/src/kernel/GateManager.js",
+      "app/src/kernel/KernelGates.js",
+      "app/src/kernel/KernelRouter.js",
+      "app/src/kernel/PatchOrchestrator.js",
+      "app/src/kernel/runtimeGuards.js"
+    ],
+    "app/src/kernel/KernelGates.js": [
+      "app/src/kernel/gates/accessGates.js",
+      "app/src/kernel/gates/operationGates.js"
+    ],
+    "app/src/kernel/KernelRouter.js": [],
+    "app/src/kernel/PatchOrchestrator.js": [],
+    "app/src/kernel/runtimeGuards.js": [],
+    "app/src/kernel/seedGuard.js": [
+      "app/src/kernel/fingerprint.js"
+    ],
+    "app/src/main.js": [
+      "app/src/game/GameLogicController.js",
+      "app/src/kernel/KernelController.js",
+      "app/src/kernel/interface.js",
+      "app/src/ui/UIController.js",
+      "app/src/ui/ViewportManager.js"
+    ],
+    "app/src/plugins/radialBuildController.js": [],
+    "app/src/SeedWorld_WorldGen.mjs": [],
+    "app/src/ui/BaseUIController.js": [],
+    "app/src/ui/DevUIController.js": [
+      "app/src/ui/BaseUIController.js"
+    ],
+    "app/src/ui/events.js": [],
+    "app/src/ui/GameUIController.js": [
+      "app/src/ui/BaseUIController.js",
+      "app/src/ui/TileGridRenderer.js",
+      "app/src/ui/events.js"
+    ],
+    "app/src/ui/IconAnimations.js": [],
+    "app/src/ui/MainMenuController.js": [
+      "app/src/ui/BaseUIController.js",
+      "app/src/ui/DevUIController.js",
+      "app/src/ui/GameUIController.js"
+    ],
+    "app/src/ui/plugins/ExampleUIPlugin.js": [],
+    "app/src/ui/TileAnimationSDK.js": [],
+    "app/src/ui/TileGridRenderer.js": [],
+    "app/src/ui/UIController.js": [
+      "app/src/game/worldGen.js",
+      "app/src/ui/IconAnimations.js",
+      "app/src/ui/TileGridRenderer.js"
+    ],
+    "app/src/ui/UIPluginController.js": [],
+    "app/src/ui/ViewportManager.js": [],
+    "app/src/workers/worldRenderWorker.js": [],
+    "dev/scripts/build-evidence-bundle.mjs": [],
+    "dev/scripts/patch-flow-test.mjs": [
+      "app/server/patchServer.mjs",
+      "dev/tools/patch/lib/constants.mjs",
+      "dev/tools/patch/lib/intake.mjs",
+      "dev/tools/patch/lib/lock.mjs",
+      "dev/tools/patch/lib/normalize.mjs",
+      "dev/tools/patch/lib/orchestrator.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "dev/scripts/playwright-tiles-full.mjs": [],
+    "dev/scripts/repo-cleanup-baseline.mjs": [],
+    "dev/scripts/runtime-guards-test.mjs": [
+      "app/src/kernel/runtimeGuards.js"
+    ],
+    "dev/scripts/smoke-test.mjs": [
+      "app/server/patchServer.mjs",
+      "app/src/ui/UIPluginController.js"
+    ],
+    "dev/scripts/test-runner.mjs": [
+      "app/src/kernel/deterministicKernel.js",
+      "app/src/kernel/fingerprint.js"
+    ],
+    "dev/scripts/verify-evidence.mjs": [],
+    "dev/tests/helpers/runScriptTest.mjs": [],
+    "dev/tests/MainTest.mjs": [],
+    "dev/tests/modules/00.smoke-script.module.mjs": [
+      "dev/tests/helpers/runScriptTest.mjs"
+    ],
+    "dev/tests/modules/01.runtime-guards-script.module.mjs": [
+      "dev/tests/helpers/runScriptTest.mjs"
+    ],
+    "dev/tests/modules/02.patch-flow-script.module.mjs": [
+      "dev/tests/helpers/runScriptTest.mjs"
+    ],
+    "dev/tests/modules/03.kernel-same-action-same-tick.module.mjs": [],
+    "dev/tests/modules/04.patch-utils.module.mjs": [],
+    "dev/tests/modules/05.static-handler-security.module.mjs": [],
+    "dev/tests/modules/06.governance-enforcement.module.mjs": [],
+    "dev/tests/modules/15.worldgen-deterministic.module.mjs": [],
+    "dev/tools/llm-preflight.mjs": [],
+    "dev/tools/patch/apply.mjs": [
+      "dev/tools/patch/lib/orchestrator.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "dev/tools/patch/import-dispatch.mjs": [],
+    "dev/tools/patch/lib/backup.mjs": [
+      "dev/tools/patch/lib/normalize.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "dev/tools/patch/lib/constants.mjs": [],
+    "dev/tools/patch/lib/intake.mjs": [],
+    "dev/tools/patch/lib/lock.mjs": [
+      "dev/tools/patch/lib/constants.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "dev/tools/patch/lib/normalize.mjs": [
+      "app/src/game/contracts/mutationMatrixConstraints.js"
+    ],
+    "dev/tools/patch/lib/orchestrator.mjs": [
+      "dev/tools/patch/lib/backup.mjs",
+      "dev/tools/patch/lib/constants.mjs",
+      "dev/tools/patch/lib/intake.mjs",
+      "dev/tools/patch/lib/lock.mjs",
+      "dev/tools/patch/lib/normalize.mjs",
+      "dev/tools/patch/lib/session-store.mjs"
+    ],
+    "dev/tools/patch/lib/session-store.mjs": [
+      "dev/tools/patch/lib/constants.mjs"
+    ],
+    "dev/tools/patch/patchMatrix.js": [],
+    "dev/tools/patch/validate-patch-matrix.mjs": [
+      "dev/tools/patch/patchMatrix.js"
+    ],
+    "dev/tools/runtime/governance-verify.mjs": [],
+    "dev/tools/runtime/installGitHooks.mjs": [],
+    "dev/tools/runtime/new-action-template.mjs": [],
+    "dev/tools/runtime/preflight.mjs": [],
+    "dev/tools/runtime/release-guard.mjs": [],
+    "dev/tools/runtime/repo-hygiene-map.mjs": [],
+    "dev/tools/runtime/repo-hygiene-why.mjs": [],
+    "dev/tools/runtime/signing-guard.mjs": [],
+    "dev/tools/runtime/syncDocs.mjs": [],
+    "dev/tools/runtime/updateFunctionSot.mjs": [],
+    "start-server.js": [
+      "app/server/patchServer.mjs"
+    ]
+  }
+}

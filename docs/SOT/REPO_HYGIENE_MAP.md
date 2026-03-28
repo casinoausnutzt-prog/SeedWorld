@@ -2,146 +2,151 @@
 
 ## Ownership
 - **Kernel Core**: Determinism, governance, routing and patch acknowledgements
-  prefixes: src/kernel/
+  prefixes: app/src/kernel/
 - **Game Logic**: Action schema, mutation matrix, world/domain calculations
-  prefixes: src/game/
+  prefixes: app/src/game/
 - **UI Layer**: Rendering, input and browser-side orchestration
-  prefixes: src/ui/, src/plugins/, src/workers/, src/browser/, src/main.js, src/styles.css, src/patch-control.css, src/SeedWorld_WorldGen.mjs
+  prefixes: app/src/ui/, app/src/plugins/, app/src/workers/, app/src/browser/, app/src/main.js, app/src/styles.css, app/src/patch-control.css, app/src/SeedWorld_WorldGen.mjs
 - **Patch Runtime**: Terminal patch flow and browser control-plane API
-  prefixes: tools/patch/, server/patchServer.mjs, public/patchUI.html, public/patch-popup.html, public/index.html, public/menu.html, public/game.html, server/patchUtils.js
+  prefixes: dev/tools/patch/, app/server/patchServer.mjs, app/public/patchUI.html, app/public/patch-popup.html, app/public/index.html, app/public/menu.html, app/public/game.html, app/server/patchUtils.js
 - **Runtime Tooling**: Verification, docs sync, server handlers and regression harnesses
-  prefixes: tools/runtime/, scripts/, tests/, server/
+  prefixes: dev/tools/runtime/, dev/scripts/, dev/tests/, app/server/
 - **Documentation**: Contracts, orientation, audit and operational notes
   prefixes: docs/
 
 ## Entry Points
-- src/main.js
-- server/patchServer.mjs
+- app/src/main.js
+- app/server/patchServer.mjs
 - start-server.js
-- scripts/smoke-test.mjs
-- scripts/runtime-guards-test.mjs
-- scripts/patch-flow-test.mjs
-- tests/MainTest.mjs
+- dev/scripts/smoke-test.mjs
+- dev/scripts/runtime-guards-test.mjs
+- dev/scripts/patch-flow-test.mjs
+- dev/tests/MainTest.mjs
 
 ## Unowned Files
-- src/llm/llm-gate-policy.json
-- src/sot/FUNCTION_SOT.json
-- src/sot/REPO_HYGIENE_MAP.json
-- src/sot/patches.schema.json
-- src/sot/release-manifest.json
-- src/sot/repo-boundaries.json
+- app/src/llm/llm-gate-policy.json
+- app/src/sot/FUNCTION_SOT.json
+- app/src/sot/REPO_HYGIENE_MAP.json
+- app/src/sot/patches.schema.json
+- app/src/sot/release-manifest.json
+- app/src/sot/repo-boundaries.json
+- dev/tools/llm-preflight.mjs
 - start-server.js
 
 ## Unreachable Code Files (from configured entrypoints)
-- scripts/build-evidence-bundle.mjs
-- scripts/playwright-tiles-full.mjs
-- scripts/repo-cleanup-baseline.mjs
-- scripts/test-runner.mjs
-- scripts/verify-evidence.mjs
-- server/runtimeCheckHandler.mjs
-- src/SeedWorld_WorldGen.mjs
-- src/browser/BrowserPatchRunner.js
-- src/browser/LogBus.js
-- src/game/gameConstants.js
-- src/kernel/deterministicKernel.js
-- src/kernel/fingerprint.js
-- src/kernel/seedGuard.js
-- src/plugins/radialBuildController.js
-- src/ui/BaseUIController.js
-- src/ui/DevUIController.js
-- src/ui/GameUIController.js
-- src/ui/MainMenuController.js
-- src/ui/TileAnimationSDK.js
-- src/ui/events.js
-- src/ui/plugins/ExampleUIPlugin.js
-- src/workers/worldRenderWorker.js
-- tests/helpers/runScriptTest.mjs
-- tests/modules/00.smoke-script.module.mjs
-- tests/modules/01.runtime-guards-script.module.mjs
-- tests/modules/02.patch-flow-script.module.mjs
-- tests/modules/03.kernel-same-action-same-tick.module.mjs
-- tests/modules/04.patch-utils.module.mjs
-- tests/modules/05.static-handler-security.module.mjs
-- tests/modules/06.governance-enforcement.module.mjs
-- tests/modules/15.worldgen-deterministic.module.mjs
-- tools/patch/apply.mjs
-- tools/patch/patchMatrix.js
-- tools/patch/validate-patch-matrix.mjs
-- tools/runtime/governance-verify.mjs
-- tools/runtime/installGitHooks.mjs
-- tools/runtime/new-action-template.mjs
-- tools/runtime/preflight.mjs
-- tools/runtime/release-guard.mjs
-- tools/runtime/repo-hygiene-map.mjs
-- tools/runtime/repo-hygiene-why.mjs
-- tools/runtime/signing-guard.mjs
-- tools/runtime/syncDocs.mjs
-- tools/runtime/updateFunctionSot.mjs
+- app/server/runtimeCheckHandler.mjs
+- app/src/SeedWorld_WorldGen.mjs
+- app/src/browser/BrowserPatchRunner.js
+- app/src/browser/LogBus.js
+- app/src/game/gameConstants.js
+- app/src/kernel/deterministicKernel.js
+- app/src/kernel/fingerprint.js
+- app/src/kernel/seedGuard.js
+- app/src/plugins/radialBuildController.js
+- app/src/ui/BaseUIController.js
+- app/src/ui/DevUIController.js
+- app/src/ui/GameUIController.js
+- app/src/ui/MainMenuController.js
+- app/src/ui/TileAnimationSDK.js
+- app/src/ui/events.js
+- app/src/ui/plugins/ExampleUIPlugin.js
+- app/src/workers/worldRenderWorker.js
+- dev/scripts/build-evidence-bundle.mjs
+- dev/scripts/playwright-tiles-full.mjs
+- dev/scripts/repo-cleanup-baseline.mjs
+- dev/scripts/test-runner.mjs
+- dev/scripts/verify-evidence.mjs
+- dev/tests/helpers/runScriptTest.mjs
+- dev/tests/modules/00.smoke-script.module.mjs
+- dev/tests/modules/01.runtime-guards-script.module.mjs
+- dev/tests/modules/02.patch-flow-script.module.mjs
+- dev/tests/modules/03.kernel-same-action-same-tick.module.mjs
+- dev/tests/modules/04.patch-utils.module.mjs
+- dev/tests/modules/05.static-handler-security.module.mjs
+- dev/tests/modules/06.governance-enforcement.module.mjs
+- dev/tests/modules/15.worldgen-deterministic.module.mjs
+- dev/tools/llm-preflight.mjs
+- dev/tools/patch/apply.mjs
+- dev/tools/patch/import-dispatch.mjs
+- dev/tools/patch/patchMatrix.js
+- dev/tools/patch/validate-patch-matrix.mjs
+- dev/tools/runtime/governance-verify.mjs
+- dev/tools/runtime/installGitHooks.mjs
+- dev/tools/runtime/new-action-template.mjs
+- dev/tools/runtime/preflight.mjs
+- dev/tools/runtime/release-guard.mjs
+- dev/tools/runtime/repo-hygiene-map.mjs
+- dev/tools/runtime/repo-hygiene-why.mjs
+- dev/tools/runtime/signing-guard.mjs
+- dev/tools/runtime/syncDocs.mjs
+- dev/tools/runtime/updateFunctionSot.mjs
 
 ## Zero Inbound Code Files (excluding entrypoints)
-- scripts/build-evidence-bundle.mjs
-- scripts/playwright-tiles-full.mjs
-- scripts/repo-cleanup-baseline.mjs
-- scripts/test-runner.mjs
-- scripts/verify-evidence.mjs
-- server/runtimeCheckHandler.mjs
-- src/SeedWorld_WorldGen.mjs
-- src/browser/BrowserPatchRunner.js
-- src/game/gameConstants.js
-- src/ui/MainMenuController.js
-- src/ui/TileAnimationSDK.js
-- src/ui/plugins/ExampleUIPlugin.js
-- src/workers/worldRenderWorker.js
-- tests/modules/00.smoke-script.module.mjs
-- tests/modules/01.runtime-guards-script.module.mjs
-- tests/modules/02.patch-flow-script.module.mjs
-- tests/modules/03.kernel-same-action-same-tick.module.mjs
-- tests/modules/04.patch-utils.module.mjs
-- tests/modules/05.static-handler-security.module.mjs
-- tests/modules/06.governance-enforcement.module.mjs
-- tests/modules/15.worldgen-deterministic.module.mjs
-- tools/patch/apply.mjs
-- tools/patch/validate-patch-matrix.mjs
-- tools/runtime/governance-verify.mjs
-- tools/runtime/installGitHooks.mjs
-- tools/runtime/new-action-template.mjs
-- tools/runtime/preflight.mjs
-- tools/runtime/release-guard.mjs
-- tools/runtime/repo-hygiene-map.mjs
-- tools/runtime/repo-hygiene-why.mjs
-- tools/runtime/signing-guard.mjs
-- tools/runtime/syncDocs.mjs
-- tools/runtime/updateFunctionSot.mjs
+- app/server/runtimeCheckHandler.mjs
+- app/src/SeedWorld_WorldGen.mjs
+- app/src/browser/BrowserPatchRunner.js
+- app/src/game/gameConstants.js
+- app/src/ui/MainMenuController.js
+- app/src/ui/TileAnimationSDK.js
+- app/src/ui/plugins/ExampleUIPlugin.js
+- app/src/workers/worldRenderWorker.js
+- dev/scripts/build-evidence-bundle.mjs
+- dev/scripts/playwright-tiles-full.mjs
+- dev/scripts/repo-cleanup-baseline.mjs
+- dev/scripts/test-runner.mjs
+- dev/scripts/verify-evidence.mjs
+- dev/tests/modules/00.smoke-script.module.mjs
+- dev/tests/modules/01.runtime-guards-script.module.mjs
+- dev/tests/modules/02.patch-flow-script.module.mjs
+- dev/tests/modules/03.kernel-same-action-same-tick.module.mjs
+- dev/tests/modules/04.patch-utils.module.mjs
+- dev/tests/modules/05.static-handler-security.module.mjs
+- dev/tests/modules/06.governance-enforcement.module.mjs
+- dev/tests/modules/15.worldgen-deterministic.module.mjs
+- dev/tools/llm-preflight.mjs
+- dev/tools/patch/apply.mjs
+- dev/tools/patch/import-dispatch.mjs
+- dev/tools/patch/validate-patch-matrix.mjs
+- dev/tools/runtime/governance-verify.mjs
+- dev/tools/runtime/installGitHooks.mjs
+- dev/tools/runtime/new-action-template.mjs
+- dev/tools/runtime/preflight.mjs
+- dev/tools/runtime/release-guard.mjs
+- dev/tools/runtime/repo-hygiene-map.mjs
+- dev/tools/runtime/repo-hygiene-why.mjs
+- dev/tools/runtime/signing-guard.mjs
+- dev/tools/runtime/syncDocs.mjs
+- dev/tools/runtime/updateFunctionSot.mjs
 
 ## Cross-Owner Imports
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> server/patchServer.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/constants.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/intake.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/lock.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/normalize.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/orchestrator.mjs (Patch Runtime)
-- scripts/patch-flow-test.mjs (Runtime Tooling) -> tools/patch/lib/session-store.mjs (Patch Runtime)
-- scripts/runtime-guards-test.mjs (Runtime Tooling) -> src/kernel/runtimeGuards.js (Kernel Core)
-- scripts/smoke-test.mjs (Runtime Tooling) -> server/patchServer.mjs (Patch Runtime)
-- scripts/smoke-test.mjs (Runtime Tooling) -> src/ui/UIPluginController.js (UI Layer)
-- scripts/test-runner.mjs (Runtime Tooling) -> src/kernel/deterministicKernel.js (Kernel Core)
-- scripts/test-runner.mjs (Runtime Tooling) -> src/kernel/fingerprint.js (Kernel Core)
-- server/patchServer.mjs (Patch Runtime) -> server/sessionRoutes.mjs (Runtime Tooling)
-- server/patchServer.mjs (Patch Runtime) -> server/staticHandler.mjs (Runtime Tooling)
-- server/patchServer.mjs (Patch Runtime) -> src/kernel/interface.js (Kernel Core)
-- server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/constants.mjs (Patch Runtime)
-- server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/orchestrator.mjs (Patch Runtime)
-- server/sessionRoutes.mjs (Runtime Tooling) -> tools/patch/lib/session-store.mjs (Patch Runtime)
-- src/game/gameConstants.js (Game Logic) -> src/plugins/radialBuildController.js (UI Layer)
-- src/main.js (UI Layer) -> src/game/GameLogicController.js (Game Logic)
-- src/main.js (UI Layer) -> src/kernel/interface.js (Kernel Core)
-- src/main.js (UI Layer) -> src/kernel/KernelController.js (Kernel Core)
-- src/ui/UIController.js (UI Layer) -> src/game/worldGen.js (Game Logic)
-- start-server.js (UNOWNED) -> server/patchServer.mjs (Patch Runtime)
-- tools/patch/lib/normalize.mjs (Patch Runtime) -> src/game/contracts/mutationMatrixConstraints.js (Game Logic)
+- app/server/patchServer.mjs (Patch Runtime) -> app/server/sessionRoutes.mjs (Runtime Tooling)
+- app/server/patchServer.mjs (Patch Runtime) -> app/server/staticHandler.mjs (Runtime Tooling)
+- app/server/patchServer.mjs (Patch Runtime) -> app/src/kernel/interface.js (Kernel Core)
+- app/server/sessionRoutes.mjs (Runtime Tooling) -> dev/tools/patch/lib/constants.mjs (Patch Runtime)
+- app/server/sessionRoutes.mjs (Runtime Tooling) -> dev/tools/patch/lib/orchestrator.mjs (Patch Runtime)
+- app/server/sessionRoutes.mjs (Runtime Tooling) -> dev/tools/patch/lib/session-store.mjs (Patch Runtime)
+- app/src/game/gameConstants.js (Game Logic) -> app/src/plugins/radialBuildController.js (UI Layer)
+- app/src/main.js (UI Layer) -> app/src/game/GameLogicController.js (Game Logic)
+- app/src/main.js (UI Layer) -> app/src/kernel/interface.js (Kernel Core)
+- app/src/main.js (UI Layer) -> app/src/kernel/KernelController.js (Kernel Core)
+- app/src/ui/UIController.js (UI Layer) -> app/src/game/worldGen.js (Game Logic)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> app/server/patchServer.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/constants.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/intake.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/lock.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/normalize.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/orchestrator.mjs (Patch Runtime)
+- dev/scripts/patch-flow-test.mjs (Runtime Tooling) -> dev/tools/patch/lib/session-store.mjs (Patch Runtime)
+- dev/scripts/runtime-guards-test.mjs (Runtime Tooling) -> app/src/kernel/runtimeGuards.js (Kernel Core)
+- dev/scripts/smoke-test.mjs (Runtime Tooling) -> app/server/patchServer.mjs (Patch Runtime)
+- dev/scripts/smoke-test.mjs (Runtime Tooling) -> app/src/ui/UIPluginController.js (UI Layer)
+- dev/scripts/test-runner.mjs (Runtime Tooling) -> app/src/kernel/deterministicKernel.js (Kernel Core)
+- dev/scripts/test-runner.mjs (Runtime Tooling) -> app/src/kernel/fingerprint.js (Kernel Core)
+- dev/tools/patch/lib/normalize.mjs (Patch Runtime) -> app/src/game/contracts/mutationMatrixConstraints.js (Game Logic)
+- start-server.js (UNOWNED) -> app/server/patchServer.mjs (Patch Runtime)
 
 ## Notes
 - Unreachable/zero-inbound are candidates, not auto-delete orders.
 - Dynamic imports built from runtime strings are not fully discoverable.
-- Ownership comes from src/sot/repo-boundaries.json.
+- Ownership comes from app/src/sot/repo-boundaries.json.
 

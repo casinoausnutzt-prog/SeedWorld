@@ -16,8 +16,8 @@ Thumbs.db
 .llm/
 
 # Patch manager runtime state
-.patch-manager/
-output/
+runtime/.patch-manager/
+runtime/output/
 .windsurf/
 
 # Dependencies
