@@ -27,7 +27,8 @@ function parseNameStatus(raw) {
       const [status, ...rest] = line.split(/\s+/);
       return { status: status || "?", file: rest.join(" ") || "" };
     })
-    .filter((entry) => entry.file);
+    .filter((entry) => entry.file)
+    .filter((entry) => entry.file !== "docs/LLM/AKTUELLE_RED_ACTIONS.md");
 }
 
 function classifyRisk(filePath) {
@@ -87,7 +88,20 @@ async function main() {
   const fallbackRaw = stagedRaw ? "" : runGit(["status", "--porcelain"]);
   const input = stagedRaw || fallbackRaw;
   const changes = parseNameStatus(input);
-  const snapshotHash = createHash("sha256").update(input || "empty").digest("hex").slice(0, 16);
+  const normalizedInput = changes
+    .map((entry) => `${entry.status}\t${entry.file}`)
+    .join("\n");
+  const snapshotHash = createHash("sha256")
+    .update(normalizedInput || "empty")
+    .digest("hex")
+    .slice(0, 16);
+
+  // Clean working tree / no staged candidate must never block preflight checks.
+  if (!writeMode && changes.length === 0) {
+    console.log(`[RED_ACTIONS] OK (${changes.length} candidate changes, snapshot=${snapshotHash}, mode=check, clean-tree-bypass=true)`);
+    return;
+  }
+
   const next = buildContent(changes, snapshotHash);
 
   let current = "";
