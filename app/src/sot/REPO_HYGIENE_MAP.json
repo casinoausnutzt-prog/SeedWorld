@@ -67,8 +67,8 @@
     }
   ],
   "fileCounts": {
-    "allFiles": 111,
-    "codeFiles": 97
+    "allFiles": 116,
+    "codeFiles": 102
   },
   "unownedFiles": [
     "app/src/llm/llm-gate-policy.json",
@@ -266,8 +266,13 @@
     "app/src/game/actions/buildAction.js": 1,
     "app/src/game/actions/transportAction.js": 1,
     "app/src/game/contracts/mutationMatrixConstraints.js": 1,
+    "app/src/game/gameConfig.js": 3,
     "app/src/game/gameConstants.js": 0,
+    "app/src/game/gameInput.js": 3,
     "app/src/game/GameLogicController.js": 1,
+    "app/src/game/gamePatchBuilders.js": 1,
+    "app/src/game/gameProgress.js": 1,
+    "app/src/game/gameStateReducer.js": 1,
     "app/src/game/worldGen.js": 2,
     "app/src/kernel/ActionRegistry.js": 1,
     "app/src/kernel/deterministicKernel.js": 1,
@@ -369,13 +374,30 @@
     "app/src/game/actions/buildAction.js": [],
     "app/src/game/actions/transportAction.js": [],
     "app/src/game/contracts/mutationMatrixConstraints.js": [],
+    "app/src/game/gameConfig.js": [],
     "app/src/game/gameConstants.js": [
       "app/src/plugins/radialBuildController.js"
     ],
+    "app/src/game/gameInput.js": [],
     "app/src/game/GameLogicController.js": [
+      "app/src/game/gameConfig.js",
+      "app/src/game/gameInput.js",
+      "app/src/game/gamePatchBuilders.js",
+      "app/src/game/gameProgress.js",
+      "app/src/game/gameStateReducer.js"
+    ],
+    "app/src/game/gamePatchBuilders.js": [
       "app/src/game/actions/buildAction.js",
       "app/src/game/actions/transportAction.js",
+      "app/src/game/gameConfig.js",
+      "app/src/game/gameInput.js",
       "app/src/game/worldGen.js"
+    ],
+    "app/src/game/gameProgress.js": [
+      "app/src/game/gameConfig.js"
+    ],
+    "app/src/game/gameStateReducer.js": [
+      "app/src/game/gameInput.js"
     ],
     "app/src/game/worldGen.js": [],
     "app/src/kernel/ActionRegistry.js": [],

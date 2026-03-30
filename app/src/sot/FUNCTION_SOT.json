@@ -313,330 +313,314 @@
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#applyAction@831",
+      "id": "app/src/game/gameInput.js#coerceInteger@45",
+      "name": "coerceInteger",
+      "file": "app/src/game/gameInput.js",
+      "line": 45,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#coercePositiveInteger@23",
+      "name": "coercePositiveInteger",
+      "file": "app/src/game/gameInput.js",
+      "line": 23,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#coerceString@32",
+      "name": "coerceString",
+      "file": "app/src/game/gameInput.js",
+      "line": 32,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#deepClone@8",
+      "name": "deepClone",
+      "file": "app/src/game/gameInput.js",
+      "line": 8,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#deepFreeze@12",
+      "name": "deepFreeze",
+      "file": "app/src/game/gameInput.js",
+      "line": 12,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#isPlainObject@1",
+      "name": "isPlainObject",
+      "file": "app/src/game/gameInput.js",
+      "line": 1,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#normalizeKernelApi@54",
+      "name": "normalizeKernelApi",
+      "file": "app/src/game/gameInput.js",
+      "line": 54,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#readAction@87",
+      "name": "readAction",
+      "file": "app/src/game/gameInput.js",
+      "line": 87,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameInput.js#readState@101",
+      "name": "readState",
+      "file": "app/src/game/gameInput.js",
+      "line": 101,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/GameLogicController.js#applyAction@138",
       "name": "applyAction",
       "file": "app/src/game/GameLogicController.js",
-      "line": 831,
+      "line": 138,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#applyActionLocally@808",
+      "id": "app/src/game/GameLogicController.js#applyActionLocally@115",
       "name": "applyActionLocally",
       "file": "app/src/game/GameLogicController.js",
-      "line": 808,
+      "line": 115,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#applyPatchToState@555",
-      "name": "applyPatchToState",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 555,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#buildOperationSummary@749",
+      "id": "app/src/game/GameLogicController.js#buildOperationSummary@56",
       "name": "buildOperationSummary",
       "file": "app/src/game/GameLogicController.js",
-      "line": 749,
+      "line": 56,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#buildPatches@631",
-      "name": "buildPatches",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 631,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#buildProgressSnapshot@316",
-      "name": "buildProgressSnapshot",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 316,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#buildRewardFeedback@410",
-      "name": "buildRewardFeedback",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 410,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#calculateAction@787",
+      "id": "app/src/game/GameLogicController.js#calculateAction@94",
       "name": "calculateAction",
       "file": "app/src/game/GameLogicController.js",
-      "line": 787,
+      "line": 94,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#coerceInteger@190",
-      "name": "coerceInteger",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 190,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#coercePositiveInteger@152",
-      "name": "coercePositiveInteger",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 152,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#coerceString@169",
-      "name": "coerceString",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 169,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#createGameLogicController@847",
+      "id": "app/src/game/GameLogicController.js#createGameLogicController@154",
       "name": "createGameLogicController",
       "file": "app/src/game/GameLogicController.js",
-      "line": 847,
+      "line": 154,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#createWorldPatches@606",
-      "name": "createWorldPatches",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 606,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#deepClone@129",
-      "name": "deepClone",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 129,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#deepFreeze@133",
-      "name": "deepFreeze",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 133,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#getActionSchema@771",
+      "id": "app/src/game/GameLogicController.js#getActionSchema@78",
       "name": "getActionSchema",
       "file": "app/src/game/GameLogicController.js",
-      "line": 771,
+      "line": 78,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getCountAtPath@299",
-      "name": "getCountAtPath",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 299,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#getDefaultGameActionSchema@851",
+      "id": "app/src/game/GameLogicController.js#getDefaultGameActionSchema@158",
       "name": "getDefaultGameActionSchema",
       "file": "app/src/game/GameLogicController.js",
-      "line": 851,
+      "line": 158,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getDefaultGameMutationMatrix@855",
+      "id": "app/src/game/GameLogicController.js#getDefaultGameMutationMatrix@162",
       "name": "getDefaultGameMutationMatrix",
       "file": "app/src/game/GameLogicController.js",
-      "line": 855,
+      "line": 162,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getMachineStateKey@276",
-      "name": "getMachineStateKey",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 276,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#getMutationMatrix@775",
+      "id": "app/src/game/GameLogicController.js#getMutationMatrix@82",
       "name": "getMutationMatrix",
       "file": "app/src/game/GameLogicController.js",
-      "line": 775,
+      "line": 82,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getProgressSnapshot@779",
+      "id": "app/src/game/GameLogicController.js#getProgressSnapshot@86",
       "name": "getProgressSnapshot",
       "file": "app/src/game/GameLogicController.js",
-      "line": 779,
+      "line": 86,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getResourcePath@283",
-      "name": "getResourcePath",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 283,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#getRewardFeedback@783",
+      "id": "app/src/game/GameLogicController.js#getRewardFeedback@90",
       "name": "getRewardFeedback",
       "file": "app/src/game/GameLogicController.js",
-      "line": 783,
+      "line": 90,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#getStoragePath@291",
-      "name": "getStoragePath",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 291,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#isKnownTileType@470",
-      "name": "isKnownTileType",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 470,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#isPlainObject@120",
-      "name": "isPlainObject",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 120,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#normalizeKernelApi@206",
-      "name": "normalizeKernelApi",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 206,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#normalizeWorldState@483",
-      "name": "normalizeWorldState",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 483,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#planAction@816",
+      "id": "app/src/game/GameLogicController.js#planAction@123",
       "name": "planAction",
       "file": "app/src/game/GameLogicController.js",
-      "line": 816,
+      "line": 123,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#readAction@238",
-      "name": "readAction",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 238,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#readCount@306",
-      "name": "readCount",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 306,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#readMutationMatrix@268",
-      "name": "readMutationMatrix",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 268,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#readSchema@260",
-      "name": "readSchema",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 260,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#readState@252",
-      "name": "readState",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 252,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#reduceGameState@586",
-      "name": "reduceGameState",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 586,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#reduceState@804",
+      "id": "app/src/game/GameLogicController.js#reduceState@111",
       "name": "reduceState",
       "file": "app/src/game/GameLogicController.js",
-      "line": 804,
+      "line": 111,
       "kind": "method",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#setCountPatch@461",
-      "name": "setCountPatch",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 461,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#updateTileTypeInWorld@503",
-      "name": "updateTileTypeInWorld",
-      "file": "app/src/game/GameLogicController.js",
-      "line": 503,
-      "kind": "function",
-      "category": "app"
-    },
-    {
-      "id": "app/src/game/GameLogicController.js#validateActionAgainstSchema@705",
+      "id": "app/src/game/GameLogicController.js#validateActionAgainstSchema@12",
       "name": "validateActionAgainstSchema",
       "file": "app/src/game/GameLogicController.js",
-      "line": 705,
+      "line": 12,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/GameLogicController.js#validatePatchesAgainstMatrix@719",
+      "id": "app/src/game/GameLogicController.js#validatePatchesAgainstMatrix@26",
       "name": "validatePatchesAgainstMatrix",
       "file": "app/src/game/GameLogicController.js",
-      "line": 719,
+      "line": 26,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#buildPatches@106",
+      "name": "buildPatches",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 106,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#createWorldPatches@89",
+      "name": "createWorldPatches",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 89,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#getCountAtPath@28",
+      "name": "getCountAtPath",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 28,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#getMachineStateKey@5",
+      "name": "getMachineStateKey",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 5,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#getResourcePath@12",
+      "name": "getResourcePath",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 12,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#getStoragePath@20",
+      "name": "getStoragePath",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 20,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#isKnownTileType@39",
+      "name": "isKnownTileType",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 39,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#normalizeWorldState@43",
+      "name": "normalizeWorldState",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 43,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#setCountPatch@35",
+      "name": "setCountPatch",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 35,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gamePatchBuilders.js#updateTileTypeInWorld@52",
+      "name": "updateTileTypeInWorld",
+      "file": "app/src/game/gamePatchBuilders.js",
+      "line": 52,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameProgress.js#buildProgressSnapshot@11",
+      "name": "buildProgressSnapshot",
+      "file": "app/src/game/gameProgress.js",
+      "line": 11,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameProgress.js#buildRewardFeedback@86",
+      "name": "buildRewardFeedback",
+      "file": "app/src/game/gameProgress.js",
+      "line": 86,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameProgress.js#readCount@1",
+      "name": "readCount",
+      "file": "app/src/game/gameProgress.js",
+      "line": 1,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameStateReducer.js#applyPatchToState@1",
+      "name": "applyPatchToState",
+      "file": "app/src/game/gameStateReducer.js",
+      "line": 1,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameStateReducer.js#reduceGameState@23",
+      "name": "reduceGameState",
+      "file": "app/src/game/gameStateReducer.js",
+      "line": 23,
       "kind": "function",
       "category": "app"
     },
@@ -4305,10 +4289,10 @@
       "category": "patch-tooling"
     },
     {
-      "id": "dev/tools/patch/patchMatrix.js#assertManifestApprovedByMatrix@166",
+      "id": "dev/tools/patch/patchMatrix.js#assertManifestApprovedByMatrix@199",
       "name": "assertManifestApprovedByMatrix",
       "file": "dev/tools/patch/patchMatrix.js",
-      "line": 166,
+      "line": 199,
       "kind": "function",
       "category": "patch-tooling"
     },
@@ -4377,6 +4361,14 @@
       "category": "patch-tooling"
     },
     {
+      "id": "dev/tools/patch/patchMatrix.js#validateContractMatrix@163",
+      "name": "validateContractMatrix",
+      "file": "dev/tools/patch/patchMatrix.js",
+      "line": 163,
+      "kind": "function",
+      "category": "patch-tooling"
+    },
+    {
       "id": "dev/tools/patch/patchMatrix.js#validateManifestSchema@116",
       "name": "validateManifestSchema",
       "file": "dev/tools/patch/patchMatrix.js",
@@ -4385,10 +4377,10 @@
       "category": "patch-tooling"
     },
     {
-      "id": "dev/tools/patch/patchMatrix.js#validatePatchMatrix@187",
+      "id": "dev/tools/patch/patchMatrix.js#validatePatchMatrix@220",
       "name": "validatePatchMatrix",
       "file": "dev/tools/patch/patchMatrix.js",
-      "line": 187,
+      "line": 220,
       "kind": "function",
       "category": "patch-tooling"
     },

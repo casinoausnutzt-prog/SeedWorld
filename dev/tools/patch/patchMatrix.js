@@ -2,8 +2,8 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-const PATCH_MATRIX_REL = "patches/patch-matrix.json";
-const PATCH_SCHEMA_REL = "patches/schema.json";
+const PATCH_MATRIX_REL = "dev/patches/patch-matrix.json";
+const PATCH_SCHEMA_REL = "dev/patches/schema.json";
 const PATCH_TYPES = new Set([
   "string-replace",
   "file-create",
@@ -148,13 +148,10 @@ export async function readPatchMatrix(root) {
   const matrix = JSON.parse(await readFile(matrixPath, "utf8"));
 
   if (!isPlainObject(schema)) {
-    throw new Error("[PATCH_MATRIX] patches/schema.json ist ungueltig.");
+    throw new Error("[PATCH_MATRIX] dev/patches/schema.json ist ungueltig.");
   }
   if (!isPlainObject(matrix)) {
-    throw new Error("[PATCH_MATRIX] patches/patch-matrix.json ist ungueltig.");
-  }
-  if (!Array.isArray(matrix.manifests) || matrix.manifests.length === 0) {
-    throw new Error("[PATCH_MATRIX] manifests fehlt oder ist leer.");
+    throw new Error("[PATCH_MATRIX] dev/patches/patch-matrix.json ist ungueltig.");
   }
 
   return {
@@ -165,6 +162,42 @@ export async function readPatchMatrix(root) {
   };
 }
 
+function validateContractMatrix(matrix) {
+  assertNonEmptyString(matrix.version, "[PATCH_MATRIX] version fehlt.");
+  assertNonEmptyString(matrix.summary, "[PATCH_MATRIX] summary fehlt.");
+  if (!Array.isArray(matrix.inputContracts) || matrix.inputContracts.length === 0) {
+    throw new Error("[PATCH_MATRIX] inputContracts fehlt oder ist leer.");
+  }
+  if (!Array.isArray(matrix.patchKinds) || matrix.patchKinds.length === 0) {
+    throw new Error("[PATCH_MATRIX] patchKinds fehlt oder ist leer.");
+  }
+  if (!Array.isArray(matrix.sessionStatuses) || matrix.sessionStatuses.length === 0) {
+    throw new Error("[PATCH_MATRIX] sessionStatuses fehlt oder ist leer.");
+  }
+  if (!Array.isArray(matrix.phases) || matrix.phases.length === 0) {
+    throw new Error("[PATCH_MATRIX] phases fehlt oder ist leer.");
+  }
+
+  for (let i = 0; i < matrix.inputContracts.length; i += 1) {
+    const entry = matrix.inputContracts[i];
+    if (!isPlainObject(entry)) {
+      throw new Error(`[PATCH_MATRIX] inputContracts[${i}] muss Objekt sein.`);
+    }
+    assertNonEmptyString(entry.name, `[PATCH_MATRIX] inputContracts[${i}].name fehlt.`);
+  }
+
+  for (let i = 0; i < matrix.patchKinds.length; i += 1) {
+    const entry = matrix.patchKinds[i];
+    if (!isPlainObject(entry)) {
+      throw new Error(`[PATCH_MATRIX] patchKinds[${i}] muss Objekt sein.`);
+    }
+    assertNonEmptyString(entry.kind, `[PATCH_MATRIX] patchKinds[${i}].kind fehlt.`);
+    if (!Array.isArray(entry.operations) || entry.operations.length === 0) {
+      throw new Error(`[PATCH_MATRIX] patchKinds[${i}].operations fehlt oder ist leer.`);
+    }
+  }
+}
+
 export function assertManifestApprovedByMatrix(manifest, matrix, label = "manifest") {
   validateManifestSchema(manifest, label);
 
@@ -172,7 +205,7 @@ export function assertManifestApprovedByMatrix(manifest, matrix, label = "manife
   const manifestHash = stableManifestHash(manifest);
   const entries = matrix.manifests.filter((entry) => isPlainObject(entry) && entry.version === version);
   if (entries.length === 0) {
-    throw new Error(`[PATCH_MATRIX] Version ${version} ist nicht in patches/patch-matrix.json freigegeben.`);
+    throw new Error(`[PATCH_MATRIX] Version ${version} ist nicht in dev/patches/patch-matrix.json freigegeben.`);
   }
 
   const approved = entries.some((entry) => typeof entry.sha256 === "string" && entry.sha256 === manifestHash);
@@ -188,6 +221,13 @@ export function assertManifestApprovedByMatrix(manifest, matrix, label = "manife
 
 export async function validatePatchMatrix(root) {
   const { matrix } = await readPatchMatrix(root);
+  if (!Array.isArray(matrix.manifests)) {
+    validateContractMatrix(matrix);
+    return {
+      count: matrix.patchKinds.length
+    };
+  }
+
   const seenVersions = new Set();
   const seenHashes = new Set();
 

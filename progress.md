@@ -3,6 +3,7 @@ Original prompt: starte browser und lokalen server und dann einen live heaer tes
 - 2026-03-30: Startpunkt fuer Live-Browser-Test angelegt.
 - TODO: Lokalen Server starten, Browser-Flow pruefen, schnelle Interaktionsmatrix dokumentieren.
 - 2026-03-30: Live-Test blockiert durch falschen `.mjs`-MIME-Type im Static-Handler und Syntaxfehler in `app/src/plugins/radialBuildController.js`; beides fuer Browserlauf repariert.
+- 2026-03-30: Code-first Sync wiederhergestellt (`sync:docs`, `sot:verify`, Patch-Matrix-Validator auf `dev/patches` + Contract-Format angepasst) und Legacy-Audit erstellt.
 - 2026-03-30: SoT- und Architekturtexte auf Canvas-first mit optionalem SVG-Overlay und DOM-nur-HUD/Panels ausgerichtet.
 - 2026-03-30: Testline stabilisiert: `playwright` als Dev-Dependency ergaenzt, `check:required` auf `preflight:verify` umgestellt, Testline-Integritaet/Baseline aktualisiert.
 - 2026-03-30: Volltest gruen (`npm run test:full`), inklusive `preflight:verify`, `npm test`, und `test:playwright:fulltiles`.
