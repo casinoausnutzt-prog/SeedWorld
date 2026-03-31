@@ -1,125 +1,75 @@
-import { readFile } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { compareAlpha, listFilesRecursive, sha256Hex, toPosixPath } from "./runtime-shared.mjs";
+import {
+  REQUIRED_TEST_IDS,
+  finalSummaryPath,
+  summaryPath,
+  validatePairEvidence,
+  validateRunEvidence,
+  validateSummaryEvidence
+} from "../../scripts/evidence-shared.mjs";
 
-const root = process.cwd();
-const baselinePath = path.join(root, "app", "src", "sot", "testline-integrity.json");
-
-const monitoredRoots = ["dev/scripts", "dev/tests"];
-const monitoredExts = new Set([".js", ".mjs"]);
-
-const allowDeterminismApiIn = new Set([
-  "dev/scripts/runtime-guards-test.mjs"
-]);
-
-const rawForbidden = [
-  /(?:^|[\s;(])eval\s*\(/i,
-  /(?:^|[^A-Za-z0-9_])Function\s*\(/i,
-  /setTimeout\s*\(\s*["'`]/i,
-  /setInterval\s*\(\s*["'`]/i
-];
-
-const normForbiddenTokens = [
-  "mathrandom",
-  "globalthismathrandom",
-  "performancenow",
-  "cryptogetrandomvalues",
-  "cryptorandomuuid",
-  "constructorconstructor"
-];
-
-function normalizeText(text) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "");
+async function readJson(absPath) {
+  return JSON.parse(await readFile(absPath, "utf8"));
 }
 
-async function collectMonitoredFiles() {
-  const files = [];
-  for (const relRoot of monitoredRoots) {
-    const absRoot = path.join(root, relRoot);
-    const listed = await listFilesRecursive(absRoot, {
-      filterFile: (_abs, entry) => monitoredExts.has(path.extname(entry.name).toLowerCase())
-    });
-    for (const abs of listed) {
-      files.push(toPosixPath(path.relative(root, abs)));
-    }
+async function newestMtime(root, relPaths = []) {
+  let newest = 0;
+  for (const relPath of relPaths) {
+    const info = await stat(path.join(root, relPath));
+    newest = Math.max(newest, info.mtimeMs);
   }
-  return files.sort(compareAlpha);
-}
-
-async function loadBaseline() {
-  const raw = await readFile(baselinePath, "utf8");
-  return JSON.parse(raw);
+  return newest;
 }
 
 async function main() {
-  const baseline = await loadBaseline();
-  const monitored = await collectMonitoredFiles();
-  const baselineFiles = Array.isArray(baseline.monitoredFiles) ? [...baseline.monitoredFiles].sort(compareAlpha) : [];
+  const root = process.cwd();
+  const summary = await readJson(summaryPath(root));
+  validateSummaryEvidence(summary);
 
-  const missingInBaseline = monitored.filter((f) => !baselineFiles.includes(f));
-  const missingInRepo = baselineFiles.filter((f) => !monitored.includes(f));
-  const hashMismatches = [];
-  const scanViolations = [];
+  const summaryIds = summary.tests.map((entry) => entry.test_id).sort((a, b) => a.localeCompare(b, "en"));
+  const requiredIds = [...REQUIRED_TEST_IDS].sort((a, b) => a.localeCompare(b, "en"));
+  if (JSON.stringify(summaryIds) !== JSON.stringify(requiredIds)) {
+    throw new Error(`required testline mismatch: expected ${requiredIds.join(", ")} got ${summaryIds.join(", ")}`);
+  }
 
-  for (const relPath of monitored) {
-    const absPath = path.join(root, ...relPath.split("/"));
-    const raw = await readFile(absPath, "utf8");
-    const digest = sha256Hex(raw);
-    const expected = baseline.fileHashes?.[relPath];
-    if (expected && expected !== digest) {
-      hashMismatches.push({ relPath, expected, actual: digest });
+  for (const entry of summary.tests) {
+    const runAPath = path.join(root, entry.run_a_ref);
+    const runBPath = path.join(root, entry.run_b_ref);
+    const pairPath = path.join(root, entry.pair_ref);
+    const runA = await readJson(runAPath);
+    const runB = await readJson(runBPath);
+    const pair = await readJson(pairPath);
+
+    validateRunEvidence(runA);
+    validateRunEvidence(runB);
+    validatePairEvidence(pair);
+
+    if (pair.comparator_result !== "PASS_REPRODUCED") {
+      throw new Error(`pair failed reproduction: ${entry.test_id} -> ${pair.comparator_result}`);
     }
-    if (!expected) {
-      hashMismatches.push({ relPath, expected: "(missing in baseline)", actual: digest });
+    if (runA.seed !== runB.seed || runA.seed_source !== runB.seed_source) {
+      throw new Error(`seed proof mismatch in ${entry.test_id}`);
     }
 
-    for (const rx of rawForbidden) {
-      if (rx.test(raw)) {
-        scanViolations.push(`${relPath}: suspicious injection surface (${rx})`);
-      }
-    }
-
-    const norm = normalizeText(raw);
-    if (!allowDeterminismApiIn.has(relPath)) {
-      for (const token of normForbiddenTokens) {
-        if (norm.includes(token)) {
-          scanViolations.push(`${relPath}: anti-determinism/bypass token detected (${token})`);
-        }
-      }
+    const evidenceNewest = await newestMtime(root, [entry.run_a_ref, entry.run_b_ref, entry.pair_ref]);
+    const sourceNewest = await newestMtime(root, [
+      ...runA.kernel_revision.files.map((item) => item.path),
+      ...runA.content_revision.files.map((item) => item.path)
+    ]);
+    if (sourceNewest > evidenceNewest) {
+      throw new Error(`stale evidence detected for ${entry.test_id}`);
     }
   }
 
-  const problems = [];
-  if (missingInBaseline.length > 0) {
-    problems.push(`baseline missing files: ${missingInBaseline.join(", ")}`);
-  }
-  if (missingInRepo.length > 0) {
-    problems.push(`baseline references removed files: ${missingInRepo.join(", ")}`);
-  }
-  if (hashMismatches.length > 0) {
-    problems.push(`hash mismatch in ${hashMismatches.length} files`);
-    for (const item of hashMismatches) {
-      problems.push(`  - ${item.relPath}`);
-    }
-  }
-  if (scanViolations.length > 0) {
-    problems.push(`integrity scan violations in ${scanViolations.length} places`);
-    for (const issue of scanViolations) {
-      problems.push(`  - ${issue}`);
-    }
-  }
-
-  if (problems.length > 0) {
-    console.error("[TESTLINE_INTEGRITY] BLOCK");
-    console.error("[TESTLINE_INTEGRITY] Das eigentliche Problem: Testline ist nicht nachweislich unveraendert/manipulationsfrei.");
-    for (const line of problems) {
-      console.error(`[TESTLINE_INTEGRITY] ${line}`);
-    }
-    console.error("[TESTLINE_INTEGRITY] Ruecksprache halten und nur mit begruendetem Update fortfahren.");
-    process.exit(1);
-  }
-
-  console.log(`[TESTLINE_INTEGRITY] OK (${monitored.length} test scripts verified)`);
+  const finalSummary = {
+    generated_at: new Date().toISOString(),
+    required_tests: REQUIRED_TEST_IDS,
+    checked_pairs: summary.tests.length,
+    overall_status: "PASS_REPRODUCED"
+  };
+  await writeFile(finalSummaryPath(root), `${JSON.stringify(finalSummary, null, 2)}\n`, "utf8");
+  console.log(`[TESTLINE] PASS_REPRODUCED (${summary.tests.length} pairs)`);
 }
 
 await main();

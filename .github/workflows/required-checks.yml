@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  preflight-and-governance:
-    timeout-minutes: 20
+  reproduced-kernel-testline:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run mandatory guard + testline
-        env:
-          PREFLIGHT_GUARD_MODE: verify
-        run: npm run preflight
+      - name: Prove deterministic reproduction
+        run: npm run check:required

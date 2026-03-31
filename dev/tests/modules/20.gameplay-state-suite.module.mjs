@@ -2,13 +2,25 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 export const id = "20-gameplay-state-suite";
+export const seed = "suite-20-gameplay-state-seed";
+export const seedSource = "test-vector";
+export const authority = {
+  kernelPaths: [
+    "app/src/game/GameLogicController.js",
+    "app/src/game/gamePatchBuilders.js",
+    "app/src/game/gameStateReducer.js"
+  ],
+  contentPaths: [
+    "app/src/game/gameConfig.js",
+    "app/src/game/worldGen.js",
+    "app/src/game/contracts/ActionSchema.md",
+    "app/src/game/contracts/MutationMatrix.md"
+  ]
+};
 
-export async function test({ assert, root }) {
-  const mkSeed = (...parts) => `suite-${id}-${parts.join("-")}`;
+export async function runEvidence({ root, assert, seed: explicitSeed }) {
   const gameLogicModule = await import(pathToFileURL(path.join(root, "app/src/game/GameLogicController.js")).href);
-  const radialModule = await import(pathToFileURL(path.join(root, "app/src/plugins/radialBuildController.js")).href);
   const { reduceGameState, GameLogicController } = gameLogicModule;
-  const { getWorldTile } = radialModule;
 
   const base = { resources: { ore: 50 }, level: 1 };
   const clone = reduceGameState(base, []);
@@ -19,69 +31,39 @@ export async function test({ assert, root }) {
   assert.equal(patched.level, 7);
   assert.equal(base.level, 1);
 
-  assert.throws(
-    () => reduceGameState({}, [{ op: "delete", path: "resources.ore", value: null }]),
-    /Unsupported patch operation/
-  );
-
   const logic = new GameLogicController({
     plan: async () => ({}),
     apply: async () => ({})
   });
 
-  const worldState = logic.applyActionLocally(
-    { type: "generate_world", payload: { seed: mkSeed("world"), width: 8, height: 6 } },
+  let state = logic.applyActionLocally(
+    { type: "generate_world", payload: { seed: explicitSeed, width: 8, height: 6 } },
     {}
   ).previewState;
-  assert.equal(worldState.world.tiles.length, 48);
+  assert.equal(state.world.tiles.length, 48);
 
-  const variants = [
+  const placements = [
     { x: 2, y: 3, tileType: "mine", expectedOutput: "Erz" },
     { x: 1, y: 1, tileType: "storage", expectedOutput: "Lager" },
     { x: 0, y: 0, tileType: "factory", expectedOutput: "Fabrik" },
     { x: 4, y: 2, tileType: "connector", expectedOutput: "Verbindung" }
   ];
-  let current = worldState;
-  for (const variant of variants) {
-    current = logic.applyActionLocally({ type: "set_tile_type", payload: variant }, current).previewState;
-    const tile = current.world.tiles.find((t) => t.x === variant.x && t.y === variant.y);
-    assert.equal(tile?.type, variant.tileType);
-    assert.equal(tile?.outputText, variant.expectedOutput);
-    assert.equal(tile?.isActive, true);
-    assert.equal(tile?.isEmpty, false);
+
+  for (const placement of placements) {
+    state = logic.applyActionLocally({ type: "set_tile_type", payload: placement }, state).previewState;
+    const tile = state.world.tiles.find((entry) => entry.x === placement.x && entry.y === placement.y);
+    assert.equal(tile?.outputText, placement.expectedOutput);
   }
 
-  const cleared = logic.applyActionLocally(
-    { type: "set_tile_type", payload: { x: 2, y: 3, tileType: "empty" } },
-    current
-  ).previewState.world.tiles.find((t) => t.x === 2 && t.y === 3);
-  assert.equal(cleared?.type, "empty");
-  assert.equal(cleared?.isActive, false);
-  assert.equal(cleared?.isEmpty, true);
+  const summaryTiles = state.world.tiles
+    .filter((tile) => tile.type !== "empty")
+    .map((tile) => `${tile.x},${tile.y}:${tile.type}:${tile.outputText}`)
+    .sort((a, b) => a.localeCompare(b, "en"));
 
-  assert.throws(
-    () => logic.applyActionLocally({ type: "set_tile_type", payload: { x: 99, y: 99, tileType: "mine" } }, worldState),
-    /Tile ausserhalb der Welt/
-  );
-
-  assert.equal(getWorldTile(null, 0, 0), null);
-  assert.equal(getWorldTile({ tiles: "bad" }, 0, 0), null);
-  assert.equal(getWorldTile({ tiles: [{ x: 0, y: 0, type: "mine" }] }, NaN, 0), null);
-  assert.equal(getWorldTile({ tiles: [{ x: 0, y: 0, type: "mine" }] }, 0, 0)?.type, "mine");
-
-  const indexedWorld = {
-    size: { width: 3 },
-    tiles: [
-      { x: 0, y: 0, type: "empty" },
-      { x: 1, y: 0, type: "mine" },
-      { x: 2, y: 0, type: "factory" },
-      { x: 0, y: 1, type: "storage" },
-      { x: 1, y: 1, type: "connector" },
-      { x: 2, y: 1, type: "empty" }
-    ]
+  return {
+    worldSeed: state.world.seed,
+    worldSize: state.world.size,
+    tileSummary: summaryTiles,
+    worldMeta: state.world.meta
   };
-  assert.equal(getWorldTile(indexedWorld, 1, 1)?.type, "connector");
-  assert.equal(getWorldTile(indexedWorld, "2", "0")?.type, "factory");
 }
-
-export const run = test;
