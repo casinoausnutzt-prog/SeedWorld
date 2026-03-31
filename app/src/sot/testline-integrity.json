@@ -23,7 +23,7 @@
       "dev/tools/runtime/preflight.mjs"
     ]
   },
-  "generatedAt": "2026-03-31T12:59:31.360Z",
+  "generatedAt": "2026-03-31T13:05:46.517Z",
   "monitoredRoots": [
     "dev/scripts",
     "dev/tests",
@@ -132,7 +132,7 @@
     "dev/tools/runtime/governance-policy-verify.mjs": "b36d98a974e3c610aa47d087348cdda5435bcdd37f384e74fd0717b4c8beb07d",
     "dev/tools/runtime/governance-subagent-verify.mjs": "23281d93efeb4b84f09f5a7e0dd0285ac680eac70b9a32ca995579ce71915b02",
     "dev/tools/runtime/governance-verify.mjs": "725dd644b61e990f06b59d7314012f7621448493c2965d7d8f3ebacf3c662019",
-    "dev/tools/runtime/installGitHooks.mjs": "81c96a81ea7d62378448a8d226b2eb29ee0073c4286f25e3885671d860db8e32",
+    "dev/tools/runtime/installGitHooks.mjs": "37d3f19acb49acee90e9ec0dc70becd325a480ab232c11da461111498c7e026b",
     "dev/tools/runtime/llm-entry.mjs": "96014518ae0752654b4d25d14bec419f6835fffdef43040dcfd41089fa1a7257",
     "dev/tools/runtime/llm-governance/shared.mjs": "2d81808a81e486cdc56b0772a888f33e5706d977c8125eefb56c5ae806078657",
     "dev/tools/runtime/llm-override.mjs": "78f8467c1a5bb1f77b02bfb2d27c7c8f3907bdd9fccfc0c76198b9e661834a1b",
