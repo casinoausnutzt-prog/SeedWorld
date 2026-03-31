@@ -1,5 +1,3 @@
-import { getWorldTile } from "../plugins/radialBuildController.js";
-
 export const TICKS_PER_SECOND = 24;
 export const MS_PER_TICK = 1000 / TICKS_PER_SECOND;
 export const ORE_PER_MINER_CYCLE = 1;
@@ -10,6 +8,27 @@ export const STORAGE_CAPACITY_BONUS = 10;
 
 function cloneState(state) {
   return structuredClone(state);
+}
+
+function getWorldTile(world, x, y) {
+  if (!world || typeof world !== "object" || !Array.isArray(world.tiles)) {
+    return null;
+  }
+
+  const tx = Number(x);
+  const ty = Number(y);
+  if (!Number.isFinite(tx) || !Number.isFinite(ty)) {
+    return null;
+  }
+
+  const width = Number.isInteger(world?.size?.width) ? world.size.width : 0;
+  const index = width > 0 ? ty * width + tx : -1;
+  const indexed = index >= 0 && index < world.tiles.length ? world.tiles[index] : null;
+  if (indexed && Number(indexed.x) === tx && Number(indexed.y) === ty) {
+    return indexed;
+  }
+
+  return world.tiles.find((tile) => Number(tile?.x) === tx && Number(tile?.y) === ty) || null;
 }
 
 export function getStorageCapacity(state) {

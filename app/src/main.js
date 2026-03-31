@@ -34,10 +34,4 @@ const ui = new UIController({
   }
 });
 
-if (typeof window !== "undefined") {
-  window.seedWorldUI = ui;
-  window.seedWorldViewportManager = viewportManager;
-  window.seedWorldRenderManager = renderManager;
-}
-
 ui.bootstrap();

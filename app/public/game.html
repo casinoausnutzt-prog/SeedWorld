@@ -283,12 +283,5 @@
     </main>
 
     <script type="module" src="./src/main.js?rev=20260328b"></script>
-    <script type="module">
-      import { installRadialBuildController } from "./src/plugins/radialBuildController.js?rev=20260328b";
-
-      const viewportManager = window.seedWorldViewportManager || null;
-      const renderManager = window.seedWorldRenderManager || null;
-      installRadialBuildController({ viewportManager, renderManager });
-    </script>
   </body>
 </html>
