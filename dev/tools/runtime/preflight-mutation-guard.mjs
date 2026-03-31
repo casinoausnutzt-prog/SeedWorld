@@ -70,11 +70,7 @@ function currentHead() {
     console.warn(
       `[PREFLIGHT_GUARD] warning: could not resolve HEAD (status=${String(result.status)}, stderr=${String(
         result.stderr || ""
-<<<<<<< CodexLokal
       ).trim() || "<empty>"}, error=${String(result.error?.message || result.error || "<none>")})`
-=======
-      ).trim() || "<empty>"})`
->>>>>>> main
     );
     return "NO_HEAD";
   }

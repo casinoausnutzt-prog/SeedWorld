@@ -1,37 +1,23 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { compareAlpha, listFilesRecursive, sha256Hex, toPosixPath } from "./runtime-shared.mjs";
+import {
+  buildTestlineHashes,
+  collectTestlineFiles,
+  TESTLINE_BASELINE_PATH,
+  TESTLINE_MONITORED_ROOTS
+} from "./testline-integrity-shared.mjs";
 
 const root = process.cwd();
-const baselinePath = path.join(root, "app", "src", "sot", "testline-integrity.json");
-const monitoredRoots = ["dev/scripts", "dev/tests"];
-const monitoredExts = new Set([".js", ".mjs"]);
-
-async function collect() {
-  const relFiles = [];
-  const hashes = {};
-  for (const relRoot of monitoredRoots) {
-    const absRoot = path.join(root, relRoot);
-    const listed = await listFilesRecursive(absRoot, {
-      filterFile: (_abs, entry) => monitoredExts.has(path.extname(entry.name).toLowerCase())
-    });
-    for (const absPath of listed) {
-      const relPath = toPosixPath(path.relative(root, absPath));
-      const raw = await readFile(absPath, "utf8");
-      relFiles.push(relPath);
-      hashes[relPath] = sha256Hex(raw);
-    }
-  }
-  relFiles.sort(compareAlpha);
-  return { relFiles, hashes };
-}
+const baselinePath = path.join(root, ...TESTLINE_BASELINE_PATH);
 
 async function main() {
-  const { relFiles, hashes } = await collect();
+  const previous = JSON.parse(await readFile(baselinePath, "utf8"));
+  const relFiles = await collectTestlineFiles(root);
+  const hashes = await buildTestlineHashes(root, relFiles);
   const payload = {
-    version: 1,
+    ...previous,
     generatedAt: new Date().toISOString(),
-    monitoredRoots,
+    monitoredRoots: [...TESTLINE_MONITORED_ROOTS],
     monitoredFiles: relFiles,
     fileHashes: hashes
   };
