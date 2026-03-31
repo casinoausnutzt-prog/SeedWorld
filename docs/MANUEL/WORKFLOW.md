@@ -1,52 +1,26 @@
-# Patch Workflow
+# Workflow
 
-## Kanonischer Einstieg
+## Pflichtlinie
 
 ```bash
-npm run patch:apply -- --input <zip|json> [--actor <name>]
+npm test
+npm run evidence:verify
+npm run testline:verify
+npm run check:required
 ```
 
-## Ablauf
+## Reihenfolge
 
-1. `intake`
-2. `unpack`
-3. `manifest-validate`
-4. `normalize`
-5. `risk-classify`
-6. `acquire-lock`
-7. `policy-gates`
-8. `backup`
-9. `apply`
-10. `verify`
-11. `test`
-12. `finalize`
-13. `release-lock`
+1. Kernel- oder Content-Aenderung lokal ausfuehren.
+2. Doppel-Lauf-Testlinie ausfuehren.
+3. Evidence vergleichen.
+4. Testline-Schlusstest bestaetigen.
+5. Erst dann committen/pushen.
 
 ## Regeln
 
-- Terminal-Authority ist exklusiv.
-- Browser startet nur orchestrierte Sessions.
-- Lock-Bypass ist verboten.
-- Fehler laufen fail-closed.
-- Finalstatus ist nur `succeeded`, `failed_rolled_back` oder `failed_partial`.
-- `policy-gates` muessen mit `src/llm/llm-gate-policy.json` deterministisch auswerten.
-- Cancel braucht Session-Token (`X-Patch-Cancel-Token`) und ist idempotent + rate-limitiert.
-- Testlaeufe schreiben Evidence-Artefakte nach `.patch-manager/logs/test-run-<timestamp>.json`.
-
-## GitHub Enforcements (No-Bypass)
-
-1. Lokale Hooks sind nur Vorpruefung, nicht die finale Autoritaet.
-2. Harte Merge-Sperre laeuft ueber GitHub Ruleset + Required Checks.
-3. `main` darf nur per PR gemerged werden, nie per Direct Push.
-4. Force-Push, Ref-Delete und Non-FF sind serverseitig blockiert.
-
-### Setup (einmalig pro Repo)
-
-```bash
-npm run github:ruleset:apply
-```
-
-### Pflicht-Check in GitHub Actions
-
-- Workflow: `.github/workflows/required-checks.yml`
-- Required Context: `preflight-and-governance`
+- Kein Pflichttest ohne zwei Laeufe.
+- Kein Pflichttest ohne Evidence.
+- Kein Gesamtstatus ohne Testline-Schlusstest.
+- Kein `PASS` ohne Reproduktionsbeweis.
+- Browser-, Patch- und Serverreste sind nicht fuehrend.

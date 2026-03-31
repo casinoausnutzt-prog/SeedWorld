@@ -1,37 +1,29 @@
 # Architecture
 
-Tags: `architecture` `kernel` `ui` `boundaries`
+Tags: `architecture` `kernel` `content` `reproduction`
 
-## Layer map
+## Kerngrenze
 
-- `src/kernel/`: deterministic runtime, routing, governance, gate enforcement
-- `src/game/`: domain actions, patch proposals, mutation constraints
-- `src/ui/`: Canvas-first rendering, optional SVG overlays, HUD/panel interaction layer
-- `tools/patch/`: terminal authority patch pipeline
-- `tools/runtime/`: quality, sync and governance checks
+- `app/src/kernel/`: deterministische Kernel-Ausfuehrung
+- `app/src/game/`: autoritative Spielinhalte und Regelinterpretation
+- `dev/scripts/` + `dev/tests/modules/` + `dev/tools/runtime/verify-testline-integrity.mjs`: Reproduktionsbeweis
+- `app/src/ui/` und `app/public/`: nur noch schlanker Browser-Adapter, nicht fuehrende Wahrheit
 
-## Execution flow
+## Ausfuehrungsfluss
 
-1. UI/game/system submits action
-2. `KernelController.#execute()` validates action registry entry
-3. `GateManager` enforces required gate
-4. `KernelRouter` routes to registered domain handler
-5. Determinism guards wrap execution path
+1. autoritativer Inhalt oder Testinput liefert Action + State
+2. `GameLogicController` berechnet erlaubte Aenderungen
+3. Kernelpfad fuehrt deterministisch aus
+4. Doppel-Lauf-Evidence belegt Reproduktion
+5. Testline-Schlusstest bestaetigt die Beweiskette
 
-## Ownership and boundaries
+## Regel
 
-- Ownership config: [repo-boundaries.json](https://github.com/Vannon0911/seedWorldLLM/blob/main/src/sot/repo-boundaries.json)
-- Hygiene graph: [REPO_HYGIENE_MAP](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/SOT/REPO_HYGIENE_MAP.md)
+- kein zweiter Kernelpfad
+- keine zweite Content-Wahrheit
+- keine Pflicht-Gates ausserhalb von Reproduktion und Evidence
 
-## Rendering Contract
+## Referenzen
 
-- Canonical game surface: Canvas is the primary render target for terrain, tiles, selection and hit-tested world state.
-- SVG usage: optional overlay for vector lines, pulses and other lightweight effects only.
-- DOM usage: launcher, HUD, menus, debug panels and other non-world controls only.
-- Geometry source: the render manager owns layout and coordinate conversion instead of letting DOM, Canvas and SVG each invent their own grid.
-
-## Related Pages
-
-- [Home](Home)
-- [Kernel Governance](Kernel-Governance)
-- [Patch Flow](Patch-Flow)
+- [../../SOT/ORIENTATION.md](../../SOT/ORIENTATION.md)
+- [../../SOT/REPO_HYGIENE_MAP.md](../../SOT/REPO_HYGIENE_MAP.md)

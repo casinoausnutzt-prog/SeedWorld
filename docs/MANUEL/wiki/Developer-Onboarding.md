@@ -6,9 +6,10 @@ Tags: `onboarding` `developer-experience` `checks` `testing`
 
 ```bash
 npm install
-npm run sync:docs
-npm run preflight
 npm test
+npm run evidence:verify
+npm run testline:verify
+npm run check:required
 ```
 
 ## Required quality line
@@ -17,15 +18,11 @@ npm test
 npm run check:required
 ```
 
-## Rendering contract
-
-- World rendering should follow the Canvas-first contract from [Architecture](Architecture): Canvas for the game surface, SVG only for overlay effects, DOM only for HUD and panels.
-
 ## Daily commands
 
-- `npm run governance:verify`
-- `npm run hygiene:map`
-- `npm run hygiene:why -- <rel-path>`
+- `npm run check:required`
+- `node dev/tools/runtime/repo-hygiene-map.mjs --write`
+- `node dev/tools/runtime/updateFunctionSot.mjs --write`
 
 ## Add a new kernel action
 
@@ -36,12 +33,10 @@ node tools/runtime/new-action-template.mjs <domain> <actionType> <requiredGate>
 ```
 
 2. Register in `ActionRegistry` inside `KernelController`.
-3. Ensure gate exists in `KernelGates`.
-4. Add/adjust tests.
-5. Re-run `check:required`.
+3. Add/adjust Doppel-Lauf-Tests.
+4. Re-run `check:required`.
 
 ## Related Pages
 
 - [Home](Home)
-- [Kernel Governance](Kernel-Governance)
 - [Cleanup and Removal Playbook](Cleanup-and-Removal-Playbook)

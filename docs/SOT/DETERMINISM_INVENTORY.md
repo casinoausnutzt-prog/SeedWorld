@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This inventory defines which runtime APIs are blocked in deterministic kernel scopes and which runtime sources are disallowed by policy.
+This inventory defines which runtime APIs are blocked in deterministic kernel scopes.
 
 ## Blocked APIs (Guarded in Runtime)
 
@@ -13,22 +13,9 @@ This inventory defines which runtime APIs are blocked in deterministic kernel sc
 - `crypto.getRandomValues()`: non-deterministic entropy source
 - `crypto.randomUUID()`: non-deterministic entropy source
 
-Source implementation: `src/kernel/runtimeGuards.js`
-
-## Disallowed Runtime Sources (Policy)
-
-- `fetch` in deterministic kernel logic
-- `IndexedDB` in deterministic kernel logic
-- `Worker`/`SharedWorker` message timing in deterministic kernel logic
-- any external I/O that can reorder or delay execution
-
-These sources are not part of deterministic kernel contracts and must be rejected in patch review and gate policy.
+Source implementation: `app/src/kernel/runtimeGuards.js`
 
 ## Expected Behavior on Violation
 
 - Runtime guard violations throw `[KERNEL_GUARD]` errors immediately.
-- Patch-flow policy violations fail closed in `policy-gates` with `LLM_GATE_DENIED`.
-- Session final status remains one of:
-  - `succeeded`
-  - `failed_rolled_back`
-  - `failed_partial`
+- Pflichttests duerfen danach keinen Reproduktionsstatus erfolgreich melden.

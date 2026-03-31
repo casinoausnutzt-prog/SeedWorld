@@ -1,34 +1,26 @@
-# SeedWorld LLM Wiki
+# SeedWorld Wiki
 
-Tags: `seedworld` `governance` `determinism` `patching` `architecture`
+Tags: `seedworld` `determinism` `reproduction` `kernel`
 
-Welcome to the project wiki for SeedWorld LLM.
+## Projektkern
 
-## Project Overview
+SeedWorld konzentriert sich nur noch auf:
 
-SeedWorld LLM combines:
+- deterministische Kernel-Ausfuehrung
+- reproduzierbare Seed-Laeufe
+- autoritative Spielinhalte
 
-- deterministic simulation behavior
-- fail-closed patch governance
-- strict separation between browser control-plane and execution authority
-- canvas-first world rendering with optional SVG overlays for effects
+Alles andere ist nachrangig oder archivnah.
 
 ## Start Here
 
 1. [Architecture](Architecture)
-2. [Kernel Governance](Kernel-Governance)
-3. [Patch Flow](Patch-Flow)
-4. [Developer Onboarding](Developer-Onboarding)
-5. [Cleanup and Removal Playbook](Cleanup-and-Removal-Playbook)
+2. [Developer Onboarding](Developer-Onboarding)
+3. [Cleanup and Removal Playbook](Cleanup-and-Removal-Playbook)
 
-## Repository references
+## Fuehrende Referenzen
 
-- Root README: [README](https://github.com/Vannon0911/seedWorldLLM/blob/main/README.md)
-- Docs Index: [INDEX](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/INDEX.md)
-- Orientation: [ORIENTATION](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/SOT/ORIENTATION.md)
-- Workflow: [WORKFLOW](https://github.com/Vannon0911/seedWorldLLM/blob/main/docs/MANUEL/WORKFLOW.md)
-
-## Related Pages
-
-- [Architecture](Architecture)
-- [Kernel Governance](Kernel-Governance)
+- [docs/INDEX.md](../../INDEX.md)
+- [docs/SOT/ORIENTATION.md](../../SOT/ORIENTATION.md)
+- [docs/SOT/REPO_HYGIENE_MAP.md](../../SOT/REPO_HYGIENE_MAP.md)
+- [docs/MANUEL/WORKFLOW.md](../WORKFLOW.md)

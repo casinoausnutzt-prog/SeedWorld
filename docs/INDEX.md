@@ -1,43 +1,32 @@
-# SeedWorld Docs Index (Synced: 2026-03-30)
+# SeedWorld Docs Index (Synced: 2026-03-31)
 
-Dieser Ordner enthaelt nur dieses Mapping plus Bereichsordner.
+Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sind Kernel-Wahrheit, Reproduktionsbeweis und autoritative Inhalte. Historische oder planende Texte bleiben nachrangig.
+
+## Fuehrende Einstiegspunkte
+
+- Root Start: `README.md`
+- Orientierung: [ORIENTATION](./SOT/ORIENTATION.md)
+- Repo-Hygiene: [REPO_HYGIENE_MAP](./SOT/REPO_HYGIENE_MAP.md)
+- Determinismus-Regeln: [DETERMINISM_INVENTORY](./SOT/DETERMINISM_INVENTORY.md)
+- Arbeitsablauf: [WORKFLOW](./MANUEL/WORKFLOW.md)
+
+## Source of Truth
+
+- [app/src/sot/source-of-truth.json](../app/src/sot/source-of-truth.json)
+- [app/src/sot/repo-boundaries.json](../app/src/sot/repo-boundaries.json)
+- [app/src/sot/FUNCTION_SOT.json](../app/src/sot/FUNCTION_SOT.json)
+- [app/src/sot/REPO_HYGIENE_MAP.json](../app/src/sot/REPO_HYGIENE_MAP.json)
+- [app/src/sot/testline-integrity.json](../app/src/sot/testline-integrity.json)
 
 ## Bereiche
 
-- `SOT/`: Source of Truth, maschinen-/prozessnahe Referenzen.
-- `MANUEL/`: Handbuecher, Bedienung, Deployment, Wiki.
-- `LLM/`: LLM-Policies und LLM-spezifische Regeln.
-- `IN PLANUNG/`: Geplante Themen und isolierte Vorarbeiten.
+- `SOT/`: fuehrende maschinennahe Referenzen.
+- `MANUEL/`: knappe Handreichungen fuer den reduzierten Repo-Kern.
+- `LLM/`: nachrangige Sonderdoku ausserhalb des Pflichtkerns.
+- `IN PLANUNG/`: historische oder vorbereitende Texte, nicht fuehrend.
 
-## Wichtige Einstiegspunkte
+## Nachrangig / Archivnah
 
-- Root Start: `README.md`
-- Runtime Entry: `start-server.js` + `app/server/appServer.mjs`
-- Test Entry: `dev/tests/MainTest.mjs`
-
-## Mapping
-
-- SOT:
-  - [ORIENTATION](./SOT/ORIENTATION.md)
-  - [DETERMINISM_INVENTORY](./SOT/DETERMINISM_INVENTORY.md)
-  - [REPO_HYGIENE_MAP](./SOT/REPO_HYGIENE_MAP.md)
-- MANUEL:
-  - [WORKFLOW](./MANUEL/WORKFLOW.md)
-  - [Deployment](./MANUEL/deployment/DEPLOYMENT.md)
-  - [Wiki Home](./MANUEL/wiki/Home.md)
-- LLM:
-  - [LLM Index](./LLM/INDEX.md)
-  - [LLM Entry](./LLM/ENTRY.md)
-  - [LLM Policy](./LLM/POLICY.md)
-  - [AKTUELLE RED ACTIONS](./LLM/AKTUELLE_RED_ACTIONS.md)
-- Source SoT (Runtime/LLM):
-  - [app/src/sot/repo-boundaries.json](../app/src/sot/repo-boundaries.json)
-  - [app/src/sot/release-manifest.json](../app/src/sot/release-manifest.json)
-  - [app/src/sot/patches.schema.json](../app/src/sot/patches.schema.json)
-  - [app/src/sot/FUNCTION_SOT.json](../app/src/sot/FUNCTION_SOT.json)
-  - [app/src/sot/REPO_HYGIENE_MAP.json](../app/src/sot/REPO_HYGIENE_MAP.json)
-  - [app/src/llm/llm-gate-policy.json](../app/src/llm/llm-gate-policy.json)
-- IN PLANUNG:
-  - [cleanup-reports](./IN%20PLANUNG/cleanup-reports/REPO_CLEANUP_BASELINE_2026-03-27.md)
-  - [UNVERFID candidates](../legacy/UNVERFID/CANDIDATES.md)
-
+- `docs/LLM/`
+- `docs/IN PLANUNG/`
+- `legacy/UNVERFID/`
