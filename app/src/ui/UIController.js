@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { MS_PER_TICK } from "./IconAnimations.js";
 import { TileGridRenderer } from "./TileGridRenderer.js";
 import { generateWorld } from "../game/worldGen.js";

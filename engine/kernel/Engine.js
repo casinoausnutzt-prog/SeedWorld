@@ -1,4 +1,5 @@
 // @doc-anchor ENGINE-CORE
+// @doc-anchor ENGINE-CORE
 // @mut-point MUT-ENGINE-TICK
 //
 // Engine – Deterministischer Kernel fuer SeedWorld.

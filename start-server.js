@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { AppServer } from "./app/server/appServer.mjs";
 
 console.log("[START] Starting SeedWorld App Server...");

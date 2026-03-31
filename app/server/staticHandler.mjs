@@ -1,3 +1,4 @@
+// @doc-anchor HYGIENE-2.0-CORE
 import { extname, resolve, sep } from 'node:path';
 import { readFile, stat } from 'node:fs/promises';
 

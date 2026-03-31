@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 // @doc-anchor ENGINE-GUARDS
 // @mut-point MUT-GUARD-SCOPE
 //

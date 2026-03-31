@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # SeedWorld Docs Index (Synced: 2026-03-31)
 
 Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sind Kernel-Wahrheit, Reproduktionsbeweis und autoritative Inhalte. Historische oder planende Texte bleiben nachrangig.

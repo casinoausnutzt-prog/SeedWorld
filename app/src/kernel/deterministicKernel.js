@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { createMutFingerprint } from "./fingerprint.js";
 import { withDeterminismGuards } from "./runtimeGuards.js";
 import { assertSeedMatch } from "./seedGuard.js";

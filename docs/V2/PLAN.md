@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Planning Path
 
 Offene Planung liegt nur noch als atomare Einzel-Tasks vor. Ein Task bleibt offen, bis sein deklarierter Scope im aktuellen Aenderungssatz vollstaendig getroffen wurde. Dann verschiebt der Scanner ihn ins Archiv.

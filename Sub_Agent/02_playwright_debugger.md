@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Playwright Debugger Prompt
 
 Rolle: UI-Debugger fuer reproduzierbare Browserfehler mit belastbaren Artefakten.

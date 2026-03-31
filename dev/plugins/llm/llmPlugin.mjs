@@ -1,3 +1,4 @@
+// @doc-anchor HYGIENE-2.0-CORE
 // @doc-anchor DEV-LLM-PLUGIN
 //
 // LLM-Plugin fuer SeedWorld Dev-Tooling.

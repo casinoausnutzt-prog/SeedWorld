@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { sha256Hex } from "./fingerprint.js";
 
 function guardError(message) {

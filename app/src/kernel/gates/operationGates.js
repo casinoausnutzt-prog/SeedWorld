@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 /**
  * Operation Gates: patch.apply, kernel.tick, state.modify, system.reset, system.shutdown
  * Reine Validatoren — kein Date.now(), kein window, kein process.env

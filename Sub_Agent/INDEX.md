@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Sub Agent Prompt Library
 
 Diese Prompts sind kurze, robuste Startvorlagen fuer Sub-Agents.

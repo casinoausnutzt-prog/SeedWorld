@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export const mutationMatrixConstraints = Object.freeze({
   'resources.ore': Object.freeze({ type: 'uint32', min: 0, max: 999999, integer: true }),
   'resources.copper': Object.freeze({ type: 'uint32', min: 0, max: 999999, integer: true }),

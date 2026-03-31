@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { PROGRESSION_LEVELS, REWARD_DEFINITIONS } from "./gameConfig.js";
 
 function readCount(state, root, key) {

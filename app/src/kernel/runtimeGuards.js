@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 function createDeterminismError(message) {
   return new Error(`[KERNEL_GUARD] ${message}`);
 }

@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 // @doc-anchor DETERMINISTIC-RNG
 // @mut-point MUT-RNG-CORE
 //

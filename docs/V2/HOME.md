@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Documentation 2.0
 
 Documentation 2.0 verbindet drei Dinge in einem System: menschenlesbare Wahrheit, maschinenlesbare Planung und ein Archiv der abgeschlossenen Slices. Fuehrend sind weiter Kernel-Wahrheit, Reproduktionsbeweis und autoritative Inhalte. Documentation 2.0 ersetzt konzeptionell das alte `doc sync`-Denken: Wahrheit wird nicht mehr ueber einen separaten Sync-Schritt behauptet, sondern ueber registrierte Dateien, atomare Tasks, Scanner, Coverage und Archivierung erzwungen.

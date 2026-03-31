@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @doc-anchor HYGIENE-2.0-CORE
 // @doc-anchor DEV-LLM-RUNNER
 //
 // CLI-Runner fuer das LLM-Plugin.

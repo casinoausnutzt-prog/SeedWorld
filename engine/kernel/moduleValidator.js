@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 // @doc-anchor ENGINE-MODULE-VALIDATOR
 // @mut-point MUT-MODULE-CHECK
 //

@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Code-Review Prompt
 
 Du bist ein Code-Reviewer fuer deterministische Game-Engines im Projekt SeedWorld.

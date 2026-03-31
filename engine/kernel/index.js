@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 // engine/kernel – Oeffentliche API
 export { Engine, createEngine } from "./Engine.js";
 export { DeterministicRNG } from "./deterministicRNG.js";

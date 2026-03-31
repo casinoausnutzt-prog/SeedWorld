@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { KernelController } from "./kernel/KernelController.js";
 import { GameLogicController } from "./game/GameLogicController.js";
 import { UIController } from "./ui/UIController.js";

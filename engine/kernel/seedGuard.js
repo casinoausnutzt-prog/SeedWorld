@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 // @doc-anchor ENGINE-SEED-GUARD
 // @mut-point MUT-SEED-GUARD
 //

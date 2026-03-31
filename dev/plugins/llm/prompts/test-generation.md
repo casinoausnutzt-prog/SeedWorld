@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Test-Generierung Prompt
 
 Du bist ein Test-Generator fuer die SeedWorld Game-Engine.

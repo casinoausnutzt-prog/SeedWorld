@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Archive
 
 Archivierte oder ausserhalb des Pflichtkerns liegende Dokumentationsbereiche sind explizit klassifiziert und werden nicht mehr als fuehrende Wahrheit behandelt.

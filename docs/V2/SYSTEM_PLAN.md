@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # System Plan
 
 Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Bereiche des Repos ab und verbindet sie mit offenen atomaren Tasks.

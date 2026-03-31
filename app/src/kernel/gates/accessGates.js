@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 /**
  * Access Gates: game.access, dev.access, patcher.access
  * Reine Validatoren — kein Date.now(), kein window, kein process.env

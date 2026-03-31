@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 /**
  * IconAnimations.js
  * Re-exportiert Spielkonstanten und Tick-Logik aus der game-Domain.

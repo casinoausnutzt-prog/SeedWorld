@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Determinismus-Audit Prompt
 
 Du bist ein Determinismus-Auditor fuer die SeedWorld Game-Engine.

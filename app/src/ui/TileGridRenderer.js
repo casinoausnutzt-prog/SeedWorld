@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { IconAnimations } from "./IconAnimations.js?rev=20260328";
 
 const TILE_TYPES = new Set(["empty", "mine", "factory", "connector", "storage"]);

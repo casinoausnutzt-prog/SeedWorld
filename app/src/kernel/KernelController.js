@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { withDeterminismGuards } from "./runtimeGuards.js";
 import { KernelRouter } from "./KernelRouter.js";
 import { ActionRegistry } from "./ActionRegistry.js";

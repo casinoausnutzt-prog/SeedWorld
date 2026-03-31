@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @doc-anchor HYGIENE-2.0-CORE
 // @doc-anchor DEV-GOVERNANCE-RUNNER
 //
 // CLI-Runner fuer die Governance-Pipeline.

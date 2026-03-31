@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export const GOVERNANCE_REPORT_SCHEMA_VERSION = 2;
 export const GOVERNANCE_POLICY_ID = "kernel-governance-engine.v2";
 export const GOVERNANCE_RUN_MODE_VERIFY_FIRST = "verify-first";

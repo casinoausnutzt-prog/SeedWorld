@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 function normalizeMode(value) {
   return value === "shadow" ? "shadow" : "enforce";
 }

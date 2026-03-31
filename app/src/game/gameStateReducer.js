@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { deepClone, isPlainObject } from "./gameInput.js";
 
 function applyPatchToState(state, patch) {

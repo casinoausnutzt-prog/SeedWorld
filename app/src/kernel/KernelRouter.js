@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 const ALLOWED_DOMAINS = Object.freeze(["game", "kernel"]);
 
 export class KernelRouter {

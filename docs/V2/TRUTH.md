@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Human Truth
 
 Diese Seite macht die fuehrende SoT menschenlesbar. Sie ersetzt die JSON-Dateien nicht, sondern erklaert sie knapp. Documentation 2.0 ersetzt dabei das alte `doc sync`-Modell: Fuehrung entsteht ueber registrierte Wahrheit, nicht ueber nachtraegliche kosmetische Synchronisation.

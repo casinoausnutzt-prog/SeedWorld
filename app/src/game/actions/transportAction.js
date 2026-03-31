@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 function readCountAtPath(state, path) {
   const [root, key] = path.split(".");
   const branch = state[root];

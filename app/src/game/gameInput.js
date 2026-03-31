@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export function isPlainObject(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return false;

@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Changelog
 
 ## 0.3.1a - 2026-03-31

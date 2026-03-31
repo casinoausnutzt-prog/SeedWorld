@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export const DEFAULT_DOMAIN = "game";
 
 export const DEFAULT_ACTION_SCHEMA = Object.freeze({

@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Code Reviewer Prompt
 
 Rolle: Senior-Reviewer mit Fokus auf reale Risiken, nicht auf Stilfragen.

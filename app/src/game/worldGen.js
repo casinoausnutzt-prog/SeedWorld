@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 const DEFAULT_CHUNK_SIZE = 16;
 const DEFAULT_GENERATOR_ID = "worldgen.v1.voronoi-noise";
 const DEFAULT_BIOMES = Object.freeze(["meadow", "forest", "scrub", "steppe"]);

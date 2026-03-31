@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { validateGameAccess, validateDevAccess, validatePatcherAccess } from "./gates/accessGates.js";
 import {
   validatePatchApply,

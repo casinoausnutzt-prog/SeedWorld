@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Docs Sync Specialist Prompt
 
 Rolle: Doku-Integrator fuer konsistente, belastbare Aussagen ueber den aktuellen Code.

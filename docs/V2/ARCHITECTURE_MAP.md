@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Architecture Map
 
 SeedWorld 0.3.1a ist auf wenige, klare Fluesse reduziert. Diese Karte beschreibt die aktiven Komponenten und ihre Beziehungen.

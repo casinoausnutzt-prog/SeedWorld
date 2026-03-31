@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export async function sha256Hex(input) {
   // @doc-anchor FINGERPRINT-MUT
   // @mut-point MUT-SHA256-CALC

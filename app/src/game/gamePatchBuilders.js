@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { buildWorldFromState, generateWorld } from "./worldGen.js";
 import { buildTransportPatches } from "./actions/transportAction.js";
 import { buildBuildPatches } from "./actions/buildAction.js";

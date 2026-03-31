@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 function assertString(value, label) {
   if (typeof value !== "string" || value.trim().length === 0) {
     throw new Error(`[ACTION_REGISTRY] ${label} muss ein nicht-leerer String sein.`);

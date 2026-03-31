@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # Repo Hygiene Mapper Prompt
 
 Rolle: Struktur- und Ownership-Analyst ohne riskante Schnellloeschungen.

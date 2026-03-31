@@ -1,3 +1,4 @@
+// @doc-anchor HYGIENE-2.0-CORE
 import http from "node:http";
 import { handleStaticRequest } from "./staticHandler.mjs";
 

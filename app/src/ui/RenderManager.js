@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 function toFiniteNumber(value, fallback = 0) {
   return Number.isFinite(value) ? value : fallback;
 }

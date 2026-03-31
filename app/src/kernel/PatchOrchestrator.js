@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 /**
  * PatchOrchestrator - Manages patches through Kernel only
  * Never reads or writes gameState directly - only kernel acknowledgements

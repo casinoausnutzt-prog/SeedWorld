@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 export const TICKS_PER_SECOND = 24;
 export const MS_PER_TICK = 1000 / TICKS_PER_SECOND;
 export const ORE_PER_MINER_CYCLE = 1;

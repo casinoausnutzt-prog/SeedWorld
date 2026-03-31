@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # SeedWorld Engine V2 Architektur
 
 Die SeedWorld Engine wurde komplett neu geschrieben, um 100% Determinismus und Reproduzierbarkeit zu garantieren, während gleichzeitig die Governance- und Policy-Schichten aus der Runtime in eine reine Dev-Umgebung ausgelagert wurden.

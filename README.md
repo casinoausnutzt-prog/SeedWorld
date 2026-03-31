@@ -1,3 +1,4 @@
+# @doc-anchor SYSTEM-PLAN
 # SeedWorld
 
 [![Required Checks](https://github.com/Vannon0911/SeedWorld/actions/workflows/required-checks.yml/badge.svg?branch=main)](https://github.com/Vannon0911/SeedWorld/actions/workflows/required-checks.yml)

@@ -1,3 +1,4 @@
+// @doc-anchor ENGINE-CORE
 import { DEFAULT_ACTION_SCHEMA, DEFAULT_DOMAIN, DEFAULT_MUTATION_MATRIX } from "./gameConfig.js";
 import {
   deepClone,
