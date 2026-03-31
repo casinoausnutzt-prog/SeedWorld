@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-03-31",
+  "system": "Documentation V2",
+  "description": "Connects machine-readable planning tasks, human-readable truth, and archive state.",
+  "roots": {
+    "openTasks": "tem/tasks/open",
+    "archiveTasks": "tem/tasks/archive",
+    "humanDocs": "docs/V2"
+  },
+  "registeredControlFiles": [
+    "app/src/sot/docs-v2.json",
+    "app/src/sot/source-of-truth.json",
+    "app/src/sot/repo-boundaries.json",
+    "package.json",
+    "docs/INDEX.md",
+    "docs/SOT/ORIENTATION.md",
+    "docs/MANUEL/WORKFLOW.md",
+    "docs/MANUEL/wiki/Home.md",
+    "docs/MANUEL/wiki/Developer-Onboarding.md",
+    "tem/TODO.md",
+    "tem/WORKFLOW.md",
+    "tem/SCHEMA.json",
+    "tem/slices/remaining-task-stubs.md",
+    "dev/tools/runtime/docs-v2-shared.mjs",
+    "dev/tools/runtime/verify-docs-v2-guards.mjs",
+    "dev/tools/runtime/scan-doc-tasks.mjs",
+    "dev/tools/runtime/sync-docs-v2.mjs",
+    "dev/tools/runtime/sync-tem-control-files.mjs"
+  ],
+  "humanPlanViews": [
+    "tem/slices/remaining-task-stubs.md",
+    "docs/V2/HOME.md",
+    "docs/V2/TRUTH.md",
+    "docs/V2/PLAN.md",
+    "docs/V2/ARCHIVE.md"
+  ],
+  "generatedDocs": [
+    "docs/V2/HOME.md",
+    "docs/V2/TRUTH.md",
+    "docs/V2/PLAN.md",
+    "docs/V2/ARCHIVE.md"
+  ],
+  "systemPlan": {
+    "areas": [
+      {
+        "id": "kernel-core",
+        "roots": [
+          "app/src/kernel"
+        ],
+        "truth": "Deterministic kernel execution and state transitions."
+      },
+      {
+        "id": "gameplay-content",
+        "roots": [
+          "app/src/game"
+        ],
+        "truth": "Authoritative content, rules and world interpretation."
+      },
+      {
+        "id": "reproduction-evidence",
+        "roots": [
+          "dev/scripts",
+          "dev/tests/modules",
+          "dev/tools/runtime/verify-testline-integrity.mjs"
+        ],
+        "truth": "Double-run proof, evidence validation and final testline consistency."
+      },
+      {
+        "id": "browser-adapter",
+        "roots": [
+          "app/src/main.js",
+          "app/src/ui",
+          "app/public"
+        ],
+        "truth": "Remaining browser path as adapter, not as competing domain truth."
+      },
+      {
+        "id": "documentation-v2",
+        "roots": [
+          "docs/V2",
+          "tem/tasks",
+          "app/src/sot/docs-v2.json"
+        ],
+        "truth": "Human-readable truth, atomic planning and archive automation."
+      },
+      {
+        "id": "legacy-cleanup",
+        "roots": [
+          "tem",
+          "docs/IN PLANUNG",
+          "legacy/UNVERFID"
+        ],
+        "truth": "Tracked migration residue that must not create unregistered plan drift."
+      }
+    ]
+  },
+  "scanner": {
+    "entry": "dev/tools/runtime/scan-doc-tasks.mjs",
+    "evidence": "runtime/evidence/docs-v2-scan.json",
+    "matchSource": "git status porcelain",
+    "archivePolicy": "Move open task JSON to archive when its declared scope is fully touched in the current change set."
+  },
+  "guards": {
+    "entry": "dev/tools/runtime/verify-docs-v2-guards.mjs",
+    "blockUnregisteredChangedFiles": true,
+    "blockPlanSourcesUntilAtomized": true
+  }
+}

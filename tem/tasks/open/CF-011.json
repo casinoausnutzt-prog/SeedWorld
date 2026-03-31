@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-011",
+  "title": "Canvas-Deckungsgleichheit per Tests absichern",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "tem/slices/remaining-task-stubs.md"
+  ],
+  "description": "Resize, Zoom und Overlay-Verhalten in der Testlinie maschinenlesbar absichern.",
+  "scope_paths": [
+    "dev/scripts/test-runner.mjs",
+    "dev/scripts/verify-evidence.mjs",
+    "dev/tools/runtime/verify-testline-integrity.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

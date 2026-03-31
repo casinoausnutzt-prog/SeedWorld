@@ -8,6 +8,8 @@ const controlFiles = new Set(["TODO.md", "WORKFLOW.md", "SCHEMA.json"]);
 const writeMode = process.argv.includes("--write");
 
 function classify(relPath) {
+  if (relPath.startsWith("tem/tasks/open/")) return "task-open";
+  if (relPath.startsWith("tem/tasks/archive/")) return "task-archive";
   if (relPath.startsWith("tem/slices/")) return "implementierungs-slices";
   if (relPath.startsWith("tem/rebuttals/")) return "rebuttals";
   if (relPath.startsWith("tem/check-justification/")) return "check-justification";
@@ -106,7 +108,8 @@ async function loadArtifacts() {
     const base = path.basename(abs);
     if (rel.startsWith("tem/") === false) continue;
     if (controlFiles.has(base)) continue;
-    if (!rel.toLowerCase().endsWith(".md")) continue;
+    const lower = rel.toLowerCase();
+    if (!lower.endsWith(".md") && !lower.endsWith(".json")) continue;
     const content = await readFile(abs, "utf8");
     records.push({
       path: rel,

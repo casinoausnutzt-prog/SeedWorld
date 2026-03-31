@@ -65,10 +65,12 @@
       "authoritative": [
         "app/src/sot/FUNCTION_SOT.json",
         "app/src/sot/REPO_HYGIENE_MAP.json",
+        "app/src/sot/docs-v2.json",
         "docs/SOT/",
+        "docs/V2/",
         "tem/"
       ],
-      "why": "Still present, but not required for deterministic truth."
+      "why": "Documentation, hygiene and planning truth that should stay synchronized with the reduced repo core."
     },
     {
       "id": "deprecated_runtime",

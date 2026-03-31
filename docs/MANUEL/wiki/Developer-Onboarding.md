@@ -9,6 +9,7 @@ npm install
 npm test
 npm run evidence:verify
 npm run testline:verify
+npm run docs:v2:verify
 npm run check:required
 ```
 
@@ -21,6 +22,7 @@ npm run check:required
 ## Daily commands
 
 - `npm run check:required`
+- `npm run docs:v2:sync`
 - `node dev/tools/runtime/repo-hygiene-map.mjs --write`
 - `node dev/tools/runtime/updateFunctionSot.mjs --write`
 
@@ -40,3 +42,4 @@ node tools/runtime/new-action-template.mjs <domain> <actionType> <requiredGate>
 
 - [Home](Home)
 - [Cleanup and Removal Playbook](Cleanup-and-Removal-Playbook)
+- [../../V2/HOME.md](../../V2/HOME.md)

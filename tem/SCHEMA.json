@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "ab4e7905c7a1697e1c52621cce0c4d1c15f9b95c6c341bce3ac1de3ddd1189c2",
+  "snapshotId": "bcf119626ca5f523a2e34c4315f27b9798a1b21e67072a2c2d2803dc23de02db",
   "controlFiles": [
     "TODO.md",
     "WORKFLOW.md",
     "SCHEMA.json"
   ],
-  "artifactCount": 27,
+  "artifactCount": 38,
   "categories": {
     "planung": [
       "tem/beide-plaene.md",
@@ -46,6 +46,21 @@
       "tem/slices/t02-kanonische-api-matrix.md",
       "tem/slices/t03-guardrail-konzept.md"
     ],
+    "task-archive": [
+      "tem/tasks/archive/DOC-001.json"
+    ],
+    "task-open": [
+      "tem/tasks/open/CF-003.json",
+      "tem/tasks/open/CF-004.json",
+      "tem/tasks/open/CF-005.json",
+      "tem/tasks/open/CF-006.json",
+      "tem/tasks/open/CF-007.json",
+      "tem/tasks/open/CF-008.json",
+      "tem/tasks/open/CF-009.json",
+      "tem/tasks/open/CF-010.json",
+      "tem/tasks/open/CF-011.json",
+      "tem/tasks/open/CF-012.json"
+    ],
     "sonstiges": [
       "tem/testline-missing-systems.md"
     ]
@@ -54,12 +69,12 @@
     {
       "path": "tem/beide-plaene.md",
       "category": "planung",
-      "sha256": "18ddd8f022ba3fc7e2f857c8f5e7d09d653fe600fb97cbb8deed1b7b48451686"
+      "sha256": "7c3ff0773563f3b3dee6a8fc4f5c180e55d63596822521bdb92013b6b8b165f8"
     },
     {
       "path": "tem/cf-001-architektur-notiz.md",
       "category": "planung",
-      "sha256": "bef23efb98d2ac18f61e64e12e4beacf0a3881b0fdb397b516cfd252a31437c2"
+      "sha256": "18a06f8e0b728f42c63a0dd7daa66bfc9f500c6f096d1e763cd3f12befa6e435"
     },
     {
       "path": "tem/check-justification/cf-002.md",
@@ -144,22 +159,22 @@
     {
       "path": "tem/slices/integration-summary.md",
       "category": "implementierungs-slices",
-      "sha256": "929a9a814fb31577e62602b48cf0fae2fbd4936d03e6fa3a200c4a757d4c1b49"
+      "sha256": "150a8a6a9de1a459b1519ee677d953769e9eacad09a3bb3db1ed8371cd745763"
     },
     {
       "path": "tem/slices/remaining-task-stubs.md",
       "category": "implementierungs-slices",
-      "sha256": "ea820da05de2fd661c1df38adbb2f1d77ff4fb6d5d5a77cc7ce5ad93ee19a5fc"
+      "sha256": "31f698d94cc1cc0ae345eebdc15b964414d3d807335926860a016036f7300a57"
     },
     {
       "path": "tem/slices/t02-kanonische-api-matrix.md",
       "category": "implementierungs-slices",
-      "sha256": "b1c0d39d6be823281c2410dc73f0761471b88ad074eb33504298131508b72fe6"
+      "sha256": "ae6b95f79f69387c0e6f4918541ac6195f71eab18553f39decc28c17b06979f1"
     },
     {
       "path": "tem/slices/t03-guardrail-konzept.md",
       "category": "implementierungs-slices",
-      "sha256": "daaffba81bd789ac55c9b980a9ce599d3ab471bbdc908f625e8a81c0e008aab4"
+      "sha256": "2e4c20629fbe986f8e9e0f61e8356d9a5f3b2b6a09accf6cb06fb1600c172d59"
     },
     {
       "path": "tem/sot-doc-validity-report.md",
@@ -169,7 +184,62 @@
     {
       "path": "tem/t01-legacy-wrapper-inventur.md",
       "category": "planung",
-      "sha256": "cb0d1caf481647e8d5c853ae3d80af43b6ed046057da31f7bedcd044528b2217"
+      "sha256": "653c786eca69c5b967d86e155813d01e3fab04b8f26ec58b193dcfc4c8f9a41d"
+    },
+    {
+      "path": "tem/tasks/archive/DOC-001.json",
+      "category": "task-archive",
+      "sha256": "4da35322f34f3fab6b30273655a2eaecd14880a13cf036109a438c342c323614"
+    },
+    {
+      "path": "tem/tasks/open/CF-003.json",
+      "category": "task-open",
+      "sha256": "c1fad9545d3e8b8e409e82db0dfdf1c1c0da057ae38554c789fafb9529a66b34"
+    },
+    {
+      "path": "tem/tasks/open/CF-004.json",
+      "category": "task-open",
+      "sha256": "7a867308a2ac6008cd3f0a443a040af65fef8fb8370d7d285e0bc6a70b8523b0"
+    },
+    {
+      "path": "tem/tasks/open/CF-005.json",
+      "category": "task-open",
+      "sha256": "5d9e188f2f1fec09001123f284549384d2ef5dedaad76814146601068cb10f78"
+    },
+    {
+      "path": "tem/tasks/open/CF-006.json",
+      "category": "task-open",
+      "sha256": "17aa98df1df7149025b9a00246671005f999900e6ed53437609d7b18228ab991"
+    },
+    {
+      "path": "tem/tasks/open/CF-007.json",
+      "category": "task-open",
+      "sha256": "b5fc19c114802f4396d388f77940dc4d3c5f5f1a9fa81b7a05cc36e7a49e0da2"
+    },
+    {
+      "path": "tem/tasks/open/CF-008.json",
+      "category": "task-open",
+      "sha256": "a0c3c91ee4e98f4035ed537eef9f69dcd8cac2024894c37768039bad6e292c94"
+    },
+    {
+      "path": "tem/tasks/open/CF-009.json",
+      "category": "task-open",
+      "sha256": "5ade50a83f7c2ab01122d63dbfa6981c01b1bbd835f26e46c9326b50d17537d6"
+    },
+    {
+      "path": "tem/tasks/open/CF-010.json",
+      "category": "task-open",
+      "sha256": "514780e0712f4ec6ea5288b763cf645607e558d30bf6d679925e3ebea03c8b24"
+    },
+    {
+      "path": "tem/tasks/open/CF-011.json",
+      "category": "task-open",
+      "sha256": "6553beb23ed25523f56528917b9f5a08ddef742936baab143b393a7a27eb5b98"
+    },
+    {
+      "path": "tem/tasks/open/CF-012.json",
+      "category": "task-open",
+      "sha256": "7f0f4a03dc0edf60900a54a5eaf1ae9fa14d74395e274498d1ca57e6f7af4dc2"
     },
     {
       "path": "tem/test-evidence-report.md",
@@ -179,7 +249,7 @@
     {
       "path": "tem/testline-missing-systems.md",
       "category": "sonstiges",
-      "sha256": "65dfc0258f1eb55ff5044a0f0587960cdc4f5e97c30dd956b3afb70c785dfa95"
+      "sha256": "580474d3c14768729a147872c97084a834f615abbe6eac7266ff72980daa89bb"
     },
     {
       "path": "tem/traceability-map.md",

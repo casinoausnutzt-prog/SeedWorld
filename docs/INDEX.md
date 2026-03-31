@@ -6,6 +6,10 @@ Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sin
 
 - Root Start: `README.md`
 - Orientierung: [ORIENTATION](./SOT/ORIENTATION.md)
+- Documentation 2.0: [HOME](./V2/HOME.md)
+- Human Truth: [TRUTH](./V2/TRUTH.md)
+- Planning Path: [PLAN](./V2/PLAN.md)
+- Archive: [ARCHIVE](./V2/ARCHIVE.md)
 - Repo-Hygiene: [REPO_HYGIENE_MAP](./SOT/REPO_HYGIENE_MAP.md)
 - Determinismus-Regeln: [DETERMINISM_INVENTORY](./SOT/DETERMINISM_INVENTORY.md)
 - Arbeitsablauf: [WORKFLOW](./MANUEL/WORKFLOW.md)
@@ -17,10 +21,12 @@ Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sin
 - [app/src/sot/FUNCTION_SOT.json](../app/src/sot/FUNCTION_SOT.json)
 - [app/src/sot/REPO_HYGIENE_MAP.json](../app/src/sot/REPO_HYGIENE_MAP.json)
 - [app/src/sot/testline-integrity.json](../app/src/sot/testline-integrity.json)
+- [app/src/sot/docs-v2.json](../app/src/sot/docs-v2.json)
 
 ## Bereiche
 
 - `SOT/`: fuehrende maschinennahe Referenzen.
+- `V2/`: menschenlesbare Wahrheit, atomare Planung und Archiv.
 - `MANUEL/`: knappe Handreichungen fuer den reduzierten Repo-Kern.
 - `LLM/`: nachrangige Sonderdoku ausserhalb des Pflichtkerns.
 - `IN PLANUNG/`: historische oder vorbereitende Texte, nicht fuehrend.

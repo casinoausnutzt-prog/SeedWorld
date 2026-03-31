@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-006",
+  "title": "World-Hintergrund in denselben Koordinatenraum ziehen",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "tem/slices/remaining-task-stubs.md"
+  ],
+  "description": "World- oder Hintergrundlayer mit derselben Geometrie wie die Tile-Darstellung verbinden.",
+  "scope_paths": [
+    "app/src/ui/RenderManager.js",
+    "app/src/ui/UIController.js",
+    "app/public/game.html"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

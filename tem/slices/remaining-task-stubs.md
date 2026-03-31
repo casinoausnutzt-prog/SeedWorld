@@ -2,12 +2,13 @@
 
 Stand: `2026-03-31`
 
-Diese Datei ist keine Stub-Sammlung mehr. Sie ist der operative Ablaufplan fuer die naechsten sechs Tage bis zur Wrapper-Expiry am `2026-04-06`.
+Diese Datei bleibt nur noch ein Lesefenster. Der maschinenfuehrende offene Planungspfad liegt jetzt unter `tem/tasks/open/*.json`. Das Archiv liegt unter `tem/tasks/archive/*.json`.
 
 ## Harte Reihenfolge
-1. Wrapper-Expiry absichern und dokumentieren.
-2. Die dokumentierten, aber noch nicht eingetragenen Hygiene-/Unreachable-Kandidaten in die SoT ziehen.
-3. CF-003 bis CF-012 nur noch in Sequenz abarbeiten, nicht als offene Wunschliste.
+1. Offene Tasks nur noch atomar als JSON pflegen.
+2. Scanner bei jedem Testlauf mitlaufen lassen.
+3. Erledigte Tasks automatisch ins Archiv verschieben lassen.
+4. Diese Datei nur noch als menschenlesbare Zusammenfassung verwenden.
 
 ## Blocker vor Canvas-Migration
 | Thema | Zustand | Deadline | Erledigt wenn |

@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-012",
+  "title": "Canvas-Hit-Testing und HUD-Smokes stabilisieren",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "tem/slices/remaining-task-stubs.md"
+  ],
+  "description": "Interaktion und HUD sollen nach der Canvas-Migration ohne Sonderpfade testbar bleiben.",
+  "scope_paths": [
+    "app/src/ui/UIController.js",
+    "app/src/ui/RenderManager.js",
+    "dev/scripts/test-runner.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

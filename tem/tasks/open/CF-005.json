@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-005",
+  "title": "Hover, Selection und Effekte als Canvas-Layer ziehen",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "tem/slices/remaining-task-stubs.md"
+  ],
+  "description": "Overlay-, Hover- und Effektlogik in denselben Canvas-Koordinatenraum ziehen.",
+  "scope_paths": [
+    "app/src/ui/IconAnimations.js",
+    "app/src/ui/RenderManager.js",
+    "app/src/ui/UIController.js"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}
