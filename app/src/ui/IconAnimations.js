@@ -40,4 +40,4 @@ export {
   STORAGE_CAPACITY_BONUS,
   getStorageCapacity,
   advanceTickState
-} from "../game/gameConstants.js";
+} from "../game/gameConfig.js";

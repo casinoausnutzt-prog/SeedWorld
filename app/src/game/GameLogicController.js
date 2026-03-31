@@ -1,5 +1,16 @@
 // @doc-anchor ENGINE-CORE
 import { DEFAULT_ACTION_SCHEMA, DEFAULT_DOMAIN, DEFAULT_MUTATION_MATRIX } from "./gameConfig.js";
+// Inline-Hilfsfunktionen (aus gameInput.js gemergt)
+function isPlainObject(v) { if (!v || typeof v !== "object" || Array.isArray(v)) return false; const p = Object.getPrototypeOf(v); return p === Object.prototype || p === null; }
+function deepClone(v) { return structuredClone(v); }
+function deepFreeze(v) { if (v && typeof v === "object" && !Object.isFrozen(v)) { Object.freeze(v); for (const k of Object.keys(v)) deepFreeze(v[k]); } return v; }
+function coerceString(v, l) { if (typeof v !== "string") throw new Error("[GAME_LOGIC] " + l + " muss String sein."); const t = v.trim(); if (!t) throw new Error("[GAME_LOGIC] " + l + " darf nicht leer sein."); return t; }
+function coerceInteger(v, l) { const n = Number(v); if (!Number.isInteger(n)) throw new Error("[GAME_LOGIC] " + l + " muss ganze Zahl sein."); return n; }
+function coercePositiveInteger(v, l) { const n = Number(v); if (!Number.isInteger(n) || n <= 0) throw new Error("[GAME_LOGIC] " + l + " muss positive ganze Zahl sein."); return n; }
+function normalizeKernelApi(api) { if (!api || typeof api !== "object") throw new Error("[GAME_LOGIC] kernelApi fehlt."); const fn = api.execute?.bind(api) || null; if (!fn) throw new Error("[GAME_LOGIC] kernelApi braucht execute."); return { planPatch: fn, applyPatch: fn }; }
+function readAction(a) { if (!isPlainObject(a)) throw new Error("[GAME_LOGIC] action muss Plain-Object sein."); const type = coerceString(a.type, "action.type"); const payload = a.payload === undefined ? {} : a.payload; if (!isPlainObject(payload)) throw new Error("[GAME_LOGIC] action.payload muss Plain-Object sein."); return { type, payload }; }
+function readState(s) { if (!isPlainObject(s)) throw new Error("[GAME_LOGIC] state muss Plain-Object sein."); return s; }
+function reduceGameState(state, patches) { const next = deepClone(isPlainObject(state) ? state : {}); for (const p of patches) { if (p.op !== "set") throw new Error("[GAME_LOGIC] Unsupported op: " + p.op); const segs = p.path.split("."); let cur = next; for (let i = 0; i < segs.length - 1; i++) { if (!isPlainObject(cur[segs[i]])) cur[segs[i]] = {}; cur = cur[segs[i]]; } cur[segs[segs.length-1]] = deepClone(p.value); } return next; }
 import {
   deepClone,
   deepFreeze,
@@ -10,7 +21,7 @@ import {
 } from "./gameInput.js";
 import { buildPatches } from "./gamePatchBuilders.js";
 import { buildProgressSnapshot, buildRewardFeedback } from "./gameProgress.js";
-import { reduceGameState } from "./gameStateReducer.js";
+
 
 function validateActionAgainstSchema(action, actionSchema) {
   const schema = actionSchema[action.type];
@@ -166,4 +177,4 @@ export function getDefaultGameMutationMatrix() {
   return deepClone(DEFAULT_MUTATION_MATRIX);
 }
 
-export { reduceGameState } from "./gameStateReducer.js";
+

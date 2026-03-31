@@ -1,26 +1,25 @@
 // @doc-anchor ENGINE-CORE
-import { withDeterminismGuards } from "./runtimeGuards.js";
-import { KernelRouter } from "./KernelRouter.js";
-import { ActionRegistry } from "./ActionRegistry.js";
-import { GateManager } from "./GateManager.js";
-import { KernelGates } from "./KernelGates.js";
-import { KernelGovernanceEngine } from "./GovernanceEngine.js";
+// @doc-anchor KERNEL-CONTROLLER
+//
+// KernelController – schlanker, direkter Kernel ohne Wrapper-Schichten.
+// Nutzt engine/kernel direkt fuer Determinismus-Guards.
+// Kein GateManager, kein PatchOrchestrator, kein GovernanceEngine zur Runtime.
+
+import { withDeterminismGuards } from "../../engine/kernel/runtimeGuards.js";
 import { generateWorld } from "../game/worldGen.js";
 
-const DEFAULT_CONFIRMATION_PREFIX = "KERNEL-CONFIRM";
-
 function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message);
-  }
+  if (!condition) throw new Error(message);
 }
 
 function isPlainObject(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return false;
-  }
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const proto = Object.getPrototypeOf(value);
   return proto === Object.prototype || proto === null;
+}
+
+function clone(value) {
+  return structuredClone(value);
 }
 
 function deriveSeedSignature(seed) {
@@ -32,404 +31,129 @@ function deriveSeedSignature(seed) {
   return (hash >>> 0).toString(16).padStart(8, "0");
 }
 
-function cloneKernelValue(value) {
-  return structuredClone(value);
-}
-
-export class KernelController {
-  constructor(options = {}) {
-    this.confirmationPrefix =
-      typeof options.confirmationPrefix === "string" && options.confirmationPrefix.trim().length > 0
-        ? options.confirmationPrefix.trim()
-        : DEFAULT_CONFIRMATION_PREFIX;
-    this.governanceMode = options.governanceMode === "shadow" ? "shadow" : "enforce";
-    this.currentTick = 0;
-    this.deterministicSeed =
-      typeof options.seed === "string" && options.seed.trim().length > 0 ? options.seed.trim() : "default-seed";
-
-    this.router = new KernelRouter();
-    this.router.registerHandler("game", (action) => this.#handleRegisteredAction("game", action));
-    this.router.registerHandler("kernel", (action) => this.#handleRegisteredAction("kernel", action));
-
-    this.governanceEngine = new KernelGovernanceEngine({
-      mode: this.governanceMode,
-      maxAuditTrail: 1024
-    });
-    this.governanceAuditTrail = this.governanceEngine.auditTrail;
-
-    this.actionRegistry = new ActionRegistry();
-    this.kernelGates = new KernelGates((query, payload) => this.#kernelInterface(query, payload));
-    this.gateManager = new GateManager({
-      kernelGates: this.kernelGates,
-      mode: this.governanceMode,
-      onAudit: (event) => this.#recordGovernanceAudit(event)
-    });
-    this.#registerActions();
-  }
-
-  async execute(input = {}) {
-    return this.#execute(input);
-  }
-
-  async plan(input = {}) {
-    return this.#execute(input);
-  }
-
-  async apply(input = {}) {
-    return this.#execute(input);
-  }
-
-  getCurrentState() {
-    return {
-      tick: this.currentTick,
-      seed: this.deterministicSeed
-    };
-  }
-
-  async #execute(input) {
-    return withDeterminismGuards(async () => {
-      this.#assertPlainObject(input, "input");
-
-      const domain = this.#readString(input, "domain", "[KERNEL_CONTROLLER] domain fehlt.");
-      const action = this.#readPlainObject(input, "action", "[KERNEL_CONTROLLER] action fehlt.");
-      const actionType = this.#readString(action, "type", "[KERNEL_CONTROLLER] action.type fehlt.");
-      const definition = this.actionRegistry.resolve(domain, actionType);
-
-      if (!definition) {
-        throw this.#denyAction({
-          code: "ACTION_NOT_REGISTERED",
-          reason: `Ungemappte Action geblockt: ${domain}.${actionType}`,
-          domain,
-          actionType
-        });
-      }
-
-      const validatorAction = cloneKernelValue(action);
-      const gateAction = cloneKernelValue(action);
-      const handlerAction = cloneKernelValue(action);
-
-      const validation = await definition.validator(validatorAction);
-      if (!isPlainObject(validation) || typeof validation.valid !== "boolean") {
-        throw this.#denyAction({
-          code: "ACTION_VALIDATOR_INVALID",
-          reason: `Ungueltiges Validator-Ergebnis fuer ${domain}.${actionType}`,
-          domain,
-          actionType
-        });
-      }
-      if (!validation.valid) {
-        throw this.#denyAction({
-          code: "ACTION_VALIDATION_FAILED",
-          reason: validation.reason || `Action-Validation fehlgeschlagen: ${domain}.${actionType}`,
-          domain,
-          actionType
-        });
-      }
-
-      const gateDecision = await this.gateManager.enforce({
-        domain,
-        actionType,
-        requiredGate: definition.requiredGate,
-        context: this.#buildGateContext({ domain, actionType, action: gateAction, input })
-      });
-      if (!gateDecision.allowed) {
-        throw this.#denyAction({
-          code: "ACTION_GATE_DENIED",
-          reason: gateDecision.event?.reason || `Action-Gate abgelehnt: ${domain}.${actionType}`,
-          domain,
-          actionType
-        });
-      }
-
-      const routeResult = this.router.route({ domain, action: handlerAction, sourceDomain: input.sourceDomain });
-      return cloneKernelValue(routeResult);
-    });
-  }
-
-  #handleRegisteredAction(domain, action) {
-    const type = this.#readString(action, "type", `[${domain.toUpperCase()}] type fehlt.`);
-    const definition = this.actionRegistry.resolve(domain, type);
-    if (!definition) {
-      throw this.#denyAction({
-        code: "ACTION_NOT_REGISTERED",
-        reason: `Ungemappte Action im Handler geblockt: ${domain}.${type}`,
-        domain,
-        actionType: type
-      });
-    }
-    return definition.handler(action);
-  }
-
-  #registerActions() {
-    this.actionRegistry
-      .register({
-        domain: "game",
-        actionType: "createInitialState",
-        requiredGate: "game.action",
-        validator: () => ({ valid: true }),
-        handler: () => this.#createInitialState()
-      })
-      .register({
-        domain: "game",
-        actionType: "advanceTick",
-        requiredGate: "game.action",
-        validator: (action) => this.#validateHasPlainObject(action, "state"),
-        handler: (action) => this.#advanceTick(action)
-      })
-      .register({
-        domain: "game",
-        actionType: "inspectTile",
-        requiredGate: "game.action",
-        validator: (action) => this.#validateHasPlainObject(action, "state"),
-        handler: (action) => this.#inspectTile(action)
-      })
-      .register({
-        domain: "game",
-        actionType: "getBuildOptions",
-        requiredGate: "game.action",
-        validator: (action) => this.#validateHasPlainObject(action, "state"),
-        handler: (action) => this.#getBuildOptions(action)
-      })
-      .register({
-        domain: "game",
-        actionType: "placeStructure",
-        requiredGate: "game.action",
-        validator: (action) => this.#validatePlaceStructure(action),
-        handler: (action) => this.#placeStructure(action)
-      });
-
-    this.actionRegistry
-      .register({
-        domain: "kernel",
-        actionType: "status",
-        requiredGate: "kernel.action",
-        validator: () => ({ valid: true }),
-        handler: () => ({
-          status: "deterministic",
-          seed: this.deterministicSeed,
-          tick: this.currentTick
-        })
-      })
-      .register({
-        domain: "kernel",
-        actionType: "setDeterministicSeed",
-        requiredGate: "kernel.action",
-        validator: (action) => this.#validateHasString(action, "seed"),
-        handler: (action) => this.#setDeterministicSeed(action)
-      });
-  }
-
-  #validateHasString(action, key) {
-    if (typeof action?.[key] !== "string" || action[key].trim().length === 0) {
-      return { valid: false, reason: `Pflichtfeld fehlt: ${key}` };
-    }
-    return { valid: true };
-  }
-
-  #validateHasPlainObject(action, key) {
-    if (!isPlainObject(action?.[key])) {
-      return { valid: false, reason: `Pflichtfeld fehlt oder ungueltig: ${key}` };
-    }
-    return { valid: true };
-  }
-
-  #validatePlaceStructure(action) {
-    const stateCheck = this.#validateHasPlainObject(action, "state");
-    if (!stateCheck.valid) {
-      return stateCheck;
-    }
-    if (!Number.isFinite(Number(action?.x)) || !Number.isFinite(Number(action?.y))) {
-      return { valid: false, reason: "Pflichtfeld fehlt oder ungueltig: x/y" };
-    }
-    return this.#validateHasString(action, "structureId");
-  }
-
-  #buildGateContext({ domain, actionType, action, input }) {
-    return {
-      domain,
-      actionType,
-      action,
-      sourceDomain: input?.sourceDomain || null,
-      gameLogic: domain === "game",
-      devEnabled: this.governanceMode === "shadow",
-      kernelInterface: true
-    };
-  }
-
-  #kernelInterface(query, payload) {
-    switch (query) {
-      case "game.exists":
-      case "system.ready":
-      case "tick.can_advance":
-      case "system.can_reset":
-      case "system.can_shutdown":
-      case "patch.system.available":
-      case "user.can_patch":
-      case "dev.available":
-        return true;
-      case "state.can_modify":
-        return Boolean(payload && typeof payload === "object");
-      case "patch.get":
-        return null;
-      default:
-        return false;
-    }
-  }
-
-  #recordGovernanceAudit(event) {
-    this.governanceEngine.recordAudit(event);
-    this.governanceAuditTrail = this.governanceEngine.auditTrail;
-  }
-
-  #denyAction({ code, reason, domain, actionType }) {
-    return this.governanceEngine.deny({ code, reason, domain, actionType });
-  }
-
-  #createInitialState() {
-    const world = generateWorld({
-      seed: this.deterministicSeed,
-      width: 16,
-      height: 12
-    });
-    const worldMap = new Map(world.tiles.map((tile) => [`${tile.x},${tile.y}`, { ...tile }]));
+const ACTION_HANDLERS = {
+  "game.createInitialState": (ctx) => {
+    const world = generateWorld({ seed: ctx.seed, width: 16, height: 12 });
     return {
       world,
-      worldMap,
       clock: { tick: 0, msPerTick: 100 },
       resources: { ore: 1000, iron: 0 },
-      structures: new Map(),
+      structures: {},
       statistics: {
         totalTicks: 0,
         structuresBuilt: 0,
         totalOreProduced: 0,
-        seedSignature: deriveSeedSignature(this.deterministicSeed)
+        seedSignature: deriveSeedSignature(ctx.seed)
       }
     };
-  }
+  },
 
-  #advanceTick(action) {
-    const state = this.#readPlainObject(action, "state", "[ADVANCE_TICK] state fehlt.");
-    const ticks = this.#readInteger(action, "ticks", 1);
-    assert(ticks > 0, "[ADVANCE_TICK] ticks muss positiv sein.");
-
-    const structures = new Map(state.structures instanceof Map ? state.structures : []);
-    const mines = Array.from(structures.values()).filter((entry) => entry?.id === "mine").length;
+  "game.advanceTick": (ctx, action) => {
+    assert(isPlainObject(action.state), "[ADVANCE_TICK] state fehlt.");
+    const state = action.state;
+    const ticks = Number.isInteger(action.ticks) && action.ticks > 0 ? action.ticks : 1;
+    const structures = state.structures && typeof state.structures === "object" ? state.structures : {};
+    const mines = Object.values(structures).filter(s => s?.id === "mine").length;
     const oreGain = mines * ticks;
-
-    this.currentTick = (Number(state.clock?.tick) || 0) + ticks;
+    ctx.currentTick = (Number(state.clock?.tick) || 0) + ticks;
     return {
       ...state,
       structures,
-      clock: {
-        ...state.clock,
-        tick: this.currentTick
-      },
-      resources: {
-        ...state.resources,
-        ore: (Number(state.resources?.ore) || 0) + oreGain
-      },
+      clock: { ...state.clock, tick: ctx.currentTick },
+      resources: { ...state.resources, ore: (Number(state.resources?.ore) || 0) + oreGain },
       statistics: {
         ...state.statistics,
         totalTicks: (Number(state.statistics?.totalTicks) || 0) + ticks,
         totalOreProduced: (Number(state.statistics?.totalOreProduced) || 0) + oreGain
       }
     };
-  }
+  },
 
-  #inspectTile(action) {
-    const state = this.#readPlainObject(action, "state", "[INSPECT_TILE] state fehlt.");
-    const x = this.#readInteger(action, "x", 0);
-    const y = this.#readInteger(action, "y", 0);
-    const tile = this.#getTileAt(state, x, y);
+  "game.inspectTile": (_ctx, action) => {
+    assert(isPlainObject(action.state), "[INSPECT_TILE] state fehlt.");
+    const x = Number.isInteger(action.x) ? action.x : 0;
+    const y = Number.isInteger(action.y) ? action.y : 0;
+    const tiles = Array.isArray(action.state.world?.tiles) ? action.state.world.tiles : [];
+    const tile = tiles.find(t => t?.x === x && t?.y === y) || null;
     return { x, y, tile };
-  }
+  },
 
-  #getBuildOptions(action) {
-    const state = this.#readPlainObject(action, "state", "[GET_BUILD_OPTIONS] state fehlt.");
-    const ore = Number(state.resources?.ore) || 0;
+  "game.getBuildOptions": (_ctx, action) => {
+    assert(isPlainObject(action.state), "[GET_BUILD_OPTIONS] state fehlt.");
+    const ore = Number(action.state.resources?.ore) || 0;
     return [
       { id: "mine", name: "Mine", cost: { ore: 100 }, canAfford: ore >= 100 },
       { id: "smelter", name: "Smelter", cost: { ore: 200 }, canAfford: ore >= 200 }
     ];
-  }
+  },
 
-  #placeStructure(action) {
-    const state = this.#readPlainObject(action, "state", "[PLACE_STRUCTURE] state fehlt.");
-    const x = this.#readInteger(action, "x", 0);
-    const y = this.#readInteger(action, "y", 0);
-    const structureId = this.#readString(action, "structureId");
-    const tile = this.#getTileAt(state, x, y);
+  "game.placeStructure": (_ctx, action) => {
+    assert(isPlainObject(action.state), "[PLACE_STRUCTURE] state fehlt.");
+    const state = action.state;
+    const x = Number.isInteger(action.x) ? action.x : 0;
+    const y = Number.isInteger(action.y) ? action.y : 0;
+    const structureId = typeof action.structureId === "string" ? action.structureId.trim() : "";
+    assert(structureId, "[PLACE_STRUCTURE] structureId fehlt.");
+    const tiles = Array.isArray(state.world?.tiles) ? state.world.tiles : [];
+    const tile = tiles.find(t => t?.x === x && t?.y === y);
     assert(tile, `[PLACE_STRUCTURE] Tile nicht gefunden: ${x},${y}`);
     assert(tile.biome !== "water", `[PLACE_STRUCTURE] Struktur auf water unzulaessig: ${x},${y}`);
-
-    const cost = { ore: structureId === "mine" ? 100 : 200 };
+    const cost = structureId === "mine" ? 100 : 200;
     const ore = Number(state.resources?.ore) || 0;
-    if (ore < cost.ore) {
-      throw new Error(`[PLACE_STRUCTURE] Nicht genug ore: benoetigt ${cost.ore}, vorhanden ${ore}`);
-    }
-
-    const structures = new Map(state.structures instanceof Map ? state.structures : []);
-    structures.set(`${x},${y}`, { id: structureId, builtAt: Number(state.clock?.tick) || 0 });
+    assert(ore >= cost, `[PLACE_STRUCTURE] Nicht genug ore: benoetigt ${cost}, vorhanden ${ore}`);
+    const structures = { ...(state.structures || {}), [`${x},${y}`]: { id: structureId, builtAt: Number(state.clock?.tick) || 0 } };
     return {
       ...state,
       structures,
-      resources: {
-        ...state.resources,
-        ore: ore - cost.ore
-      },
-      statistics: {
-        ...state.statistics,
-        structuresBuilt: (Number(state.statistics?.structuresBuilt) || 0) + 1
-      }
+      resources: { ...state.resources, ore: ore - cost },
+      statistics: { ...state.statistics, structuresBuilt: (Number(state.statistics?.structuresBuilt) || 0) + 1 }
     };
+  },
+
+  "kernel.status": (ctx) => ({ status: "deterministic", seed: ctx.seed, tick: ctx.currentTick }),
+
+  "kernel.setDeterministicSeed": (ctx, action) => {
+    assert(typeof action.seed === "string" && action.seed.trim(), "[SET_SEED] seed fehlt.");
+    ctx.seed = action.seed.trim();
+    return { success: true, seed: ctx.seed, seedSignature: deriveSeedSignature(ctx.seed) };
+  }
+};
+
+export class KernelController {
+  constructor(options = {}) {
+    this.seed = typeof options.seed === "string" && options.seed.trim() ? options.seed.trim() : "default-seed";
+    // Alias fuer Legacy-Kompatibilitaet
+    this.deterministicSeed = this.seed;
+    this.currentTick = 0;
+    this._callHistory = [];
   }
 
-  #setDeterministicSeed(action) {
-    const seed = this.#readString(action, "seed", "[SET_SEED] seed fehlt.");
-    this.deterministicSeed = seed;
-    return {
-      success: true,
-      seed,
-      seedSignature: deriveSeedSignature(seed)
-    };
+  async execute(input = {}) {
+    return withDeterminismGuards(async () => {
+      assert(isPlainObject(input), "[KERNEL] input muss Plain-Object sein.");
+      const { domain, action } = input;
+      assert(typeof domain === "string" && domain.trim(), "[KERNEL] domain fehlt.");
+      assert(isPlainObject(action), "[KERNEL] action muss Plain-Object sein.");
+      assert(typeof action.type === "string" && action.type.trim(), "[KERNEL] action.type fehlt.");
+
+      const key = `${domain}.${action.type}`;
+      const handler = ACTION_HANDLERS[key];
+      if (!handler) throw new Error(`[KERNEL] Unbekannte Action: ${key}`);
+
+      this._callHistory.push({ domain, actionType: action.type });
+      const result = handler(this, clone(action));
+      return clone({ success: true, domain, result });
+    });
   }
 
-  #getTileAt(state, x, y) {
-    if (state.worldMap instanceof Map && state.worldMap.has(`${x},${y}`)) {
-      return state.worldMap.get(`${x},${y}`);
-    }
-    const tiles = Array.isArray(state.world?.tiles) ? state.world.tiles : [];
-    return tiles.find((entry) => entry?.x === x && entry?.y === y) || null;
+  async plan(input = {}) { return this.execute(input); }
+  async apply(input = {}) { return this.execute(input); }
+
+  getCurrentState() {
+    return { tick: this.currentTick, seed: this.seed };
   }
 
-  #assertPlainObject(value, name) {
-    if (!isPlainObject(value)) {
-      throw new Error(`[KERNEL_CONTROLLER] ${name} muss ein Plain Object sein.`);
-    }
-  }
-
-  #readString(value, key, errorMessage) {
-    if (!(key in value) || typeof value[key] !== "string" || value[key].trim().length === 0) {
-      throw new Error(errorMessage || `[KERNEL_CONTROLLER] ${key} fehlt oder ist kein String.`);
-    }
-    return value[key];
-  }
-
-  #readPlainObject(value, key, errorMessage) {
-    if (!(key in value) || !isPlainObject(value[key])) {
-      throw new Error(errorMessage || `[KERNEL_CONTROLLER] ${key} fehlt oder ist kein Plain Object.`);
-    }
-    return value[key];
-  }
-
-  #readInteger(value, key, defaultValue = 0) {
-    if (!(key in value)) {
-      return defaultValue;
-    }
-    const num = Number(value[key]);
-    if (!Number.isInteger(num)) {
-      throw new Error(`[KERNEL_CONTROLLER] ${key} muss eine ganze Zahl sein.`);
-    }
-    return num;
+  get router() {
+    return { callHistory: this._callHistory };
   }
 }

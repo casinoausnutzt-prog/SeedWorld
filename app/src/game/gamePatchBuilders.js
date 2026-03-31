@@ -1,9 +1,15 @@
 // @doc-anchor ENGINE-CORE
 import { buildWorldFromState, generateWorld } from "./worldGen.js";
+// Inline-Hilfsfunktionen (aus gameInput.js gemergt)
+function isPlainObject(v) { if (!v || typeof v !== "object" || Array.isArray(v)) return false; const p = Object.getPrototypeOf(v); return p === Object.prototype || p === null; }
+function deepClone(v) { return structuredClone(v); }
+function coerceString(v, l) { if (typeof v !== "string") throw new Error("[GAME_LOGIC] " + l + " muss String sein."); const t = v.trim(); if (!t) throw new Error("[GAME_LOGIC] " + l + " darf nicht leer sein."); return t; }
+function coerceInteger(v, l) { const n = Number(v); if (!Number.isInteger(n)) throw new Error("[GAME_LOGIC] " + l + " muss ganze Zahl sein."); return n; }
+function coercePositiveInteger(v, l) { const n = Number(v); if (!Number.isInteger(n) || n <= 0) throw new Error("[GAME_LOGIC] " + l + " muss positive ganze Zahl sein."); return n; }
 import { buildTransportPatches } from "./actions/transportAction.js";
 import { buildBuildPatches } from "./actions/buildAction.js";
 import { BUILD_COSTS, DEFAULT_DOMAIN, TILE_OUTPUT_LABELS } from "./gameConfig.js";
-import { coerceInteger, coercePositiveInteger, coerceString, deepClone, isPlainObject } from "./gameInput.js";
+
 
 function getMachineStateKey(machine) {
   if (machine === "miner") return "miners";

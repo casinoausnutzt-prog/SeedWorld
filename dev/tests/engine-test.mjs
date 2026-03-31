@@ -1,5 +1,4 @@
 // @doc-anchor HYGIENE-2.0-CORE
-#!/usr/bin/env node
 // @doc-anchor ENGINE-TEST-SUITE
 //
 // Vollstaendige Test-Suite fuer die neue Engine.
