@@ -1,32 +1,32 @@
-# SeedWorld Orientation (Synced: 2026-03-30)
+# SeedWorld Orientation (Synced: 2026-03-31)
 
 ## 1) System Map
 
-- `app/src/ui/`: Rendering und Input, keine direkten Domain-State Writes.
+- `app/src/ui/`: schlanker Browser-Adapter fuer die verbleibende Spielansicht.
 - `app/src/game/`: Gameplay-Regeln und erlaubte Patch-Berechnung.
 - `app/src/kernel/`: Deterministische Domain-Grenzen und Mutationskontrolle.
-- `app/server/`: Schlanker Runtime-Server fuer Launcher, Menue und Game-Assets.
-- `dev/tools/patch/`: Terminal-only Patch-Tooling, keine Browser-Apply-Pfade.
-- `dev/tests/`: Einstieg `dev/tests/MainTest.mjs`, Module unter `dev/tests/modules/`.
+- `app/server/`: Altpfad, nicht Teil des Pflichtkerns.
+- `dev/tools/patch/`: Altpfad, nicht Teil des Pflichtkerns.
+- `dev/tests/`: Pflichtpfad laeuft ueber `dev/scripts/test-runner.mjs` und die Module unter `dev/tests/modules/`.
 
 ## 2) Lokale Reihenfolge
 
 ```bash
 npm install
-npm run sync:docs
-npm run preflight
 npm test
-npm start
+npm run evidence:verify
+npm run testline:verify
+npm run check:required
 ```
 
 ## 3) Verifizierte Testlinie
 
-- `node dev/scripts/smoke-test.mjs`
-- `node dev/scripts/runtime-guards-test.mjs`
 - `node dev/scripts/test-runner.mjs`
+- `node dev/scripts/verify-evidence.mjs`
+- `node dev/tools/runtime/verify-testline-integrity.mjs`
 
 ## 4) Hinweise
 
-- Browser-Runtime startet nur Launcher, Menue und Game-Ansichten.
-- Patch-Ausfuehrung bleibt terminalseitig ueber `npm run patch:apply -- --input <zip|json>`.
-- Terrain/DOM/SVG-Rendering ist getrennt: Canvas unten, DOM Mitte, SVG oben.
+- Browser-Runtime fuehrt nur noch die reduzierte Spielansicht aus.
+- Pflichtqualitaet ist nur noch Doppel-Lauf plus Evidence plus Testline-Schlusstest.
+- Server-, Patch-, Menue- und Plugin-Reste sind nicht Teil des reproduzierbaren Pflichtpfads.

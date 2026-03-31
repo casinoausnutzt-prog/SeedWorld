@@ -7,7 +7,7 @@ Use this before deleting files or features.
 ## Step 1: Build hygiene map
 
 ```bash
-npm run hygiene:map
+node dev/tools/runtime/repo-hygiene-map.mjs --write
 ```
 
 Review:
@@ -18,13 +18,13 @@ Review:
 ## Step 2: Inspect one candidate
 
 ```bash
-npm run hygiene:why -- <relative-path>
+node dev/tools/runtime/repo-hygiene-why.mjs <relative-path>
 ```
 
 Example:
 
 ```bash
-npm run hygiene:why -- src/ui/TileAnimationSDK.js
+node dev/tools/runtime/repo-hygiene-why.mjs app/src/ui/UIController.js
 ```
 
 ## Step 3: Remove only when all are true
@@ -37,14 +37,15 @@ npm run hygiene:why -- src/ui/TileAnimationSDK.js
 ## Step 4: Validate
 
 ```bash
-npm run governance:verify
 npm test
+npm run evidence:verify
+npm run testline:verify
 ```
 
 ## Important
 
 Unreachable/zero-inbound is a strong signal, not an automatic delete order.  
-Dynamic runtime references can exist and must be reviewed.
+Maschinennahe SoT und Pflichttests gehen vor historischem Doku-Komfort.
 
 ## Related Pages
 

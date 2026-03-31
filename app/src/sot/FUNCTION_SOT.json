@@ -49,70 +49,6 @@
       "category": "server"
     },
     {
-      "id": "app/server/patchUtils.js#classifyPatchRisk@146",
-      "name": "classifyPatchRisk",
-      "file": "app/server/patchUtils.js",
-      "line": 146,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#isPlainObject@3",
-      "name": "isPlainObject",
-      "file": "app/server/patchUtils.js",
-      "line": 3,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#normalizeFile@11",
-      "name": "normalizeFile",
-      "file": "app/server/patchUtils.js",
-      "line": 11,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#parseUniversalPatch@42",
-      "name": "parseUniversalPatch",
-      "file": "app/server/patchUtils.js",
-      "line": 42,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#readAffectedFiles@22",
-      "name": "readAffectedFiles",
-      "file": "app/server/patchUtils.js",
-      "line": 22,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#snapshotFiles@85",
-      "name": "snapshotFiles",
-      "file": "app/server/patchUtils.js",
-      "line": 85,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#uniq@18",
-      "name": "uniq",
-      "file": "app/server/patchUtils.js",
-      "line": 18,
-      "kind": "function",
-      "category": "server"
-    },
-    {
-      "id": "app/server/patchUtils.js#validateAgainstLocks@125",
-      "name": "validateAgainstLocks",
-      "file": "app/server/patchUtils.js",
-      "line": 125,
-      "kind": "function",
-      "category": "server"
-    },
-    {
       "id": "app/server/staticHandler.mjs#handleStaticRequest@77",
       "name": "handleStaticRequest",
       "file": "app/server/staticHandler.mjs",
@@ -151,62 +87,6 @@
       "line": 67,
       "kind": "function",
       "category": "server"
-    },
-    {
-      "id": "app/src/browser/BrowserPatchRunner.js#apply@12",
-      "name": "apply",
-      "file": "app/src/browser/BrowserPatchRunner.js",
-      "line": 12,
-      "kind": "method",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/BrowserPatchRunner.js#rollback@50",
-      "name": "rollback",
-      "file": "app/src/browser/BrowserPatchRunner.js",
-      "line": 50,
-      "kind": "method",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/LogBus.js#connectSSE@47",
-      "name": "connectSSE",
-      "file": "app/src/browser/LogBus.js",
-      "line": 47,
-      "kind": "method",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/LogBus.js#emit@25",
-      "name": "emit",
-      "file": "app/src/browser/LogBus.js",
-      "line": 25,
-      "kind": "method",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/LogBus.js#handler@37",
-      "name": "handler",
-      "file": "app/src/browser/LogBus.js",
-      "line": 37,
-      "kind": "arrow",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/LogBus.js#pad@17",
-      "name": "pad",
-      "file": "app/src/browser/LogBus.js",
-      "line": 17,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/browser/LogBus.js#subscribe@36",
-      "name": "subscribe",
-      "file": "app/src/browser/LogBus.js",
-      "line": 36,
-      "kind": "method",
-      "category": "other"
     },
     {
       "id": "app/src/game/actions/buildAction.js#buildBuildPatches@10",
@@ -257,58 +137,66 @@
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#advanceTickState@96",
+      "id": "app/src/game/gameConstants.js#advanceTickState@115",
       "name": "advanceTickState",
       "file": "app/src/game/gameConstants.js",
-      "line": 96,
+      "line": 115,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#cloneState@9",
+      "id": "app/src/game/gameConstants.js#cloneState@7",
       "name": "cloneState",
       "file": "app/src/game/gameConstants.js",
-      "line": 9,
+      "line": 7,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#getStorageCapacity@13",
+      "id": "app/src/game/gameConstants.js#getStorageCapacity@32",
       "name": "getStorageCapacity",
       "file": "app/src/game/gameConstants.js",
-      "line": 13,
+      "line": 32,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#getStructuresByType@18",
+      "id": "app/src/game/gameConstants.js#getStructuresByType@37",
       "name": "getStructuresByType",
       "file": "app/src/game/gameConstants.js",
-      "line": 18,
+      "line": 37,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#mineOre@24",
+      "id": "app/src/game/gameConstants.js#getWorldTile@11",
+      "name": "getWorldTile",
+      "file": "app/src/game/gameConstants.js",
+      "line": 11,
+      "kind": "function",
+      "category": "app"
+    },
+    {
+      "id": "app/src/game/gameConstants.js#mineOre@43",
       "name": "mineOre",
       "file": "app/src/game/gameConstants.js",
-      "line": 24,
+      "line": 43,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#smeltIron@54",
+      "id": "app/src/game/gameConstants.js#smeltIron@73",
       "name": "smeltIron",
       "file": "app/src/game/gameConstants.js",
-      "line": 54,
+      "line": 73,
       "kind": "function",
       "category": "app"
     },
     {
-      "id": "app/src/game/gameConstants.js#updateStatusText@76",
+      "id": "app/src/game/gameConstants.js#updateStatusText@95",
       "name": "updateStatusText",
       "file": "app/src/game/gameConstants.js",
-      "line": 76,
+      "line": 95,
       "kind": "function",
       "category": "app"
     },
@@ -1001,155 +889,59 @@
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/interface.js#assert@1",
-      "name": "assert",
-      "file": "app/src/kernel/interface.js",
-      "line": 1,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#assertPlainObject@7",
-      "name": "assertPlainObject",
-      "file": "app/src/kernel/interface.js",
-      "line": 7,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#checkNamedGate@67",
-      "name": "checkNamedGate",
-      "file": "app/src/kernel/interface.js",
-      "line": 67,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#executeKernelCommand@106",
-      "name": "executeKernelCommand",
-      "file": "app/src/kernel/interface.js",
-      "line": 106,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#executeNamedGate@76",
-      "name": "executeNamedGate",
-      "file": "app/src/kernel/interface.js",
-      "line": 76,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#getKernel@23",
-      "name": "getKernel",
-      "file": "app/src/kernel/interface.js",
-      "line": 23,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#initializeKernelInterface@19",
-      "name": "initializeKernelInterface",
-      "file": "app/src/kernel/interface.js",
-      "line": 19,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#toGateStatus@42",
-      "name": "toGateStatus",
-      "file": "app/src/kernel/interface.js",
-      "line": 42,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#toPatchList@30",
-      "name": "toPatchList",
-      "file": "app/src/kernel/interface.js",
-      "line": 30,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/interface.js#toRecentEvents@60",
-      "name": "toRecentEvents",
-      "file": "app/src/kernel/interface.js",
-      "line": 60,
-      "kind": "function",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelController.js#apply@117",
+      "id": "app/src/kernel/KernelController.js#apply@69",
       "name": "apply",
       "file": "app/src/kernel/KernelController.js",
-      "line": 117,
+      "line": 69,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelController.js#deriveSeedSignature@41",
+      "id": "app/src/kernel/KernelController.js#assert@6",
+      "name": "assert",
+      "file": "app/src/kernel/KernelController.js",
+      "line": 6,
+      "kind": "function",
+      "category": "kernel-core"
+    },
+    {
+      "id": "app/src/kernel/KernelController.js#deriveSeedSignature@20",
       "name": "deriveSeedSignature",
       "file": "app/src/kernel/KernelController.js",
-      "line": 41,
+      "line": 20,
       "kind": "function",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelController.js#execute@109",
+      "id": "app/src/kernel/KernelController.js#execute@61",
       "name": "execute",
       "file": "app/src/kernel/KernelController.js",
-      "line": 109,
+      "line": 61,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelController.js#executeMutation@751",
-      "name": "executeMutation",
-      "file": "app/src/kernel/KernelController.js",
-      "line": 751,
-      "kind": "method",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelController.js#getCurrentState@744",
+      "id": "app/src/kernel/KernelController.js#getCurrentState@73",
       "name": "getCurrentState",
       "file": "app/src/kernel/KernelController.js",
-      "line": 744,
+      "line": 73,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelController.js#getCurrentTick@740",
-      "name": "getCurrentTick",
-      "file": "app/src/kernel/KernelController.js",
-      "line": 740,
-      "kind": "method",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelController.js#isPlainObject@28",
+      "id": "app/src/kernel/KernelController.js#isPlainObject@12",
       "name": "isPlainObject",
       "file": "app/src/kernel/KernelController.js",
-      "line": 28,
+      "line": 12,
       "kind": "function",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelController.js#plan@113",
+      "id": "app/src/kernel/KernelController.js#plan@65",
       "name": "plan",
       "file": "app/src/kernel/KernelController.js",
-      "line": 113,
+      "line": 65,
       "kind": "method",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelController.js#rng@718",
-      "name": "rng",
-      "file": "app/src/kernel/KernelController.js",
-      "line": 718,
-      "kind": "arrow",
       "category": "kernel-core"
     },
     {
@@ -1201,58 +993,42 @@
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelRouter.js#clearHistory@119",
+      "id": "app/src/kernel/KernelRouter.js#clearHistory@67",
       "name": "clearHistory",
       "file": "app/src/kernel/KernelRouter.js",
-      "line": 119,
+      "line": 67,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelRouter.js#createAcknowledgement@80",
-      "name": "createAcknowledgement",
-      "file": "app/src/kernel/KernelRouter.js",
-      "line": 80,
-      "kind": "method",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelRouter.js#createStrictRouter@124",
+      "id": "app/src/kernel/KernelRouter.js#createStrictRouter@72",
       "name": "createStrictRouter",
       "file": "app/src/kernel/KernelRouter.js",
-      "line": 124,
+      "line": 72,
       "kind": "function",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelRouter.js#getStats@105",
-      "name": "getStats",
-      "file": "app/src/kernel/KernelRouter.js",
-      "line": 105,
-      "kind": "method",
-      "category": "kernel-core"
-    },
-    {
-      "id": "app/src/kernel/KernelRouter.js#registerHandler@20",
+      "id": "app/src/kernel/KernelRouter.js#registerHandler@9",
       "name": "registerHandler",
       "file": "app/src/kernel/KernelRouter.js",
-      "line": 20,
+      "line": 9,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelRouter.js#route@27",
+      "id": "app/src/kernel/KernelRouter.js#route@16",
       "name": "route",
       "file": "app/src/kernel/KernelRouter.js",
-      "line": 27,
+      "line": 16,
       "kind": "method",
       "category": "kernel-core"
     },
     {
-      "id": "app/src/kernel/KernelRouter.js#validateIsolation@90",
+      "id": "app/src/kernel/KernelRouter.js#validateIsolation@55",
       "name": "validateIsolation",
       "file": "app/src/kernel/KernelRouter.js",
-      "line": 90,
+      "line": 55,
       "kind": "method",
       "category": "kernel-core"
     },
@@ -1433,838 +1209,6 @@
       "category": "kernel-core"
     },
     {
-      "id": "app/src/plugins/radialBuildController.js#animate@475",
-      "name": "animate",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 475,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#applyPlacement@406",
-      "name": "applyPlacement",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 406,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#buildLinks@102",
-      "name": "buildLinks",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 102,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#buildTileSignature@227",
-      "name": "buildTileSignature",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 227,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#closeMenu@363",
-      "name": "closeMenu",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 363,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#distanceSq@116",
-      "name": "distanceSq",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 116,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#drawConnections@200",
-      "name": "drawConnections",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 200,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#getTileCenter@171",
-      "name": "getTileCenter",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 171,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#getTilesRef@80",
-      "name": "getTilesRef",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 80,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#getWorldTile@10",
-      "name": "getWorldTile",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 10,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#iconLabel@36",
-      "name": "iconLabel",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 36,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#installRadialBuildController@293",
-      "name": "installRadialBuildController",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 293,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#installRadialMenu@243",
-      "name": "installRadialMenu",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 243,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#keyFor@50",
-      "name": "keyFor",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 50,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#openMenuAt@338",
-      "name": "openMenuAt",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 338,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#optionNodes@314",
-      "name": "optionNodes",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 314,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#pairNearest@130",
-      "name": "pairNearest",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 130,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#redrawConnections@371",
-      "name": "redrawConnections",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 371,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#resizeSvg@322",
-      "name": "resizeSvg",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 322,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#resolveTileFromPointer@381",
-      "name": "resolveTileFromPointer",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 381,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#setActive@332",
-      "name": "setActive",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 332,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#sortByGrid@91",
-      "name": "sortByGrid",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 91,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#tick@60",
-      "name": "tick",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 60,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#updateDebug@276",
-      "name": "updateDebug",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 276,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/plugins/radialBuildController.js#waitForGridRoot@58",
-      "name": "waitForGridRoot",
-      "file": "app/src/plugins/radialBuildController.js",
-      "line": 58,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#biomePalette@66",
-      "name": "biomePalette",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 66,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#fbm@43",
-      "name": "fbm",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 43,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#hash2@9",
-      "name": "hash2",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 9,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#hashString@1",
-      "name": "hashString",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 1,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#hsl@62",
-      "name": "hsl",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 62,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#render@93",
-      "name": "render",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 93,
-      "kind": "method",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#unitFromHash@19",
-      "name": "unitFromHash",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 19,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/SeedWorld_WorldGen.mjs#valueNoise@23",
-      "name": "valueNoise",
-      "file": "app/src/SeedWorld_WorldGen.mjs",
-      "line": 23,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#addEventListener@217",
-      "name": "addEventListener",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 217,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#createBaseStructure@173",
-      "name": "createBaseStructure",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 173,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#createElement@194",
-      "name": "createElement",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 194,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#destroy@115",
-      "name": "destroy",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 115,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#executeHooks@75",
-      "name": "executeHooks",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 75,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#getElement@187",
-      "name": "getElement",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 187,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#getPlugin@242",
-      "name": "getPlugin",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 242,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#getPlugins@235",
-      "name": "getPlugins",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 235,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#handleEvent@165",
-      "name": "handleEvent",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 165,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#initialize@91",
-      "name": "initialize",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 91,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#registerPlugin@24",
-      "name": "registerPlugin",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 24,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#render@180",
-      "name": "render",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 180,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#unregisterPlugin@52",
-      "name": "unregisterPlugin",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 52,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#updateState@149",
-      "name": "updateState",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 149,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/BaseUIController.js#wrappedHandler@221",
-      "name": "wrappedHandler",
-      "file": "app/src/ui/BaseUIController.js",
-      "line": 221,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#addConsoleMessage@640",
-      "name": "addConsoleMessage",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 640,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createBaseStructure@14",
-      "name": "createBaseStructure",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 14,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createDebugConsoleContent@253",
-      "name": "createDebugConsoleContent",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 253,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createDevHeader@53",
-      "name": "createDevHeader",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 53,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createDevSidebar@103",
-      "name": "createDevSidebar",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 103,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createKernelInspectionContent@200",
-      "name": "createKernelInspectionContent",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 200,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createNetworkContent@376",
-      "name": "createNetworkContent",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 376,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createPatchDebugContent@290",
-      "name": "createPatchDebugContent",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 290,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createPerformanceContent@334",
-      "name": "createPerformanceContent",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 334,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#createTabContainer@74",
-      "name": "createTabContainer",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 74,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#evaluateSafeExpression@654",
-      "name": "evaluateSafeExpression",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 654,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#executeCommand@594",
-      "name": "executeCommand",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 594,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#executeDebugCommand@613",
-      "name": "executeDebugCommand",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 613,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#executeQuickAction@448",
-      "name": "executeQuickAction",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 448,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#exportKernelState@704",
-      "name": "exportKernelState",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 704,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#loadKernelInspectionData@465",
-      "name": "loadKernelInspectionData",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 465,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#refreshKernel@700",
-      "name": "refreshKernel",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 700,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#renderStateTree@504",
-      "name": "renderStateTree",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 504,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#resetKernel@717",
-      "name": "resetKernel",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 717,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupDebugConsole@589",
-      "name": "setupDebugConsole",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 589,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupDevHeaderEvents@419",
-      "name": "setupDevHeaderEvents",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 419,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupInspectionControls@696",
-      "name": "setupInspectionControls",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 696,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupNetworkMonitoring@692",
-      "name": "setupNetworkMonitoring",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 692,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupPatchDebug@672",
-      "name": "setupPatchDebug",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 672,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupPerformanceMonitoring@688",
-      "name": "setupPerformanceMonitoring",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 688,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#setupQuickActions@437",
-      "name": "setupQuickActions",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 437,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#showError@665",
-      "name": "showError",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 665,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#switchToTab@164",
-      "name": "switchToTab",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 164,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#updateEventsDisplay@571",
-      "name": "updateEventsDisplay",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 571,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#updateGatesDisplay@548",
-      "name": "updateGatesDisplay",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 548,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#updatePatchesDisplay@525",
-      "name": "updatePatchesDisplay",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 525,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/DevUIController.js#updateStateDisplay@493",
-      "name": "updateStateDisplay",
-      "file": "app/src/ui/DevUIController.js",
-      "line": 493,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/events.js#render@7",
-      "name": "render",
-      "file": "app/src/ui/events.js",
-      "line": 7,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#countStructures@226",
-      "name": "countStructures",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 226,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#createBaseStructure@28",
-      "name": "createBaseStructure",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 28,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#createGameStatus@124",
-      "name": "createGameStatus",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 124,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#createGameWorld@109",
-      "name": "createGameWorld",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 109,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#createResourcePanel@63",
-      "name": "createResourcePanel",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 63,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#createStatsPanel@86",
-      "name": "createStatsPanel",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 86,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#destroy@257",
-      "name": "destroy",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 257,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#getCurrentState@279",
-      "name": "getCurrentState",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 279,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#getGameLogic@283",
-      "name": "getGameLogic",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 283,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#getSelectedTile@276",
-      "name": "getSelectedTile",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 276,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#handleTileSelection@150",
-      "name": "handleTileSelection",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 150,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#initialize@19",
-      "name": "initialize",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 19,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#placeStructure@232",
-      "name": "placeStructure",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 232,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#render@270",
-      "name": "render",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 270,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#renderBuildActions@220",
-      "name": "renderBuildActions",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 220,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#startTickLoop@130",
-      "name": "startTickLoop",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 130,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateBuildActions@206",
-      "name": "updateBuildActions",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 206,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateGameWorld@185",
-      "name": "updateGameWorld",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 185,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateResources@169",
-      "name": "updateResources",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 169,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateStats@177",
-      "name": "updateStats",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 177,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateStatus@191",
-      "name": "updateStatus",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 191,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateTileInfo@198",
-      "name": "updateTileInfo",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 198,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/GameUIController.js#updateUI@162",
-      "name": "updateUI",
-      "file": "app/src/ui/GameUIController.js",
-      "line": 162,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
       "id": "app/src/ui/IconAnimations.js#opacity@19",
       "name": "opacity",
       "file": "app/src/ui/IconAnimations.js",
@@ -2305,382 +1249,6 @@
       "category": "ui"
     },
     {
-      "id": "app/src/ui/MainMenuController.js#addModeSwitcher@307",
-      "name": "addModeSwitcher",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 307,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#checkKernelGate@267",
-      "name": "checkKernelGate",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 267,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#createBaseStructure@44",
-      "name": "createBaseStructure",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 44,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#createMenuHeader@79",
-      "name": "createMenuHeader",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 79,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#createModeCard@113",
-      "name": "createModeCard",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 113,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#createModeGrid@101",
-      "name": "createModeGrid",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 101,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#createStatusPanel@146",
-      "name": "createStatusPanel",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 146,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#executeKernelGate@288",
-      "name": "executeKernelGate",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 288,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#getAvailableModes@414",
-      "name": "getAvailableModes",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 414,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#getControllerArgs@253",
-      "name": "getControllerArgs",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 253,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#getCurrentController@410",
-      "name": "getCurrentController",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 410,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#getCurrentMode@407",
-      "name": "getCurrentMode",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 407,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#initializeModes@22",
-      "name": "initializeModes",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 22,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#loadModeController@239",
-      "name": "loadModeController",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 239,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#logActivity@374",
-      "name": "logActivity",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 374,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#registerKernelGate@399",
-      "name": "registerKernelGate",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 399,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#returnToMainMenu@322",
-      "name": "returnToMainMenu",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 322,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#showAccessDenied@359",
-      "name": "showAccessDenied",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 359,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#showError@363",
-      "name": "showError",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 363,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#switchToMode@178",
-      "name": "switchToMode",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 178,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/MainMenuController.js#updateConnectionStatus@338",
-      "name": "updateConnectionStatus",
-      "file": "app/src/ui/MainMenuController.js",
-      "line": 338,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#addAnimations@238",
-      "name": "addAnimations",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 238,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#addCustomHUD@124",
-      "name": "addCustomHUD",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 124,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#afterBuild@116",
-      "name": "afterBuild",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 116,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#afterRender@54",
-      "name": "afterRender",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 54,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#afterTick@90",
-      "name": "afterTick",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 90,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#beforeBuild@107",
-      "name": "beforeBuild",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 107,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#beforeRender@46",
-      "name": "beforeRender",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 46,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#beforeTick@82",
-      "name": "beforeTick",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 82,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#calculateEfficiency@171",
-      "name": "calculateEfficiency",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 171,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#celebrateBuild@216",
-      "name": "celebrateBuild",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 216,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#checkAchievements@311",
-      "name": "checkAchievements",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 311,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#highlightTile@184",
-      "name": "highlightTile",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 184,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#init@17",
-      "name": "init",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 17,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onDestroy@368",
-      "name": "onDestroy",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 368,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onEvent@63",
-      "name": "onEvent",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 63,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onStructurePlaced@303",
-      "name": "onStructurePlaced",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 303,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onTick@287",
-      "name": "onTick",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 287,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onTileSelect@99",
-      "name": "onTileSelect",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 99,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#onTileSelected@295",
-      "name": "onTileSelected",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 295,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#setupEventHandlers@148",
-      "name": "setupEventHandlers",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 148,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#showAchievement@323",
-      "name": "showAchievement",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 323,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#showTileInfo@352",
-      "name": "showTileInfo",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 352,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#toggleEfficiencyMode@279",
-      "name": "toggleEfficiencyMode",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 279,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#updateCustomHUD@160",
-      "name": "updateCustomHUD",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 160,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#updateStatistics@360",
-      "name": "updateStatistics",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 360,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/plugins/ExampleUIPlugin.js#validateBuild@202",
-      "name": "validateBuild",
-      "file": "app/src/ui/plugins/ExampleUIPlugin.js",
-      "line": 202,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
       "id": "app/src/ui/RenderManager.js#clamp@3",
       "name": "clamp",
       "file": "app/src/ui/RenderManager.js",
@@ -2689,66 +1257,58 @@
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#getSnapshot@132",
+      "id": "app/src/ui/RenderManager.js#getSnapshot@104",
       "name": "getSnapshot",
       "file": "app/src/ui/RenderManager.js",
-      "line": 132,
+      "line": 104,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#normalizeRenderGrid@17",
-      "name": "normalizeRenderGrid",
-      "file": "app/src/ui/RenderManager.js",
-      "line": 17,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/RenderManager.js#screenToTile@123",
+      "id": "app/src/ui/RenderManager.js#screenToTile@95",
       "name": "screenToTile",
       "file": "app/src/ui/RenderManager.js",
-      "line": 123,
+      "line": 95,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#setGrid@94",
+      "id": "app/src/ui/RenderManager.js#setGrid@75",
       "name": "setGrid",
       "file": "app/src/ui/RenderManager.js",
-      "line": 94,
+      "line": 75,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#setViewport@85",
+      "id": "app/src/ui/RenderManager.js#setViewport@66",
       "name": "setViewport",
       "file": "app/src/ui/RenderManager.js",
-      "line": 85,
+      "line": 66,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#start@49",
+      "id": "app/src/ui/RenderManager.js#start@30",
       "name": "start",
       "file": "app/src/ui/RenderManager.js",
-      "line": 49,
+      "line": 30,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#stop@60",
+      "id": "app/src/ui/RenderManager.js#stop@41",
       "name": "stop",
       "file": "app/src/ui/RenderManager.js",
-      "line": 60,
+      "line": 41,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#subscribe@67",
+      "id": "app/src/ui/RenderManager.js#subscribe@48",
       "name": "subscribe",
       "file": "app/src/ui/RenderManager.js",
-      "line": 67,
+      "line": 48,
       "kind": "method",
       "category": "ui"
     },
@@ -2761,58 +1321,10 @@
       "category": "ui"
     },
     {
-      "id": "app/src/ui/RenderManager.js#worldToScreen@112",
+      "id": "app/src/ui/RenderManager.js#worldToScreen@84",
       "name": "worldToScreen",
       "file": "app/src/ui/RenderManager.js",
-      "line": 112,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#clamp@1",
-      "name": "clamp",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 1,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#destroy@58",
-      "name": "destroy",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 58,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#loop@67",
-      "name": "loop",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 67,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#resize@26",
-      "name": "resize",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 26,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#structureKey@3",
-      "name": "structureKey",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 3,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/TileAnimationSDK.js#update@36",
-      "name": "update",
-      "file": "app/src/ui/TileAnimationSDK.js",
-      "line": 36,
+      "line": 84,
       "kind": "method",
       "category": "ui"
     },
@@ -2897,411 +1409,51 @@
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#applyGameAction@264",
-      "name": "applyGameAction",
-      "file": "app/src/ui/UIController.js",
-      "line": 264,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#applyLocalFallback@368",
-      "name": "applyLocalFallback",
-      "file": "app/src/ui/UIController.js",
-      "line": 368,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#bootstrap@154",
+      "id": "app/src/ui/UIController.js#bootstrap@92",
       "name": "bootstrap",
       "file": "app/src/ui/UIController.js",
-      "line": 154,
+      "line": 92,
       "kind": "method",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#clone@28",
+      "id": "app/src/ui/UIController.js#clone@23",
       "name": "clone",
       "file": "app/src/ui/UIController.js",
-      "line": 28,
+      "line": 23,
       "kind": "function",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#frame@418",
+      "id": "app/src/ui/UIController.js#frame@206",
       "name": "frame",
       "file": "app/src/ui/UIController.js",
-      "line": 418,
+      "line": 206,
       "kind": "arrow",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#handleApply@189",
-      "name": "handleApply",
-      "file": "app/src/ui/UIController.js",
-      "line": 189,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#handleGuard@234",
-      "name": "handleGuard",
-      "file": "app/src/ui/UIController.js",
-      "line": 234,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#handlePlan@165",
-      "name": "handlePlan",
-      "file": "app/src/ui/UIController.js",
-      "line": 165,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#isPlainObject@19",
+      "id": "app/src/ui/UIController.js#isPlainObject@14",
       "name": "isPlainObject",
       "file": "app/src/ui/UIController.js",
-      "line": 19,
+      "line": 14,
       "kind": "function",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#parseJson@36",
-      "name": "parseJson",
+      "id": "app/src/ui/UIController.js#resolveGridSpecFromState@36",
+      "name": "resolveGridSpecFromState",
       "file": "app/src/ui/UIController.js",
       "line": 36,
       "kind": "function",
       "category": "ui"
     },
     {
-      "id": "app/src/ui/UIController.js#pretty@32",
-      "name": "pretty",
-      "file": "app/src/ui/UIController.js",
-      "line": 32,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#refresh@215",
-      "name": "refresh",
-      "file": "app/src/ui/UIController.js",
-      "line": 215,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#resolveGridSpecFromState@77",
-      "name": "resolveGridSpecFromState",
-      "file": "app/src/ui/UIController.js",
-      "line": 77,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#setDisabled@60",
-      "name": "setDisabled",
-      "file": "app/src/ui/UIController.js",
-      "line": 60,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#setTextContent@54",
-      "name": "setTextContent",
-      "file": "app/src/ui/UIController.js",
-      "line": 54,
-      "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIController.js#toPositiveInteger@68",
+      "id": "app/src/ui/UIController.js#toPositiveInteger@27",
       "name": "toPositiveInteger",
       "file": "app/src/ui/UIController.js",
-      "line": 68,
+      "line": 27,
       "kind": "function",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#clearCurrentPluginId@642",
-      "name": "clearCurrentPluginId",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 642,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#connectKernelWebSocket@248",
-      "name": "connectKernelWebSocket",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 248,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#createDeterministicRNG@159",
-      "name": "createDeterministicRNG",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 159,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#createDeterministicState@318",
-      "name": "createDeterministicState",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 318,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#createDeterministicTime@303",
-      "name": "createDeterministicTime",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 303,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#createDeterministicWebSocket@185",
-      "name": "createDeterministicWebSocket",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 185,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#createSandboxedPlugin@95",
-      "name": "createSandboxedPlugin",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 95,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#executePluginAction@374",
-      "name": "executePluginAction",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 374,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#getCurrentPluginId@628",
-      "name": "getCurrentPluginId",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 628,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#getKernelWebSocket@241",
-      "name": "getKernelWebSocket",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 241,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#getMutationLog@690",
-      "name": "getMutationLog",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 690,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#getPluginStats@697",
-      "name": "getPluginStats",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 697,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#handleWebSocketMessage@286",
-      "name": "handleWebSocketMessage",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 286,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#hashCode@669",
-      "name": "hashCode",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 669,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#isValidAttribute@573",
-      "name": "isValidAttribute",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 573,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#isValidUpdate@586",
-      "name": "isValidUpdate",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 586,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#logMutation@593",
-      "name": "logMutation",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 593,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#logUIEvent@621",
-      "name": "logUIEvent",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 621,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#nextRandom@164",
-      "name": "nextRandom",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 164,
-      "kind": "arrow",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#registerPlugin@21",
-      "name": "registerPlugin",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 21,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#safeAddEvent@472",
-      "name": "safeAddEvent",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 472,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#safeCreateElement@422",
-      "name": "safeCreateElement",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 422,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#safeRemoveEvent@489",
-      "name": "safeRemoveEvent",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 489,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#safeUpdateElement@445",
-      "name": "safeUpdateElement",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 445,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#sandboxEventHandler@505",
-      "name": "sandboxEventHandler",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 505,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#sandboxHook@336",
-      "name": "sandboxHook",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 336,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#sanitizeArgs@649",
-      "name": "sanitizeArgs",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 649,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#sanitizeResult@660",
-      "name": "sanitizeResult",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 660,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#setCurrentPluginId@635",
-      "name": "setCurrentPluginId",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 635,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#setDeterministicSeed@682",
-      "name": "setDeterministicSeed",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 682,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#unregisterPlugin@714",
-      "name": "unregisterPlugin",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 714,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#validateDeterministicAction@535",
-      "name": "validateDeterministicAction",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 535,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#validateDeterministicResult@550",
-      "name": "validateDeterministicResult",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 550,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#validateElementCreation@562",
-      "name": "validateElementCreation",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 562,
-      "kind": "method",
-      "category": "ui"
-    },
-    {
-      "id": "app/src/ui/UIPluginController.js#validatePluginDeterminism@46",
-      "name": "validatePluginDeterminism",
-      "file": "app/src/ui/UIPluginController.js",
-      "line": 46,
-      "kind": "method",
       "category": "ui"
     },
     {
@@ -3367,94 +1519,6 @@
       "line": 1,
       "kind": "function",
       "category": "ui"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#biomePalette@66",
-      "name": "biomePalette",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 66,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#drawIsoGrid@86",
-      "name": "drawIsoGrid",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 86,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#drawVoxels@107",
-      "name": "drawVoxels",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 107,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#fbm@43",
-      "name": "fbm",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 43,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#hash2@9",
-      "name": "hash2",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 9,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#hashString@1",
-      "name": "hashString",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 1,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#hsl@62",
-      "name": "hsl",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 62,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#isoTransform@79",
-      "name": "isoTransform",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 79,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#renderWorldBitmap@143",
-      "name": "renderWorldBitmap",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 143,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#unitFromHash@19",
-      "name": "unitFromHash",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 19,
-      "kind": "function",
-      "category": "other"
-    },
-    {
-      "id": "app/src/workers/worldRenderWorker.js#valueNoise@23",
-      "name": "valueNoise",
-      "file": "app/src/workers/worldRenderWorker.js",
-      "line": 23,
-      "kind": "function",
-      "category": "other"
     },
     {
       "id": "dev/scripts/build-evidence-bundle.mjs#argNumber@11",
@@ -3529,43 +1593,131 @@
       "category": "testing"
     },
     {
-      "id": "dev/scripts/playwright-tiles-full.mjs#contentType@8",
-      "name": "contentType",
-      "file": "dev/scripts/playwright-tiles-full.mjs",
-      "line": 8,
+      "id": "dev/scripts/evidence-shared.mjs#assert@25",
+      "name": "assert",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 25,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/playwright-tiles-full.mjs#createServer@37",
-      "name": "createServer",
-      "file": "dev/scripts/playwright-tiles-full.mjs",
-      "line": 37,
+      "id": "dev/scripts/evidence-shared.mjs#compareRunEvidence@136",
+      "name": "compareRunEvidence",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 136,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/playwright-tiles-full.mjs#resolvePath@20",
-      "name": "resolvePath",
-      "file": "dev/scripts/playwright-tiles-full.mjs",
-      "line": 20,
+      "id": "dev/scripts/evidence-shared.mjs#createPairId@81",
+      "name": "createPairId",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 81,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/playwright-tiles-full.mjs#run@71",
-      "name": "run",
-      "file": "dev/scripts/playwright-tiles-full.mjs",
-      "line": 71,
+      "id": "dev/scripts/evidence-shared.mjs#createRunId@77",
+      "name": "createRunId",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 77,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/playwright-tiles-full.mjs#sleep@99",
-      "name": "sleep",
-      "file": "dev/scripts/playwright-tiles-full.mjs",
-      "line": 99,
-      "kind": "arrow",
+      "id": "dev/scripts/evidence-shared.mjs#ensureEvidenceDirs@51",
+      "name": "ensureEvidenceDirs",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 51,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#evidenceRoot@31",
+      "name": "evidenceRoot",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 31,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#finalSummaryPath@47",
+      "name": "finalSummaryPath",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 47,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#hashFiles@61",
+      "name": "hashFiles",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 61,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#pairsDir@39",
+      "name": "pairsDir",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 39,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#runsDir@35",
+      "name": "runsDir",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 35,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#sha256HexSync@57",
+      "name": "sha256HexSync",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 57,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#summaryPath@43",
+      "name": "summaryPath",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 43,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#validatePairEvidence@107",
+      "name": "validatePairEvidence",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 107,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#validateRunEvidence@85",
+      "name": "validateRunEvidence",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 85,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#validateSummaryEvidence@127",
+      "name": "validateSummaryEvidence",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 127,
+      "kind": "function",
+      "category": "testing"
+    },
+    {
+      "id": "dev/scripts/evidence-shared.mjs#writeJson@184",
+      "name": "writeJson",
+      "file": "dev/scripts/evidence-shared.mjs",
+      "line": 184,
+      "kind": "function",
       "category": "testing"
     },
     {
@@ -3609,122 +1761,58 @@
       "category": "testing"
     },
     {
-      "id": "dev/scripts/smoke-test.mjs#getCurrentTick@7",
-      "name": "getCurrentTick",
-      "file": "dev/scripts/smoke-test.mjs",
-      "line": 7,
-      "kind": "method",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/smoke-test.mjs#verifyDeterministicRng@15",
-      "name": "verifyDeterministicRng",
-      "file": "dev/scripts/smoke-test.mjs",
-      "line": 15,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/smoke-test.mjs#verifyServerModulesLoad@31",
-      "name": "verifyServerModulesLoad",
-      "file": "dev/scripts/smoke-test.mjs",
-      "line": 31,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/test-runner.mjs#buildDeterminismEvidence@53",
-      "name": "buildDeterminismEvidence",
+      "id": "dev/scripts/test-runner.mjs#environmentSummary@39",
+      "name": "environmentSummary",
       "file": "dev/scripts/test-runner.mjs",
-      "line": 53,
+      "line": 39,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/test-runner.mjs#getCurrentCommit@34",
-      "name": "getCurrentCommit",
+      "id": "dev/scripts/test-runner.mjs#executeRun@47",
+      "name": "executeRun",
       "file": "dev/scripts/test-runner.mjs",
-      "line": 34,
+      "line": 47,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/test-runner.mjs#loadGatePolicyVersion@42",
-      "name": "loadGatePolicyVersion",
+      "id": "dev/scripts/test-runner.mjs#loadModules@25",
+      "name": "loadModules",
       "file": "dev/scripts/test-runner.mjs",
-      "line": 42,
+      "line": 25,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/test-runner.mjs#run@6",
-      "name": "run",
+      "id": "dev/scripts/test-runner.mjs#main@100",
+      "name": "main",
       "file": "dev/scripts/test-runner.mjs",
-      "line": 6,
+      "line": 100,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/test-runner.mjs#validateEvidenceShape@70",
-      "name": "validateEvidenceShape",
+      "id": "dev/scripts/test-runner.mjs#overallFromPairs@95",
+      "name": "overallFromPairs",
       "file": "dev/scripts/test-runner.mjs",
-      "line": 70,
+      "line": 95,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/test-runner.mjs#writeEvidenceArtifact@85",
-      "name": "writeEvidenceArtifact",
-      "file": "dev/scripts/test-runner.mjs",
-      "line": 85,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/verify-evidence.mjs#assert@2",
-      "name": "assert",
-      "file": "dev/scripts/verify-evidence.mjs",
-      "line": 2,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/verify-evidence.mjs#isPlainObject@8",
-      "name": "isPlainObject",
-      "file": "dev/scripts/verify-evidence.mjs",
-      "line": 8,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/verify-evidence.mjs#main@68",
+      "id": "dev/scripts/verify-evidence.mjs#main@12",
       "name": "main",
       "file": "dev/scripts/verify-evidence.mjs",
-      "line": 68,
+      "line": 12,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/scripts/verify-evidence.mjs#resolveEvidencePath@16",
-      "name": "resolveEvidencePath",
+      "id": "dev/scripts/verify-evidence.mjs#readJson@8",
+      "name": "readJson",
       "file": "dev/scripts/verify-evidence.mjs",
-      "line": 16,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/verify-evidence.mjs#validateEvidenceShape@32",
-      "name": "validateEvidenceShape",
-      "file": "dev/scripts/verify-evidence.mjs",
-      "line": 32,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/scripts/verify-evidence.mjs#verifyEvidence@50",
-      "name": "verifyEvidence",
-      "file": "dev/scripts/verify-evidence.mjs",
-      "line": 50,
+      "line": 8,
       "kind": "function",
       "category": "testing"
     },
@@ -3737,42 +1825,10 @@
       "category": "testing"
     },
     {
-      "id": "dev/tests/MainTest.mjs#fail@7",
-      "name": "fail",
-      "file": "dev/tests/MainTest.mjs",
-      "line": 7,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/MainTest.mjs#loadModules@11",
-      "name": "loadModules",
-      "file": "dev/tests/MainTest.mjs",
-      "line": 11,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/MainTest.mjs#runModule@19",
-      "name": "runModule",
-      "file": "dev/tests/MainTest.mjs",
-      "line": 19,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/00.runtime-governance-suite.module.mjs#mkSeed@7",
-      "name": "mkSeed",
+      "id": "dev/tests/modules/00.runtime-governance-suite.module.mjs#runEvidence@17",
+      "name": "runEvidence",
       "file": "dev/tests/modules/00.runtime-governance-suite.module.mjs",
-      "line": 7,
-      "kind": "arrow",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/00.runtime-governance-suite.module.mjs#test@5",
-      "name": "test",
-      "file": "dev/tests/modules/00.runtime-governance-suite.module.mjs",
-      "line": 5,
+      "line": 17,
       "kind": "function",
       "category": "testing"
     },
@@ -3793,82 +1849,18 @@
       "category": "testing"
     },
     {
-      "id": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs#firstDriftIndex@23",
-      "name": "firstDriftIndex",
+      "id": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs#runEvidence@39",
+      "name": "runEvidence",
       "file": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs",
-      "line": 23,
+      "line": 39,
       "kind": "function",
       "category": "testing"
     },
     {
-      "id": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs#mkSeed@35",
-      "name": "mkSeed",
-      "file": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs",
-      "line": 35,
-      "kind": "arrow",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs#test@33",
-      "name": "test",
-      "file": "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs",
-      "line": 33,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/20.gameplay-state-suite.module.mjs#mkSeed@6",
-      "name": "mkSeed",
+      "id": "dev/tests/modules/20.gameplay-state-suite.module.mjs#runEvidence@19",
+      "name": "runEvidence",
       "file": "dev/tests/modules/20.gameplay-state-suite.module.mjs",
-      "line": 6,
-      "kind": "arrow",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/20.gameplay-state-suite.module.mjs#test@4",
-      "name": "test",
-      "file": "dev/tests/modules/20.gameplay-state-suite.module.mjs",
-      "line": 4,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/30.tooling-evidence-suite.module.mjs#createDigest@5",
-      "name": "createDigest",
-      "file": "dev/tests/modules/30.tooling-evidence-suite.module.mjs",
-      "line": 5,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/30.tooling-evidence-suite.module.mjs#mkSeed@13",
-      "name": "mkSeed",
-      "file": "dev/tests/modules/30.tooling-evidence-suite.module.mjs",
-      "line": 13,
-      "kind": "arrow",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/30.tooling-evidence-suite.module.mjs#test@11",
-      "name": "test",
-      "file": "dev/tests/modules/30.tooling-evidence-suite.module.mjs",
-      "line": 11,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/40.system-coverage-suite.module.mjs#checkSyntax@38",
-      "name": "checkSyntax",
-      "file": "dev/tests/modules/40.system-coverage-suite.module.mjs",
-      "line": 38,
-      "kind": "function",
-      "category": "testing"
-    },
-    {
-      "id": "dev/tests/modules/40.system-coverage-suite.module.mjs#test@50",
-      "name": "test",
-      "file": "dev/tests/modules/40.system-coverage-suite.module.mjs",
-      "line": 50,
+      "line": 19,
       "kind": "function",
       "category": "testing"
     },
@@ -4769,11 +2761,35 @@
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/installGitHooks.mjs#only_preflight_injection_changes@9",
-      "name": "only_preflight_injection_changes",
+      "id": "dev/tools/runtime/installGitHooks.mjs#getGeneratedHooks@61",
+      "name": "getGeneratedHooks",
       "file": "dev/tools/runtime/installGitHooks.mjs",
-      "line": 9,
-      "kind": "method",
+      "line": 61,
+      "kind": "function",
+      "category": "runtime-tooling"
+    },
+    {
+      "id": "dev/tools/runtime/installGitHooks.mjs#installHooks@68",
+      "name": "installHooks",
+      "file": "dev/tools/runtime/installGitHooks.mjs",
+      "line": 68,
+      "kind": "function",
+      "category": "runtime-tooling"
+    },
+    {
+      "id": "dev/tools/runtime/installGitHooks.mjs#renderPreCommitHook@13",
+      "name": "renderPreCommitHook",
+      "file": "dev/tools/runtime/installGitHooks.mjs",
+      "line": 13,
+      "kind": "function",
+      "category": "runtime-tooling"
+    },
+    {
+      "id": "dev/tools/runtime/installGitHooks.mjs#renderPrePushHook@23",
+      "name": "renderPrePushHook",
+      "file": "dev/tools/runtime/installGitHooks.mjs",
+      "line": 23,
+      "kind": "function",
       "category": "runtime-tooling"
     },
     {
@@ -5181,54 +3197,6 @@
       "name": "writeJson",
       "file": "dev/tools/runtime/preflight-mutation-guard.mjs",
       "line": 159,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#hasBlockedStderr@6",
-      "name": "hasBlockedStderr",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 6,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#mutationGuardArgs@74",
-      "name": "mutationGuardArgs",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 74,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#runNodeScript@61",
-      "name": "runNodeScript",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 61,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#runNpmScript@65",
-      "name": "runNpmScript",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 65,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#runProcess@10",
-      "name": "runProcess",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 10,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/preflight.mjs#shouldSkipSyncChecks@93",
-      "name": "shouldSkipSyncChecks",
-      "file": "dev/tools/runtime/preflight.mjs",
-      "line": 93,
       "kind": "function",
       "category": "runtime-tooling"
     },
@@ -5705,18 +3673,26 @@
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/update-testline-integrity.mjs#collect@8",
-      "name": "collect",
-      "file": "dev/tools/runtime/update-testline-integrity.mjs",
-      "line": 8,
+      "id": "dev/tools/runtime/testline-integrity-shared.mjs#buildTestlineHashes@28",
+      "name": "buildTestlineHashes",
+      "file": "dev/tools/runtime/testline-integrity-shared.mjs",
+      "line": 28,
       "kind": "function",
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/update-testline-integrity.mjs#main@27",
+      "id": "dev/tools/runtime/testline-integrity-shared.mjs#collectTestlineFiles@11",
+      "name": "collectTestlineFiles",
+      "file": "dev/tools/runtime/testline-integrity-shared.mjs",
+      "line": 11,
+      "kind": "function",
+      "category": "runtime-tooling"
+    },
+    {
+      "id": "dev/tools/runtime/update-testline-integrity.mjs#main@11",
       "name": "main",
       "file": "dev/tools/runtime/update-testline-integrity.mjs",
-      "line": 27,
+      "line": 11,
       "kind": "function",
       "category": "runtime-tooling"
     },
@@ -5769,34 +3745,34 @@
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/verify-testline-integrity.mjs#collectMonitoredFiles@33",
-      "name": "collectMonitoredFiles",
-      "file": "dev/tools/runtime/verify-testline-integrity.mjs",
-      "line": 33,
+      "id": "dev/tools/runtime/verify-git-hooks.mjs#main@5",
+      "name": "main",
+      "file": "dev/tools/runtime/verify-git-hooks.mjs",
+      "line": 5,
       "kind": "function",
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/verify-testline-integrity.mjs#loadBaseline@47",
-      "name": "loadBaseline",
-      "file": "dev/tools/runtime/verify-testline-integrity.mjs",
-      "line": 47,
-      "kind": "function",
-      "category": "runtime-tooling"
-    },
-    {
-      "id": "dev/tools/runtime/verify-testline-integrity.mjs#main@52",
+      "id": "dev/tools/runtime/verify-testline-integrity.mjs#main@23",
       "name": "main",
       "file": "dev/tools/runtime/verify-testline-integrity.mjs",
-      "line": 52,
+      "line": 23,
       "kind": "function",
       "category": "runtime-tooling"
     },
     {
-      "id": "dev/tools/runtime/verify-testline-integrity.mjs#normalizeText@29",
-      "name": "normalizeText",
+      "id": "dev/tools/runtime/verify-testline-integrity.mjs#newestMtime@14",
+      "name": "newestMtime",
       "file": "dev/tools/runtime/verify-testline-integrity.mjs",
-      "line": 29,
+      "line": 14,
+      "kind": "function",
+      "category": "runtime-tooling"
+    },
+    {
+      "id": "dev/tools/runtime/verify-testline-integrity.mjs#readJson@10",
+      "name": "readJson",
+      "file": "dev/tools/runtime/verify-testline-integrity.mjs",
+      "line": 10,
       "kind": "function",
       "category": "runtime-tooling"
     }
