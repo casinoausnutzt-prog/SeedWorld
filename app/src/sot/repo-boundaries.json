@@ -47,6 +47,7 @@
         "dev/tools/runtime/run-required-checks.mjs",
         "dev/tools/runtime/signing-guard.mjs",
         "dev/tools/runtime/governance-policy-verify.mjs",
+        "dev/tools/runtime/governance-modularity-verify.mjs",
         "dev/tools/runtime/governance-llm-verify.mjs",
         "dev/tools/runtime/governance-subagent-verify.mjs",
         "dev/tools/runtime/governance-findings-materialize.mjs",
@@ -109,6 +110,7 @@
     "dev/tools/runtime/sync-versioning.mjs",
     "dev/tools/runtime/governance-coverage-verify.mjs",
     "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/governance-modularity-verify.mjs",
     "dev/tools/runtime/governance-llm-verify.mjs",
     "dev/tools/runtime/governance-subagent-verify.mjs",
     "dev/tools/runtime/governance-findings-verify.mjs",
@@ -136,6 +138,7 @@
       "dev/tools/runtime/sync-versioning.mjs",
       "dev/tools/runtime/governance-coverage-verify.mjs",
       "dev/tools/runtime/governance-policy-verify.mjs",
+      "dev/tools/runtime/governance-modularity-verify.mjs",
       "dev/tools/runtime/governance-llm-verify.mjs",
       "dev/tools/runtime/governance-subagent-verify.mjs",
       "dev/tools/runtime/governance-findings-verify.mjs",
@@ -173,6 +176,7 @@
       "dev/tools/runtime/governance-coverage-verify.mjs",
       "dev/tools/runtime/signing-guard.mjs",
       "dev/tools/runtime/governance-policy-verify.mjs",
+      "dev/tools/runtime/governance-modularity-verify.mjs",
       "dev/tools/runtime/governance-llm-verify.mjs",
       "dev/tools/runtime/governance-subagent-verify.mjs",
       "dev/tools/runtime/governance-findings-verify.mjs",
@@ -218,5 +222,58 @@
       "dev/tests/modules/20.gameplay-state-suite.module.mjs"
     ],
     "allowedDuplicatePairs": []
+    ,
+    "modularityRules": {
+      "maxLines": 260,
+      "maxBytes": 20000,
+      "fileSizeAllowlist": [
+        {
+          "path": "dev/tools/runtime/preflight-mutation-guard.mjs",
+          "maxLines": 900,
+          "maxBytes": 36000,
+          "sunsetDate": "2026-06-30"
+        },
+        {
+          "path": "dev/tools/runtime/run-required-checks.mjs",
+          "maxLines": 500,
+          "maxBytes": 18000,
+          "sunsetDate": "2026-05-31"
+        },
+        {
+          "path": "app/src/kernel/KernelController.js",
+          "maxLines": 500,
+          "maxBytes": 18000,
+          "sunsetDate": "2026-05-31"
+        },
+        {
+          "path": "app/src/game/worldGen.js",
+          "maxLines": 500,
+          "maxBytes": 20000,
+          "sunsetDate": "2026-05-31"
+        },
+        {
+          "path": "dev/tools/runtime/repo-hygiene-map.mjs",
+          "maxLines": 320,
+          "maxBytes": 12000,
+          "sunsetDate": "2026-05-31"
+        },
+        {
+          "path": "dev/tools/runtime/sync-docs-v2.mjs",
+          "maxLines": 340,
+          "maxBytes": 14000,
+          "sunsetDate": "2026-05-31"
+        }
+      ],
+      "stateWriteAllowlist": [
+        "app/src/game/gameStateReducer.js",
+        "app/src/game/gameConstants.js"
+      ],
+      "forbiddenAuthoritativeImports": [
+        "app/src/ui/",
+        "app/src/browser/",
+        "app/src/plugins/",
+        "app/server/"
+      ]
+    }
   }
 }

@@ -16,11 +16,13 @@ export function renderPreCommitHook() {
   return `#!/bin/sh
 set -e
 
-echo "[hook:pre-commit] verify hook sync + deterministic core tests"
+echo "[hook:pre-commit] verify hook sync + chain preflight"
 npm run hooks:verify
+npm run governance:policy:verify
+npm run governance:modularity:verify
 npm run governance:llm:verify
 npm run governance:subagent:verify
-npm test
+npm run test:verify
 `;
 }
 

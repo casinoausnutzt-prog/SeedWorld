@@ -11,8 +11,8 @@ Documentation 2.0 verbindet drei Dinge in einem System: menschenlesbare Wahrheit
 
 ## Status
 
-- Offene Tasks: 10
-- Archivierte Tasks: 15
+- Offene Tasks: 16
+- Archivierte Tasks: 16
 - Task-Schema: `2.0.0`
 - SoT-Review: `2026-03-31`
 - Harte Guards: rohe Plan-Dateien blocken, unregistrierte neue Dateien blocken

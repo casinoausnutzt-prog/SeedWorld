@@ -31,6 +31,13 @@ Archivierte Tasks wurden vom Scanner aus dem offenen Planungspfad entfernt, weil
 
 ## Archived Tasks
 
+### GOV-007 Blocker: repo:hygiene:verify
+
+- JSON: `tem/tasks/archive/GOV-007.json`
+- Archived At: `2026-03-31T11:10:20.164Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-modularity-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/signing-guard.mjs`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `tem/tasks/open/GOV-001.json`, `tem/tasks/open/GOV-002.json`, `tem/tasks/open/GOV-003.json`, `tem/tasks/open/GOV-004.json`, `tem/tasks/open/GOV-005.json`, `tem/tasks/open/GOV-006.json`, `tem/tasks/open/GOV-007.json`
+
 ### LLM-006 Sub_Agent-Promptbibliothek auf Pflicht-Governance aktualisieren
 
 - JSON: `tem/tasks/archive/LLM-006.json`

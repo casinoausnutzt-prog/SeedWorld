@@ -4,13 +4,21 @@ const REQUIRED_FINGERPRINT = "F14A6FC849CF906ED7518584D7EA78B1F7778AFD";
 const REQUIRED_SHORT = REQUIRED_FINGERPRINT.slice(-16);
 
 function parseArgs(argv) {
-  const args = { configOnly: false, headOnly: false, range: null, allowEmptyRange: false, skipConfig: false };
+  const args = {
+    configOnly: false,
+    headOnly: false,
+    range: null,
+    allowEmptyRange: false,
+    skipConfig: false,
+    unpublishedOrigin: false
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === "--config-only") args.configOnly = true;
     else if (arg === "--head-only") args.headOnly = true;
     else if (arg === "--allow-empty-range") args.allowEmptyRange = true;
     else if (arg === "--skip-config") args.skipConfig = true;
+    else if (arg === "--unpublished-origin") args.unpublishedOrigin = true;
     else if (arg === "--range") args.range = argv[++i] || null;
   }
   return args;
@@ -86,17 +94,35 @@ function resolveCommits(args) {
     return head ? [head] : [];
   }
 
+  if (args.unpublishedOrigin) {
+    const list = git(["rev-list", "HEAD", "--not", "--remotes=origin"], { allowFailure: true });
+    if (list.status !== 0) {
+      throw new Error("cannot resolve unpublished commits against origin remotes");
+    }
+    const commits = String(list.stdout || "")
+      .split(/\r?\n/)
+      .map((x) => x.trim())
+      .filter(Boolean);
+    if (commits.length === 0 && args.allowEmptyRange) {
+      return [];
+    }
+    return commits;
+  }
+
   const range = args.range || upstreamRange();
   if (range) {
     const list = git(["rev-list", range], { allowFailure: true });
     if (list.status !== 0) {
-      if (args.allowEmptyRange) return [];
       throw new Error(`cannot resolve commit range: ${range}`);
     }
-    return String(list.stdout || "")
+    const commits = String(list.stdout || "")
       .split(/\r?\n/)
       .map((x) => x.trim())
       .filter(Boolean);
+    if (commits.length === 0 && args.allowEmptyRange) {
+      return [];
+    }
+    return commits;
   }
 
   const head = String(git(["rev-parse", "HEAD"]).stdout || "").trim();
@@ -104,9 +130,17 @@ function resolveCommits(args) {
 }
 
 function verifyCommitSignature(commit) {
-  git(["verify-commit", commit]);
+  const verify = git(["verify-commit", commit], { allowFailure: true });
   const detail = git(["log", "--show-signature", "-n", "1", "--pretty=format:%H", commit], { allowFailure: true });
-  const combined = `${detail.stdout || ""}\n${detail.stderr || ""}`;
+  const combined = `${verify.stdout || ""}\n${verify.stderr || ""}\n${detail.stdout || ""}\n${detail.stderr || ""}`;
+  const hasGoodSignature = /\b(Good signature|Korrekte Signatur)\b/i.test(combined);
+  const hasKnownGpgIoNoise = /\b(keyboxd|Input\/output error)\b/i.test(combined);
+  if (!(verify.status === 0 || (hasGoodSignature && hasKnownGpgIoNoise))) {
+    throw new Error(`commit ${commit} signature verification command failed`);
+  }
+  if (!hasGoodSignature) {
+    throw new Error(`commit ${commit} has no verifiable GPG signature output`);
+  }
   const text = normalizeHex(combined);
   if (!text.includes(REQUIRED_SHORT) && !text.includes(REQUIRED_FINGERPRINT)) {
     throw new Error(`commit ${commit} not signed with required fingerprint suffix ${REQUIRED_SHORT}`);

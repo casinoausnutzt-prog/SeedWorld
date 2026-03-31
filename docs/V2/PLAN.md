@@ -94,3 +94,57 @@ Offene Planung liegt nur noch als atomare Einzel-Tasks vor. Ein Task bleibt offe
 - Scope: `app/src/ui/UIController.js`, `app/src/ui/RenderManager.js`, `dev/scripts/test-runner.mjs`
 - Description: Interaktion und HUD sollen nach der Canvas-Migration ohne Sonderpfade testbar bleiben.
 
+### GOV-001 Run-Required-Checks in modulare Runner aufteilen
+
+- JSON: `tem/tasks/open/GOV-001.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/runtime-shared.mjs`, `app/src/kernel/GovernanceEngine.js`
+- Description: Der Required-Runner soll in kleine, testbare Module zerlegt werden (git-metadata, step-exec, findings, manifest), damit die Modularity-Allowlist für run-required-checks entfernt werden kann.
+
+### GOV-002 KernelController entmonolithisieren
+
+- JSON: `tem/tasks/open/GOV-002.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `app/src/kernel/KernelController.js`, `app/src/kernel/KernelRouter.js`, `app/src/kernel/GateManager.js`
+- Description: KernelController soll entlang klarer Verantwortungen (routing, policy-bridge, audit) in Module gesplittet werden, damit File-Size-Allowlist bis Sunset entfernt werden kann.
+
+### GOV-003 Mutation-Guard in deterministische Teilmodule splitten
+
+- JSON: `tem/tasks/open/GOV-003.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/preflight-mutation-guard.mjs`, `dev/tools/runtime/llm-read-shared.mjs`, `dev/tools/runtime/repo-hygiene-map.mjs`
+- Description: preflight-mutation-guard muss in parser, classifier und writer getrennt werden, damit die derzeitige Max-Size-Ausnahme mit Sunset ausläuft.
+
+### GOV-004 Docs-V2 Sync-Chain modularisieren
+
+- JSON: `tem/tasks/open/GOV-004.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/sync-docs-v2.mjs`, `dev/tools/runtime/repo-hygiene-map.mjs`, `dev/tools/runtime/docs-v2-shared.mjs`
+- Description: sync-docs-v2 und repo-hygiene-map sollen in klar getrennte Phasen zerlegt werden, damit Ausnahmen in der Modularity-Regel entfallen.
+
+### GOV-005 Signed-Commit Policy auf Push-Range verallgemeinern
+
+- JSON: `tem/tasks/open/GOV-005.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/signing-guard.mjs`, `.github/workflows/required-checks.yml`
+- Description: Signaturprüfung soll lokal und in CI denselben Range-Contract nutzen, inklusive robuster Upstream-Range-Resolution statt fixer origin/main-Annahme.
+
+### GOV-006 Governance-Prozedur Security Threat Model fest verankern
+
+- JSON: `tem/tasks/open/GOV-006.json`
+- Track: `governance-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/V2/TRUTH.md`
+- Description: Bedrohungsmodell fuer Governance-Artefakte, Hooks und Claim-Proofs soll als kontrolliertes Dokument mit Verify-Referenz eingebunden werden.
+

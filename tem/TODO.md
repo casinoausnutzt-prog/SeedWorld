@@ -60,6 +60,7 @@ Diese Datei wird automatisch aus `tem/` erzeugt. Keine manuelle Pflege.
 - [ ] tem/tasks/archive/GOV-004.json
 - [ ] tem/tasks/archive/GOV-005.json
 - [ ] tem/tasks/archive/GOV-006.json
+- [ ] tem/tasks/archive/GOV-007.json
 - [ ] tem/tasks/archive/LLM-001.json
 - [ ] tem/tasks/archive/LLM-002.json
 - [ ] tem/tasks/archive/LLM-003.json
@@ -78,6 +79,12 @@ Diese Datei wird automatisch aus `tem/` erzeugt. Keine manuelle Pflege.
 - [ ] tem/tasks/open/CF-010.json
 - [ ] tem/tasks/open/CF-011.json
 - [ ] tem/tasks/open/CF-012.json
+- [ ] tem/tasks/open/GOV-001.json
+- [ ] tem/tasks/open/GOV-002.json
+- [ ] tem/tasks/open/GOV-003.json
+- [ ] tem/tasks/open/GOV-004.json
+- [ ] tem/tasks/open/GOV-005.json
+- [ ] tem/tasks/open/GOV-006.json
 
 ## Umfang
-- Gesamtartefakte: 52
+- Gesamtartefakte: 59

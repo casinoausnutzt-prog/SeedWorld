@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "29c28ca83580b1fda6a8875092cfe51ebd3b3d85549a28fbacfa67b8a3ddb108",
+  "snapshotId": "730b01db578bc1ef7cead2693d4989d58d8dfc681bd11662fc15189b518f7764",
   "controlFiles": [
     "TODO.md",
     "WORKFLOW.md",
     "SCHEMA.json"
   ],
-  "artifactCount": 52,
+  "artifactCount": 59,
   "categories": {
     "planung": [
       "tem/beide-plaene.md",
@@ -56,6 +56,7 @@
       "tem/tasks/archive/GOV-004.json",
       "tem/tasks/archive/GOV-005.json",
       "tem/tasks/archive/GOV-006.json",
+      "tem/tasks/archive/GOV-007.json",
       "tem/tasks/archive/LLM-001.json",
       "tem/tasks/archive/LLM-002.json",
       "tem/tasks/archive/LLM-003.json",
@@ -73,7 +74,13 @@
       "tem/tasks/open/CF-009.json",
       "tem/tasks/open/CF-010.json",
       "tem/tasks/open/CF-011.json",
-      "tem/tasks/open/CF-012.json"
+      "tem/tasks/open/CF-012.json",
+      "tem/tasks/open/GOV-001.json",
+      "tem/tasks/open/GOV-002.json",
+      "tem/tasks/open/GOV-003.json",
+      "tem/tasks/open/GOV-004.json",
+      "tem/tasks/open/GOV-005.json",
+      "tem/tasks/open/GOV-006.json"
     ],
     "sonstiges": [
       "tem/testline-missing-systems.md"
@@ -246,6 +253,11 @@
       "sha256": "89df7fe2e93a92da83b893455c5dce2b2ef2052acb2fd9c23331871c728e9da1"
     },
     {
+      "path": "tem/tasks/archive/GOV-007.json",
+      "category": "task-archive",
+      "sha256": "c673388d27e615be980bd48539600a6602f14ae2fe2ff554c8579ab2478f2d56"
+    },
+    {
       "path": "tem/tasks/archive/LLM-001.json",
       "category": "task-archive",
       "sha256": "4d3226cbec638819950a928fd76eb09dee519afdd2d260c546b0d185674bae08"
@@ -324,6 +336,36 @@
       "path": "tem/tasks/open/CF-012.json",
       "category": "task-open",
       "sha256": "af6ca003c3023fe97e5ed3e803b246d01aaad235ff2cc6e3aa8d3c6c6943dbfb"
+    },
+    {
+      "path": "tem/tasks/open/GOV-001.json",
+      "category": "task-open",
+      "sha256": "6a2cf2ee0a60120f0bb2a3023589ca4479ae56bc0472b09d8dcf9c0c8661984d"
+    },
+    {
+      "path": "tem/tasks/open/GOV-002.json",
+      "category": "task-open",
+      "sha256": "72d219c97bb109924380a4db8bb332ecbc91e34452a313a52d8a43ceae35085f"
+    },
+    {
+      "path": "tem/tasks/open/GOV-003.json",
+      "category": "task-open",
+      "sha256": "0425c83b3c2d9b6085496cdf0c8660ca4e5ab79b41d35e32ffba5db65f20f243"
+    },
+    {
+      "path": "tem/tasks/open/GOV-004.json",
+      "category": "task-open",
+      "sha256": "447b9b2540435e9e2d1e10a06d979f94701fe4cdb839a41669147c9797e814d1"
+    },
+    {
+      "path": "tem/tasks/open/GOV-005.json",
+      "category": "task-open",
+      "sha256": "a2cbdeeeb4fb7b520bae6bcc52611e211fe23c23d74ad42aba006625747db6e1"
+    },
+    {
+      "path": "tem/tasks/open/GOV-006.json",
+      "category": "task-open",
+      "sha256": "ea01778c13be477f494e5771d95bd044e200fd113f5a75acc32aa84c69d3d582"
     },
     {
       "path": "tem/test-evidence-report.md",

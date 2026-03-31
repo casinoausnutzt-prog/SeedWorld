@@ -8,7 +8,7 @@
 - **Reproduction Evidence**: Double-run orchestration, evidence generation, comparison and final proof
   prefixes: dev/scripts/build-evidence-bundle.mjs, dev/scripts/evidence-shared.mjs, dev/scripts/repo-cleanup-baseline.mjs, dev/scripts/runtime-guards-test.mjs, dev/scripts/test-runner.mjs, dev/scripts/verify-evidence.mjs, dev/tools/runtime/, dev/tools/runtime/verify-testline-integrity.mjs, dev/tests/modules/
 - **Governance Control Plane**: Zero-trust governance contract, policy gates, proof manifest and enforcement wiring
-  prefixes: app/src/kernel/GovernanceEngine.js, app/src/sot/governance-engine.sot.v2.json, package.json, README.md, VERSION, dev/tools/runtime/run-required-checks.mjs, dev/tools/runtime/signing-guard.mjs, dev/tools/runtime/governance-policy-verify.mjs, dev/tools/runtime/governance-llm-verify.mjs, dev/tools/runtime/governance-subagent-verify.mjs, dev/tools/runtime/governance-findings-materialize.mjs, dev/tools/runtime/governance-findings-verify.mjs, dev/tools/runtime/sync-llm-read-contract.mjs, dev/tools/runtime/sync-sub-agent-manifest.mjs, dev/tools/runtime/sync-versioning.mjs, dev/tools/runtime/governance-coverage-verify.mjs, dev/tools/runtime/verify-docs-v2-coverage.mjs, app/src/sot/llm-read-contract.v1.json, app/src/sot/sub-agent-manifest.v1.json, docs/LLM/, Sub_Agent/, .githooks/, .github/workflows/, .github/rulesets/
+  prefixes: app/src/kernel/GovernanceEngine.js, app/src/sot/governance-engine.sot.v2.json, package.json, README.md, VERSION, dev/tools/runtime/run-required-checks.mjs, dev/tools/runtime/signing-guard.mjs, dev/tools/runtime/governance-policy-verify.mjs, dev/tools/runtime/governance-modularity-verify.mjs, dev/tools/runtime/governance-llm-verify.mjs, dev/tools/runtime/governance-subagent-verify.mjs, dev/tools/runtime/governance-findings-materialize.mjs, dev/tools/runtime/governance-findings-verify.mjs, dev/tools/runtime/sync-llm-read-contract.mjs, dev/tools/runtime/sync-sub-agent-manifest.mjs, dev/tools/runtime/sync-versioning.mjs, dev/tools/runtime/governance-coverage-verify.mjs, dev/tools/runtime/verify-docs-v2-coverage.mjs, app/src/sot/llm-read-contract.v1.json, app/src/sot/sub-agent-manifest.v1.json, docs/LLM/, Sub_Agent/, .githooks/, .github/workflows/, .github/rulesets/
 - **Documentation V2**: Human-readable truth, atomic planning tasks, string matrix discipline and archive automation
   prefixes: app/src/sot/docs-v2.json, app/src/sot/STRING_MATRIX.json, docs/SOT/STRING_MATRIX.md, docs/V2/, tem/tasks/, dev/tools/runtime/docs-v2-shared.mjs, dev/tools/runtime/probe-docs-v2-adversarial.mjs, dev/tools/runtime/scan-doc-tasks.mjs, dev/tools/runtime/scan-doc-tasks-verify.mjs, dev/tools/runtime/sync-string-matrix.mjs, dev/tools/runtime/sync-docs-v2.mjs
 - **Deprecated Runtime**: No longer part of mandatory truth or gates
@@ -21,6 +21,7 @@
 - dev/tools/runtime/sync-versioning.mjs
 - dev/tools/runtime/governance-coverage-verify.mjs
 - dev/tools/runtime/governance-policy-verify.mjs
+- dev/tools/runtime/governance-modularity-verify.mjs
 - dev/tools/runtime/governance-llm-verify.mjs
 - dev/tools/runtime/governance-subagent-verify.mjs
 - dev/tools/runtime/governance-findings-verify.mjs

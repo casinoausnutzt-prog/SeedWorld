@@ -28,6 +28,7 @@
     "signing:guard:head": "node dev/tools/runtime/signing-guard.mjs --head-only --allow-empty-range",
     "signing:guard:head:ci": "node dev/tools/runtime/signing-guard.mjs --head-only --allow-empty-range --skip-config",
     "governance:policy:verify": "node dev/tools/runtime/governance-policy-verify.mjs",
+    "governance:modularity:verify": "node dev/tools/runtime/governance-modularity-verify.mjs",
     "governance:coverage:verify": "node dev/tools/runtime/governance-coverage-verify.mjs",
     "check:required": "node dev/tools/runtime/run-required-checks.mjs",
     "check:required:verify-only": "node dev/tools/runtime/run-required-checks.mjs --verify-only",
@@ -40,7 +41,8 @@
     "strings:sync": "node dev/tools/runtime/sync-string-matrix.mjs --write",
     "strings:verify": "node dev/tools/runtime/sync-string-matrix.mjs",
     "hooks:install": "node dev/tools/runtime/installGitHooks.mjs",
-    "hooks:verify": "node dev/tools/runtime/verify-git-hooks.mjs"
+    "hooks:verify": "node dev/tools/runtime/verify-git-hooks.mjs",
+    "prepare": "npm run hooks:install"
   },
   "devDependencies": {
     "chrome-remote-interface": "^0.33.3",

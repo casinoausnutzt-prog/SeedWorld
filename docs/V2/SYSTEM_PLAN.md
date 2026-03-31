@@ -8,7 +8,7 @@ Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Be
 
 - Truth: Deterministic kernel execution and state transitions.
 - Roots: `app/src/kernel`
-- Open Tasks: keine
+- Open Tasks: `GOV-001`, `GOV-002`
 
 ### gameplay-content
 
@@ -32,13 +32,13 @@ Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Be
 
 - Truth: Human-readable truth, atomic planning and archive automation.
 - Roots: `docs/V2`, `tem/tasks`, `app/src/sot/docs-v2.json`
-- Open Tasks: keine
+- Open Tasks: `GOV-006`
 
 ### governance-procedure
 
 - Truth: Pflichtprozess fuer LLM/Sub_Agent-Governance und Finding-zu-Task-Mapping; strikt fail-closed, nicht Runtime-Simulation.
-- Roots: `docs/LLM`, `Sub_Agent`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`
-- Open Tasks: keine
+- Roots: `docs/LLM`, `Sub_Agent`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/governance-modularity-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`
+- Open Tasks: `GOV-006`
 
 ### legacy-cleanup
 

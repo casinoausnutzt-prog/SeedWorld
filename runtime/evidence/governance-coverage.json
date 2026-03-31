@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-03-31T10:07:53.886Z",
-  "scanned_count": 102,
-  "scanned_files": 102,
-  "classified_count": 102,
+  "generated_at": "2026-03-31T11:32:19.064Z",
+  "scanned_count": 103,
+  "scanned_files": 103,
+  "classified_count": 103,
   "classified_items": [
     {
       "path": ".githooks/pre-commit",
@@ -276,6 +276,11 @@
       "matched_prefix": "dev/tools/runtime/governance-llm-verify.mjs"
     },
     {
+      "path": "dev/tools/runtime/governance-modularity-verify.mjs",
+      "owner": "Governance Control Plane",
+      "matched_prefix": "dev/tools/runtime/governance-modularity-verify.mjs"
+    },
+    {
       "path": "dev/tools/runtime/governance-policy-verify.mjs",
       "owner": "Governance Control Plane",
       "matched_prefix": "dev/tools/runtime/governance-policy-verify.mjs"
@@ -531,7 +536,7 @@
     },
     {
       "owner": "Governance Control Plane",
-      "count": 33
+      "count": 34
     },
     {
       "owner": "Documentation V2",

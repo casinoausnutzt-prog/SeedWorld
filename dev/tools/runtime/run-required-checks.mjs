@@ -274,6 +274,10 @@ async function writeProofManifest({ report, evidenceSummary, sotHashes }) {
       governance_coverage: {
         path: coverageRel,
         sha256: await sha256File(path.join(root, coverageRel))
+      },
+      governance_modularity: {
+        path: "runtime/evidence/governance-modularity.json",
+        sha256: await sha256File(path.join(root, "runtime/evidence/governance-modularity.json"))
       }
     },
     zero_trust: {
@@ -289,6 +293,9 @@ async function writeProofManifest({ report, evidenceSummary, sotHashes }) {
 }
 
 async function writeReport(report) {
+  if (!writeSyncArtifacts) {
+    return;
+  }
   await mkdir(path.dirname(reportPath), { recursive: true });
   await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 }
@@ -329,78 +336,88 @@ async function main() {
 
     report.overall_status = "PASSED";
     await writeReport(report);
-    const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
-      "--report",
-      "runtime/evidence/required-check-report.json"
-    ]);
-    const findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
-    report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
-    report.findings = {
-      materialized: {
-        script: findingsStep.script,
-        output_sha256: findingsStep.output_sha256
-      },
-      verify: {
-        script: findingsVerify.script,
-        output_sha256: findingsVerify.output_sha256
-      }
-    };
-
-    const evidenceSummary = await buildEvidenceSummary();
-    const sotHashes = await buildSotHashes();
-    const manifestRef = await writeProofManifest({ report, evidenceSummary, sotHashes });
-    report.proof = {
-      ...evidenceSummary,
-      sot: sotHashes,
-      manifest: manifestRef
-    };
-    report.claim_rule = GOVERNANCE_CLAIM_RULE;
-    report.overall_status = "PASSED";
-    report.finished_at = new Date().toISOString();
-    await writeReport(report);
-    console.log(
-      `[REQUIRED_CHECK] PASS mode=${report.run_mode} proof=${report.proof.final_testline_summary.sha256.slice(0, 12)}`
-    );
-    console.log(
-      `[REQUIRED_CHECK][PROOF] manifest=${manifestRef.sha256.slice(0, 12)} evidence=${report.proof.evidence_summary.sha256.slice(0, 12)} sot=${sotHashes.length}`
-    );
-  } catch (failedStep) {
-    report.overall_status = "FAILED";
-    report.steps.push(failedStep);
-    report.failure_step = failedStep.id || failedStep.script || "unknown";
-    await writeReport(report);
-    try {
+    if (writeSyncArtifacts) {
       const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
         "--report",
         "runtime/evidence/required-check-report.json"
       ]);
-      let findingsVerify = null;
-      try {
-        findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
-        report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
-      } catch (verifyError) {
-        report.steps.push(toSyntheticVerifyStep(verifyError, "governance:findings:verify"));
-      }
+      const findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+      report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
       report.findings = {
         materialized: {
           script: findingsStep.script,
           output_sha256: findingsStep.output_sha256
         },
-        verify: findingsVerify
-          ? {
-              script: findingsVerify.script,
-              output_sha256: findingsVerify.output_sha256
-            }
-          : null
-      };
-    } catch (findingError) {
-      report.findings = {
-        materialized: {
-          script: findingError.script || "dev/tools/runtime/governance-findings-materialize.mjs",
-          output_sha256: findingError.output_sha256 || digestText(String(findingError?.error || "materialize failed")),
-          status: "FAILED"
+        verify: {
+          script: findingsVerify.script,
+          output_sha256: findingsVerify.output_sha256
         }
       };
+    }
+
+    if (writeSyncArtifacts) {
+      const evidenceSummary = await buildEvidenceSummary();
+      const sotHashes = await buildSotHashes();
+      const manifestRef = await writeProofManifest({ report, evidenceSummary, sotHashes });
+      report.proof = {
+        ...evidenceSummary,
+        sot: sotHashes,
+        manifest: manifestRef
+      };
+      report.claim_rule = GOVERNANCE_CLAIM_RULE;
+      report.overall_status = "PASSED";
+      report.finished_at = new Date().toISOString();
+      await writeReport(report);
+      console.log(
+        `[REQUIRED_CHECK] PASS mode=${report.run_mode} proof=${report.proof.final_testline_summary.sha256.slice(0, 12)}`
+      );
+      console.log(
+        `[REQUIRED_CHECK][PROOF] manifest=${manifestRef.sha256.slice(0, 12)} evidence=${report.proof.evidence_summary.sha256.slice(0, 12)} sot=${sotHashes.length}`
+      );
+    } else {
+      report.finished_at = new Date().toISOString();
+      const stepDigest = digestText(report.steps.map((step) => `${step.id}:${step.output_sha256}`).join("|")).slice(0, 12);
+      console.log(`[REQUIRED_CHECK] PASS mode=${report.run_mode} proof=${stepDigest}`);
+    }
+  } catch (failedStep) {
+    report.overall_status = "FAILED";
+    report.steps.push(failedStep);
+    report.failure_step = failedStep.id || failedStep.script || "unknown";
+    await writeReport(report);
+    if (writeSyncArtifacts) {
+      try {
+        const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
+          "--report",
+          "runtime/evidence/required-check-report.json"
+        ]);
+        let findingsVerify = null;
+        try {
+          findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+          report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
+        } catch (verifyError) {
+          report.steps.push(toSyntheticVerifyStep(verifyError, "governance:findings:verify"));
+        }
+        report.findings = {
+          materialized: {
+            script: findingsStep.script,
+            output_sha256: findingsStep.output_sha256
+          },
+          verify: findingsVerify
+            ? {
+                script: findingsVerify.script,
+                output_sha256: findingsVerify.output_sha256
+              }
+            : null
+        };
+      } catch (findingError) {
+        report.findings = {
+          materialized: {
+            script: findingError.script || "dev/tools/runtime/governance-findings-materialize.mjs",
+            output_sha256: findingError.output_sha256 || digestText(String(findingError?.error || "materialize failed")),
+            status: "FAILED"
+          }
+        };
+      }
     }
     report.finished_at = new Date().toISOString();
     await writeReport(report);

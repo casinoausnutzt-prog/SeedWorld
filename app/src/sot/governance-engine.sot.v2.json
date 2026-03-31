@@ -20,6 +20,7 @@
     "verify": [
       "versioning:verify",
       "governance:policy:verify",
+      "governance:modularity:verify",
       "governance:llm:verify",
       "governance:subagent:verify",
       "test:verify",
@@ -35,13 +36,14 @@
       "governance:findings:materialize",
       "governance:findings:verify"
     ],
-    "contract": "sync steps are optional by run mode, verify steps are always mandatory and fail-closed"
+    "contract": "sync steps are optional by run mode, verify steps are always mandatory and fail-closed; post_verify runs in auto-sync-and-verify mode"
   },
   "proofArtifacts": [
     "runtime/evidence/required-check-report.json",
     "runtime/evidence/governance-findings.json",
     "runtime/evidence/governance-proof-manifest.json",
     "runtime/evidence/governance-coverage.json",
+    "runtime/evidence/governance-modularity.json",
     "VERSION",
     "runtime/evidence/summary.json",
     "runtime/evidence/final/testline-summary.json"

@@ -13,17 +13,20 @@ import {
 const root = process.cwd();
 
 const STEP_SCOPE_MAP = Object.freeze({
-  "governance:llm:verify": ["docs/LLM/", "dev/tools/runtime/governance-llm-verify.mjs", "app/src/sot/llm-read-contract.v1.json"],
-  "governance:subagent:verify": [
-    "Sub_Agent/",
-    "dev/tools/runtime/governance-subagent-verify.mjs",
-    "app/src/sot/sub-agent-manifest.v1.json"
-  ],
-  "governance:findings:verify": [
-    "dev/tools/runtime/governance-findings-materialize.mjs",
-    "dev/tools/runtime/governance-findings-verify.mjs",
-    "tem/tasks/open/"
-  ]
+  "versioning:verify": ["dev/tools/runtime/sync-versioning.mjs"],
+  "governance:policy:verify": ["dev/tools/runtime/governance-policy-verify.mjs"],
+  "governance:modularity:verify": ["dev/tools/runtime/governance-modularity-verify.mjs"],
+  "governance:llm:verify": ["dev/tools/runtime/governance-llm-verify.mjs"],
+  "governance:subagent:verify": ["dev/tools/runtime/governance-subagent-verify.mjs"],
+  tests: ["dev/scripts/test-runner.mjs"],
+  "evidence:verify": ["dev/scripts/verify-evidence.mjs"],
+  "testline:verify": ["dev/tools/runtime/verify-testline-integrity.mjs"],
+  "repo:hygiene:verify": ["dev/tools/runtime/repo-hygiene-verify.mjs"],
+  "docs:v2:verify": ["dev/tools/runtime/sync-docs-v2.mjs"],
+  "docs:v2:coverage": ["dev/tools/runtime/verify-docs-v2-coverage.mjs"],
+  "docs:tasks:verify": ["dev/tools/runtime/scan-doc-tasks-verify.mjs"],
+  "governance:coverage:verify": ["dev/tools/runtime/governance-coverage-verify.mjs"],
+  "governance:findings:verify": ["dev/tools/runtime/governance-findings-verify.mjs"]
 });
 
 function parseArgs(argv) {
@@ -69,17 +72,17 @@ function resolveTrack(prefix) {
 }
 
 function resolveScope(stepId) {
-  return STEP_SCOPE_MAP[stepId] || ["dev/tools/runtime/run-required-checks.mjs", "app/src/kernel/GovernanceEngine.js"];
+  return STEP_SCOPE_MAP[stepId] || ["dev/tools/runtime/run-required-checks.mjs"];
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { report, reportRel } = await loadReport(root, args.report);
   const blockers = buildBlockers(report);
-  const { allTasks } = await loadTasks();
+  const { openTasks, allTasks } = await loadTasks();
   const existingByFingerprint = new Map();
 
-  for (const task of allTasks) {
+  for (const task of openTasks) {
     const fingerprint = String(task.finding_fingerprint || "").trim();
     if (fingerprint) {
       existingByFingerprint.set(fingerprint, task.task_id);
@@ -113,7 +116,7 @@ async function main() {
       source_docs: ["docs/V2/SYSTEM_PLAN.md"],
       description: `${blocker.reason}. proof=${blocker.output_sha256}.`,
       scope_paths: resolveScope(blocker.step_id),
-      match_policy: "any_scope_path_touched",
+      match_policy: "all_scope_paths_touched",
       finding_fingerprint: fingerprint,
       finding_rule_id: blocker.step_id,
       finding_report: reportRel

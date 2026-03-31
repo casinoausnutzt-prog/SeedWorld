@@ -65,6 +65,7 @@
         ".githooks/pre-push",
         "dev/tools/runtime/signing-guard.mjs",
         "dev/tools/runtime/governance-policy-verify.mjs",
+        "dev/tools/runtime/governance-modularity-verify.mjs",
         "dev/tools/runtime/governance-llm-verify.mjs",
         "dev/tools/runtime/governance-subagent-verify.mjs",
         "dev/tools/runtime/governance-findings-verify.mjs",

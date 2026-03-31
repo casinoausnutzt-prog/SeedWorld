@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "GOV-002",
+  "title": "KernelController entmonolithisieren",
+  "status": "open",
+  "track": "governance-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "KernelController soll entlang klarer Verantwortungen (routing, policy-bridge, audit) in Module gesplittet werden, damit File-Size-Allowlist bis Sunset entfernt werden kann.",
+  "scope_paths": [
+    "app/src/kernel/KernelController.js",
+    "app/src/kernel/KernelRouter.js",
+    "app/src/kernel/GateManager.js"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

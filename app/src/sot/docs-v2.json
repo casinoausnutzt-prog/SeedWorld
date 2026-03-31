@@ -54,6 +54,7 @@
     "dev/tools/runtime/run-required-checks.mjs",
     "dev/tools/runtime/signing-guard.mjs",
     "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/governance-modularity-verify.mjs",
     "dev/tools/runtime/governance-llm-verify.mjs",
     "dev/tools/runtime/governance-subagent-verify.mjs",
     "dev/tools/runtime/governance-findings-shared.mjs",
@@ -273,6 +274,7 @@
           "Sub_Agent",
           "dev/tools/runtime/governance-llm-verify.mjs",
           "dev/tools/runtime/governance-subagent-verify.mjs",
+          "dev/tools/runtime/governance-modularity-verify.mjs",
           "dev/tools/runtime/governance-findings-materialize.mjs",
           "dev/tools/runtime/governance-findings-verify.mjs"
         ],

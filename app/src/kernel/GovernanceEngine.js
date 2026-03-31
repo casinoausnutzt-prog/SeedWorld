@@ -26,6 +26,7 @@ export const GOVERNANCE_SYNC_STEPS = Object.freeze([
 export const GOVERNANCE_VERIFY_STEPS = Object.freeze([
   Object.freeze({ id: "versioning:verify", script: "versioning:verify", type: "verify" }),
   Object.freeze({ id: "governance:policy:verify", script: "governance:policy:verify", type: "verify" }),
+  Object.freeze({ id: "governance:modularity:verify", script: "governance:modularity:verify", type: "verify" }),
   Object.freeze({ id: "governance:llm:verify", script: "governance:llm:verify", type: "verify" }),
   Object.freeze({ id: "governance:subagent:verify", script: "governance:subagent:verify", type: "verify" }),
   Object.freeze({ id: "tests", script: "test:verify", type: "verify" }),

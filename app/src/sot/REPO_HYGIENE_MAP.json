@@ -6,6 +6,7 @@
     "dev/tools/runtime/sync-versioning.mjs",
     "dev/tools/runtime/governance-coverage-verify.mjs",
     "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/governance-modularity-verify.mjs",
     "dev/tools/runtime/governance-llm-verify.mjs",
     "dev/tools/runtime/governance-subagent-verify.mjs",
     "dev/tools/runtime/governance-findings-verify.mjs",
@@ -62,6 +63,7 @@
         "dev/tools/runtime/run-required-checks.mjs",
         "dev/tools/runtime/signing-guard.mjs",
         "dev/tools/runtime/governance-policy-verify.mjs",
+        "dev/tools/runtime/governance-modularity-verify.mjs",
         "dev/tools/runtime/governance-llm-verify.mjs",
         "dev/tools/runtime/governance-subagent-verify.mjs",
         "dev/tools/runtime/governance-findings-materialize.mjs",
@@ -118,8 +120,8 @@
     }
   ],
   "fileCounts": {
-    "allFiles": 92,
-    "codeFiles": 80
+    "allFiles": 93,
+    "codeFiles": 81
   },
   "unownedFiles": [],
   "unreachableCode": [
@@ -296,7 +298,7 @@
     "dev/tools/runtime/check-global-redundancy.mjs": 0,
     "dev/tools/runtime/check-tem-structure.mjs": 0,
     "dev/tools/runtime/check-wrapper-guardrails.mjs": 0,
-    "dev/tools/runtime/docs-v2-shared.mjs": 8,
+    "dev/tools/runtime/docs-v2-shared.mjs": 9,
     "dev/tools/runtime/evidence-lock.mjs": 0,
     "dev/tools/runtime/function-sot-shared.mjs": 1,
     "dev/tools/runtime/governance-coverage-verify.mjs": 0,
@@ -304,6 +306,7 @@
     "dev/tools/runtime/governance-findings-shared.mjs": 2,
     "dev/tools/runtime/governance-findings-verify.mjs": 0,
     "dev/tools/runtime/governance-llm-verify.mjs": 0,
+    "dev/tools/runtime/governance-modularity-verify.mjs": 0,
     "dev/tools/runtime/governance-policy-verify.mjs": 0,
     "dev/tools/runtime/governance-subagent-verify.mjs": 0,
     "dev/tools/runtime/governance-verify.mjs": 0,
@@ -321,7 +324,7 @@
     "dev/tools/runtime/repo-hygiene-why.mjs": 0,
     "dev/tools/runtime/report-untested-systems.mjs": 0,
     "dev/tools/runtime/run-required-checks.mjs": 0,
-    "dev/tools/runtime/runtime-shared.mjs": 13,
+    "dev/tools/runtime/runtime-shared.mjs": 14,
     "dev/tools/runtime/scan-doc-tasks-verify.mjs": 0,
     "dev/tools/runtime/scan-doc-tasks.mjs": 0,
     "dev/tools/runtime/signing-guard.mjs": 0,
@@ -446,6 +449,10 @@
     "dev/tools/runtime/governance-llm-verify.mjs": [
       "dev/tools/runtime/docs-v2-shared.mjs",
       "dev/tools/runtime/llm-read-shared.mjs"
+    ],
+    "dev/tools/runtime/governance-modularity-verify.mjs": [
+      "dev/tools/runtime/docs-v2-shared.mjs",
+      "dev/tools/runtime/runtime-shared.mjs"
     ],
     "dev/tools/runtime/governance-policy-verify.mjs": [],
     "dev/tools/runtime/governance-subagent-verify.mjs": [
