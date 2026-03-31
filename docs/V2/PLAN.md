@@ -148,6 +148,15 @@ Offene Planung liegt nur noch als atomare Einzel-Tasks vor. Ein Task bleibt offe
 - Scope: `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/V2/TRUTH.md`
 - Description: Bedrohungsmodell fuer Governance-Artefakte, Hooks und Claim-Proofs soll als kontrolliertes Dokument mit Verify-Referenz eingebunden werden.
 
+### LEG-001 Legacy-Archivpfad UNVERFID vollstaendig abbauen
+
+- JSON: `tem/tasks/open/LEG-001.json`
+- Track: `legacy-cleanup`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `legacy/UNVERFID/`, `app/src/sot/docs-v2.json`, `app/src/sot/source-of-truth.json`, `docs/INDEX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`
+- Description: Entfernt das Verzeichnis legacy/UNVERFID und bereinigt alle aktiven SoT-/Docs-Referenzen auf diesen Pfad.
+
 ### RT-001 Kernel validator unter Determinism-Guards erzwingen
 
 - JSON: `tem/tasks/open/RT-001.json`

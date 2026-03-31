@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "60563f6bcb6462292438e817146219fcaba1f759fa97b725a3a67c8ca8d71e68",
+  "snapshotId": "080de26fcd43a67c49184195e6a9ba04a5e38ae12219f0587aaff59e6a2da404",
   "controlFiles": [
     "TODO.md",
     "WORKFLOW.md",
     "SCHEMA.json"
   ],
-  "artifactCount": 72,
+  "artifactCount": 73,
   "categories": {
     "planung": [
       "tem/beide-plaene.md",
@@ -91,6 +91,7 @@
       "tem/tasks/open/GOV-004.json",
       "tem/tasks/open/GOV-005.json",
       "tem/tasks/open/GOV-006.json",
+      "tem/tasks/open/LEG-001.json",
       "tem/tasks/open/RT-001.json",
       "tem/tasks/open/RT-004.json",
       "tem/tasks/open/RT-013.json"
@@ -429,6 +430,11 @@
       "path": "tem/tasks/open/GOV-006.json",
       "category": "task-open",
       "sha256": "ea01778c13be477f494e5771d95bd044e200fd113f5a75acc32aa84c69d3d582"
+    },
+    {
+      "path": "tem/tasks/open/LEG-001.json",
+      "category": "task-open",
+      "sha256": "8875f1219b7c965a6af272ea5cf450b3b8600c415a2e2407fb7c923410aa04a4"
     },
     {
       "path": "tem/tasks/open/RT-001.json",

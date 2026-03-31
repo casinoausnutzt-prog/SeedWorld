@@ -43,4 +43,3 @@ Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sin
 - `docs/IN PLANUNG/`
 - `docs/MANUEL/wiki/Kernel-Governance.md`
 - `docs/MANUEL/wiki/Patch-Flow.md`
-- `legacy/UNVERFID/`

@@ -95,9 +95,10 @@ Diese Datei wird automatisch aus `tem/` erzeugt. Keine manuelle Pflege.
 - [ ] tem/tasks/open/GOV-004.json
 - [ ] tem/tasks/open/GOV-005.json
 - [ ] tem/tasks/open/GOV-006.json
+- [ ] tem/tasks/open/LEG-001.json
 - [ ] tem/tasks/open/RT-001.json
 - [ ] tem/tasks/open/RT-004.json
 - [ ] tem/tasks/open/RT-013.json
 
 ## Umfang
-- Gesamtartefakte: 72
+- Gesamtartefakte: 73

@@ -1,8 +1,0 @@
-{
-  "version": "1.0.0",
-  "ttlMs": 30000,
-  "heartbeatMs": 5000,
-  "takeoverRule": "expired-lock-only",
-  "ownershipKeys": ["sessionId", "ownerNonce"],
-  "forbiddenFields": ["pid", "liveSessionId", "activeOwnerNonce"]
-}

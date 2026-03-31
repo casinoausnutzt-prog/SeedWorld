@@ -48,4 +48,4 @@ Diese Seite macht die fuehrende SoT menschenlesbar. Sie ersetzt die JSON-Dateien
 - `browser-adapter`: Remaining browser path as adapter, not as competing domain truth. Roots: `app/src/main.js`, `app/src/ui`, `app/public`
 - `documentation-v2`: Human-readable truth, atomic planning and archive automation. Roots: `docs/V2`, `tem/tasks`, `app/src/sot/docs-v2.json`
 - `governance-procedure`: Pflichtprozess fuer LLM/Sub_Agent-Governance und Finding-zu-Task-Mapping; strikt fail-closed, nicht Runtime-Simulation. Roots: `docs/LLM`, `Sub_Agent`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/governance-modularity-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`
-- `legacy-cleanup`: Tracked migration residue that must not create unregistered plan drift. Roots: `tem`, `docs/IN PLANUNG`, `legacy/UNVERFID`
+- `legacy-cleanup`: Tracked migration residue that must not create unregistered plan drift. Roots: `tem`, `docs/IN PLANUNG`

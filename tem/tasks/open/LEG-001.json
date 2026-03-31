@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "LEG-001",
+  "title": "Legacy-Archivpfad UNVERFID vollstaendig abbauen",
+  "status": "open",
+  "track": "legacy-cleanup",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "Entfernt das Verzeichnis legacy/UNVERFID und bereinigt alle aktiven SoT-/Docs-Referenzen auf diesen Pfad.",
+  "scope_paths": [
+    "legacy/UNVERFID/",
+    "app/src/sot/docs-v2.json",
+    "app/src/sot/source-of-truth.json",
+    "docs/INDEX.md",
+    "docs/V2/ARCHIVE.md",
+    "docs/V2/SYSTEM_PLAN.md",
+    "docs/V2/TRUTH.md"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

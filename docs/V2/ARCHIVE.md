@@ -19,11 +19,6 @@ Archivierte oder ausserhalb des Pflichtkerns liegende Dokumentationsbereiche sin
 - Class: `Archive`
 - Paths: `docs/MANUEL/deployment/DEPLOYMENT.md`, `docs/MANUEL/wiki/Kernel-Governance.md`, `docs/MANUEL/wiki/Patch-Flow.md`
 
-### legacy-unverfid-archive
-
-- Class: `Archive`
-- Paths: `legacy/UNVERFID/`
-
 
 # Archive
 

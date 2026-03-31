@@ -130,14 +130,6 @@
       "why": "These paths no longer participate in required quality proof."
     },
     {
-      "id": "archive",
-      "class": "Archive",
-      "authoritative": [
-        "legacy/UNVERFID/"
-      ],
-      "why": "Historical only."
-    },
-    {
       "id": "out_of_scope",
       "class": "Out-of-Scope",
       "authoritative": [],

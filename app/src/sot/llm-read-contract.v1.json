@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
   "policy_id": "governance-llm-read.v1",
-  "generated_at": "2026-03-31T12:26:26.014Z",
+  "generated_at": "2026-03-31T13:19:05.918Z",
   "required_read_order": [
     "docs/INDEX.md",
     "docs/LLM/ENTRY.md",
     "docs/LLM/POLICY.md",
     "docs/LLM/AKTUELLE_RED_ACTIONS.md"
   ],
-  "combined_hash": "9d1f68df69a740e3cfb2eaa9555fd7b43b52a299966554070b27eff37ae3545f",
+  "combined_hash": "278ad583c22733871110adba23f52a04a6e8cdbc01654309214941a3c4581977",
   "files": [
     {
       "path": "docs/INDEX.md",
-      "sha256": "96e79fc15388ac5833128acab005e560679c6cf922d62738b313b1ecaca99711",
-      "bytes": 1936
+      "sha256": "326a95427fa7bdcf4a123442a7261bde3448fceea52a19d23e7b378d017a1319",
+      "bytes": 1911
     },
     {
       "path": "docs/LLM/ENTRY.md",

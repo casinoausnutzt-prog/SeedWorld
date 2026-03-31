@@ -1,162 +1,36 @@
 {
-  "generated_at": "2026-03-31T12:59:04.281Z",
+  "generated_at": "2026-03-31T13:19:29.350Z",
   "changed_files": [
-    ".githooks/pre-commit",
-    ".githooks/pre-push",
-    "app/src/kernel/deterministicKernel.js",
-    "app/src/kernel/GovernanceEngine.js",
-    "app/src/kernel/KernelController.js",
     "app/src/sot/docs-v2.json",
-    "app/src/sot/governance-engine.sot.v2.json",
     "app/src/sot/llm-read-contract.v1.json",
-    "app/src/sot/sub-agent-manifest.v1.json",
-    "dev/scripts/evidence-shared.mjs",
-    "dev/scripts/verify-evidence.mjs",
-    "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs",
-    "dev/tests/modules/20.gameplay-state-suite.module.mjs",
-    "dev/tools/runtime/docs-v2-shared.mjs",
-    "dev/tools/runtime/findings-shared/catalog.mjs",
-    "dev/tools/runtime/findings-shared/core.mjs",
-    "dev/tools/runtime/findings-shared/evidence.mjs",
-    "dev/tools/runtime/findings-shared/lock.mjs",
-    "dev/tools/runtime/findings-shared/plan.mjs",
-    "dev/tools/runtime/governance-coverage-verify.mjs",
-    "dev/tools/runtime/governance-findings-materialize.mjs",
-    "dev/tools/runtime/governance-findings-shared.mjs",
-    "dev/tools/runtime/governance-findings-verify.mjs",
-    "dev/tools/runtime/governance-llm-verify.mjs",
-    "dev/tools/runtime/governance-modularity-verify.mjs",
-    "dev/tools/runtime/governance-policy-verify.mjs",
-    "dev/tools/runtime/governance-subagent-verify.mjs",
-    "dev/tools/runtime/installGitHooks.mjs",
-    "dev/tools/runtime/llm-governance/shared.mjs",
-    "dev/tools/runtime/llm-read-shared.mjs",
-    "dev/tools/runtime/required-checks/runtime-execution.mjs",
-    "dev/tools/runtime/required-checks/runtime-metadata.mjs",
-    "dev/tools/runtime/required-checks/runtime-proof.mjs",
-    "dev/tools/runtime/run-required-checks.mjs",
-    "dev/tools/runtime/signing-guard.mjs",
-    "dev/tools/runtime/verify-docs-v2-coverage.mjs",
-    "dev/tools/runtime/verify-docs-v2-guards.mjs",
-    "dev/tools/runtime/verify-testline-integrity.mjs",
-    "docs/LLM/ENTRY.md",
-    "docs/LLM/POLICY.md",
-    "package.json",
-    "tem/tasks/open/RT-001.json",
-    "tem/tasks/open/RT-002.json",
-    "tem/tasks/open/RT-003.json",
-    "tem/tasks/open/RT-004.json",
-    "tem/tasks/open/RT-005.json",
-    "tem/tasks/open/RT-006.json",
-    "tem/tasks/open/RT-007.json",
-    "tem/tasks/open/RT-008.json",
-    "tem/tasks/open/RT-009.json",
-    "tem/tasks/open/RT-010.json",
-    "tem/tasks/open/RT-011.json",
-    "tem/tasks/open/RT-012.json",
-    "tem/tasks/open/RT-013.json"
+    "app/src/sot/source-of-truth.json",
+    "docs/INDEX.md",
+    "docs/V2/ARCHIVE.md",
+    "docs/V2/SYSTEM_PLAN.md",
+    "docs/V2/TRUTH.md",
+    "legacy/UNVERFID/CANDIDATES.md",
+    "legacy/UNVERFID/docs-audit/SUBAGENT_REPORTS_2026-03-28.md",
+    "legacy/UNVERFID/docs-audit/SYSTEM_SWEEP_2026-03-28.md",
+    "legacy/UNVERFID/ops-docker-legacy/docker/docker-compose.yml",
+    "legacy/UNVERFID/ops-docker-legacy/docker/Dockerfile",
+    "legacy/UNVERFID/ops-docker-legacy/scripts/deploy.ps1",
+    "legacy/UNVERFID/ops-docker-legacy/scripts/deploy.sh",
+    "legacy/UNVERFID/README-DEV.md",
+    "legacy/UNVERFID/root-legacy/AGENTS.md",
+    "legacy/UNVERFID/root-legacy/LICENSE",
+    "legacy/UNVERFID/sot-legacy/DEPENDENCY_TOPOLOGY.md",
+    "legacy/UNVERFID/sot-legacy/determinism/runtime-guard-policy.json",
+    "legacy/UNVERFID/sot-legacy/determinism/seed-policy.json",
+    "legacy/UNVERFID/sot-legacy/gameplay/action-schema.json",
+    "legacy/UNVERFID/sot-legacy/gameplay/mutation-matrix.json",
+    "legacy/UNVERFID/sot-legacy/gameplay/worldgen-contract.json",
+    "legacy/UNVERFID/sot-legacy/llm-governance/lock-policy.json",
+    "legacy/UNVERFID/sot-legacy/llm-governance/patch-gate-policy.json",
+    "legacy/UNVERFID/sot-legacy/llm-governance/patch-workflow-policy.json",
+    "legacy/UNVERFID/sot-legacy/llm-governance/session-status.schema.json",
+    "legacy/UNVERFID/sot-legacy/README.md",
+    "legacy/UNVERFID/sot-legacy/SOURCE_MAPPING.md",
+    "tem/tasks/open/LEG-001.json"
   ],
-  "archived_tasks": [
-    {
-      "task_id": "RT-002",
-      "archived_path": "tem/tasks/archive/RT-002.json",
-      "touched_paths": [
-        "app/src/kernel/deterministicKernel.js",
-        "app/src/kernel/KernelController.js",
-        "dev/tests/modules/20.gameplay-state-suite.module.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-003",
-      "archived_path": "tem/tasks/archive/RT-003.json",
-      "touched_paths": [
-        "dev/tools/runtime/governance-coverage-verify.mjs",
-        "dev/tools/runtime/governance-modularity-verify.mjs",
-        "dev/tools/runtime/run-required-checks.mjs",
-        "dev/tools/runtime/verify-docs-v2-coverage.mjs",
-        "dev/tools/runtime/verify-testline-integrity.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-005",
-      "archived_path": "tem/tasks/archive/RT-005.json",
-      "touched_paths": [
-        ".githooks/pre-push",
-        "dev/tools/runtime/governance-policy-verify.mjs",
-        "dev/tools/runtime/installGitHooks.mjs",
-        "dev/tools/runtime/signing-guard.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-006",
-      "archived_path": "tem/tasks/archive/RT-006.json",
-      "touched_paths": [
-        ".githooks/pre-commit",
-        ".githooks/pre-push",
-        "app/src/kernel/GovernanceEngine.js",
-        "app/src/sot/governance-engine.sot.v2.json",
-        "dev/tools/runtime/installGitHooks.mjs",
-        "package.json"
-      ]
-    },
-    {
-      "task_id": "RT-007",
-      "archived_path": "tem/tasks/archive/RT-007.json",
-      "touched_paths": [
-        "app/src/kernel/GovernanceEngine.js",
-        "app/src/sot/governance-engine.sot.v2.json",
-        "dev/tools/runtime/run-required-checks.mjs",
-        "docs/LLM/POLICY.md"
-      ]
-    },
-    {
-      "task_id": "RT-008",
-      "archived_path": "tem/tasks/archive/RT-008.json",
-      "touched_paths": [
-        "app/src/sot/llm-read-contract.v1.json",
-        "app/src/sot/sub-agent-manifest.v1.json",
-        "dev/tools/runtime/governance-llm-verify.mjs",
-        "dev/tools/runtime/governance-subagent-verify.mjs",
-        "dev/tools/runtime/llm-read-shared.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-009",
-      "archived_path": "tem/tasks/archive/RT-009.json",
-      "touched_paths": [
-        "dev/tools/runtime/governance-policy-verify.mjs",
-        "dev/tools/runtime/installGitHooks.mjs",
-        "dev/tools/runtime/run-required-checks.mjs",
-        "package.json"
-      ]
-    },
-    {
-      "task_id": "RT-010",
-      "archived_path": "tem/tasks/archive/RT-010.json",
-      "touched_paths": [
-        "app/src/sot/docs-v2.json",
-        "dev/tools/runtime/docs-v2-shared.mjs",
-        "dev/tools/runtime/verify-docs-v2-coverage.mjs",
-        "dev/tools/runtime/verify-docs-v2-guards.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-011",
-      "archived_path": "tem/tasks/archive/RT-011.json",
-      "touched_paths": [
-        "dev/scripts/evidence-shared.mjs",
-        "dev/scripts/verify-evidence.mjs",
-        "dev/tools/runtime/verify-testline-integrity.mjs"
-      ]
-    },
-    {
-      "task_id": "RT-012",
-      "archived_path": "tem/tasks/archive/RT-012.json",
-      "touched_paths": [
-        "dev/tools/runtime/governance-findings-materialize.mjs",
-        "dev/tools/runtime/governance-findings-shared.mjs",
-        "dev/tools/runtime/governance-findings-verify.mjs"
-      ]
-    }
-  ]
+  "archived_tasks": []
 }

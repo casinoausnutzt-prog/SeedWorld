@@ -11,7 +11,7 @@ Documentation 2.0 verbindet drei Dinge in einem System: menschenlesbare Wahrheit
 
 ## Status
 
-- Offene Tasks: 19
+- Offene Tasks: 20
 - Archivierte Tasks: 26
 - Task-Schema: `2.0.0`
 - SoT-Review: `2026-03-31`

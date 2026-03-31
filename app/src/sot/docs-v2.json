@@ -116,8 +116,7 @@
     "scanRoots": [
       "docs",
       "tem",
-      "Sub_Agent",
-      "legacy/UNVERFID"
+      "Sub_Agent"
     ],
     "rootFiles": [
       "README.md",
@@ -223,13 +222,6 @@
           "docs/MANUEL/wiki/Kernel-Governance.md",
           "docs/MANUEL/wiki/Patch-Flow.md"
         ]
-      },
-      {
-        "id": "legacy-unverfid-archive",
-        "class": "Archive",
-        "paths": [
-          "legacy/UNVERFID/"
-        ]
       }
     ]
   },
@@ -293,8 +285,7 @@
         "id": "legacy-cleanup",
         "roots": [
           "tem",
-          "docs/IN PLANUNG",
-          "legacy/UNVERFID"
+          "docs/IN PLANUNG"
         ],
         "truth": "Tracked migration residue that must not create unregistered plan drift."
       }

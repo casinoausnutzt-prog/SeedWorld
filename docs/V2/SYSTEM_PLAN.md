@@ -32,7 +32,7 @@ Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Be
 
 - Truth: Human-readable truth, atomic planning and archive automation.
 - Roots: `docs/V2`, `tem/tasks`, `app/src/sot/docs-v2.json`
-- Open Tasks: `GOV-006`
+- Open Tasks: `GOV-006`, `LEG-001`
 
 ### governance-procedure
 
@@ -43,6 +43,6 @@ Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Be
 ### legacy-cleanup
 
 - Truth: Tracked migration residue that must not create unregistered plan drift.
-- Roots: `tem`, `docs/IN PLANUNG`, `legacy/UNVERFID`
+- Roots: `tem`, `docs/IN PLANUNG`
 - Open Tasks: keine
 
