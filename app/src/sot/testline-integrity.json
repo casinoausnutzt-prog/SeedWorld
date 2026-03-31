@@ -23,7 +23,7 @@
       "dev/tools/runtime/preflight.mjs"
     ]
   },
-  "generatedAt": "2026-03-31T11:43:54.852Z",
+  "generatedAt": "2026-03-31T11:47:53.565Z",
   "monitoredRoots": [
     "dev/scripts",
     "dev/tests",
@@ -100,7 +100,7 @@
     "dev/tests/helpers/runScriptTest.mjs": "69dc067d883ecada7f7453c68af72fe48bd7967121e47ed5fe0ee426510b4701",
     "dev/tests/MainTest.mjs": "d087390fb1dfcb07ca9f0b280c54d305221ff8d72407167db9f81d231b532b2e",
     "dev/tests/modules/00.runtime-governance-suite.module.mjs": "318b11d2e39f611d63819e6930688989fd9e29a3fab5d64ee99b89d08f2e2680",
-    "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs": "c1558b27521d47a0aa9a5a7853e49b7bcca802a86d533aa131a22160820fa649",
+    "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs": "2d153c5f9ba51a86dcd48671d5c16febccd026c5a8027a064cf0719bd82c594f",
     "dev/tests/modules/20.gameplay-state-suite.module.mjs": "36d31ebf91442ef3f2e6ef1332d8a04428a0d182c9f45fbc30043f4b910a766b",
     "dev/tools/runtime/apply-github-ruleset.mjs": "d9fb5a96aa3d27790b6943e0c3397e82e848a65ac103f562e976d864fbc6a8a3",
     "dev/tools/runtime/check-global-redundancy.mjs": "033ce7b2e1425842a6b7493346c19abbdd9d5fffa2f70917bd21b604507cc0da",

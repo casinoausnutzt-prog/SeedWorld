@@ -60,6 +60,12 @@ export async function runEvidence({ root, assert, seed: explicitSeed }) {
   const runB = await runDeterministicKernel(explicitSeed, 24, { expectedSeedHash: expectedHash });
   assert.equal(runA.seedHash, runB.seedHash);
   assert.equal(runA.mutFingerprint, runB.mutFingerprint);
+  assert.equal(Object.isFrozen(runA), true, "runA must be deeply frozen");
+  assert.equal(Object.isFrozen(runB), true, "runB must be deeply frozen");
+  assert.equal(Object.isFrozen(runA.states), true, "runA.states must be frozen");
+  assert.equal(Object.isFrozen(runB.states), true, "runB.states must be frozen");
+  assert.equal(Object.isFrozen(runA.states[0]), true, "runA.states[0] must be frozen");
+  assert.equal(Object.isFrozen(runB.states[0]), true, "runB.states[0] must be frozen");
 
   const checkpointsA = await checkpointHashes(runA.states, createMutFingerprint);
   const checkpointsB = await checkpointHashes(runB.states, createMutFingerprint);

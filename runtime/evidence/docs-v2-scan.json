@@ -1,10 +1,11 @@
 {
-  "generated_at": "2026-03-31T11:44:29.621Z",
+  "generated_at": "2026-03-31T11:48:55.699Z",
   "changed_files": [
+    "app/src/sot/docs-v2.json",
     "app/src/sot/llm-read-contract.v1.json",
     "app/src/sot/sub-agent-manifest.v1.json",
     "app/src/sot/testline-integrity.json",
-    "dev/tools/runtime/verify-testline-integrity.mjs"
+    "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs"
   ],
   "archived_tasks": []
 }

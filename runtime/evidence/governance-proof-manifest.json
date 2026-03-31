@@ -2,10 +2,10 @@
   "schema_version": 1,
   "policy": "kernel-governance-engine.v2",
   "contract_hash": "069f4fcaa18db8b7f51ae717359b0a2ee0dfdccbbc5f3cd6be9768cebb3e00e4",
-  "generated_at": "2026-03-31T11:44:43.474Z",
+  "generated_at": "2026-03-31T11:49:09.563Z",
   "run_mode": "auto-sync-and-verify",
   "repo": {
-    "head": "61e2bffa09760ca0aea1d81c3cadd74a649055ac",
+    "head": "857e4b73fbb9bafb509aa8926a59b4a5c5e9539c",
     "branch": "main"
   },
   "gate_results": [
@@ -32,7 +32,7 @@
     {
       "id": "test:sync",
       "status": "PASSED",
-      "output_sha256": "c9338c58b3f24d3b245af2c89ae530a3f62303ea4295fc244e2e5e7350373a26"
+      "output_sha256": "145f4393361e93805b4a977d73ae9e5d59ff3701ef70c6609f4f33703f93bca3"
     },
     {
       "id": "repo:hygiene:sync",
@@ -67,7 +67,7 @@
     {
       "id": "tests",
       "status": "PASSED",
-      "output_sha256": "0705b8070a1bfb2dd166e29e3a64c9994e0654487eb102abb6af5fc0282e21ef"
+      "output_sha256": "be0128a3962dd171b605d405c3fe58bf93c2761acf0c337082ba8be4361887b1"
     },
     {
       "id": "evidence:verify",
@@ -97,7 +97,7 @@
     {
       "id": "docs:tasks:verify",
       "status": "PASSED",
-      "output_sha256": "3a9b962f361d8856e33b9e7aeb900d36a7cd982801eec7c6e49887b1444e3869"
+      "output_sha256": "6bb24d863bd5ac6816b366037b615c1e2d6d96631162bd94bf7b1db419419da5"
     },
     {
       "id": "governance:coverage:verify",
@@ -114,11 +114,11 @@
     "evidence": {
       "evidence_summary": {
         "path": "runtime/evidence/summary.json",
-        "sha256": "5db5114c4b11e798808c2073047c46b754558d510b1a0bd371954e969253b512"
+        "sha256": "d4579801a799810ae9bded08c66d556c7b2a75a269f94009641cde66c7582a97"
       },
       "final_testline_summary": {
         "path": "runtime/evidence/final/testline-summary.json",
-        "sha256": "dfe376c45f2a7080879f3c11d1fc1bb8cb08d11b9f03ee5a87944bcf98878898"
+        "sha256": "92e19e00f988e14e6349b6562be193fceb1fbe8385d30b617870e97d891c4b71"
       }
     },
     "sot": [
@@ -136,7 +136,7 @@
       },
       {
         "path": "app/src/sot/docs-v2.json",
-        "sha256": "39ec1ba10300b97628c7096de5b2ec8f5a0004161a27a4024b30a4592f5e2d94"
+        "sha256": "b45ea401a32446a9bc69e85888b9edb27f40b407b020c5f3beca7a93cc09f13e"
       },
       {
         "path": "app/src/sot/governance-engine.sot.v2.json",
@@ -144,28 +144,28 @@
       },
       {
         "path": "app/src/sot/llm-read-contract.v1.json",
-        "sha256": "5c203947bec2bf71cb57ca7d102c401b0b7912451ccddecdf453212937eecd4b"
+        "sha256": "bde0968d7e7d49ed505f6af3ee7af94b57c68e5e1f455ab5ec1bac457fa116d0"
       },
       {
         "path": "app/src/sot/sub-agent-manifest.v1.json",
-        "sha256": "1f18be4e1137c40b48f0780799eb900f04103c12942f489409870b1521404912"
+        "sha256": "d0cb946e2782c64751f77b7439c0f276b6f4677c604d23e2b72aa4cf07fee668"
       },
       {
         "path": "app/src/sot/testline-integrity.json",
-        "sha256": "4e1f6e9533d3d5a3bcf847763efee20a4defd5924c8cddff50c8182eacd2b731"
+        "sha256": "f632dcaf5e75d276a01f9b21510f413eed5d28367b8dc10dcc3afb5589ce536f"
       }
     ],
     "governance_findings": {
       "path": "runtime/evidence/governance-findings.json",
-      "sha256": "4a8ab6c2eae31bf11b0fc9c91c8b9f32aebe366646df6666e2ad71fa436cd46e"
+      "sha256": "27755e17bd96b0af22889ef7492d9aa3e41f00b94a90f63ae78fa8a75e7b11ad"
     },
     "governance_coverage": {
       "path": "runtime/evidence/governance-coverage.json",
-      "sha256": "d3bb0ca186027f4c09abe98d5f43e5e5cb72dd91e1082be46e01ecd34539eb8b"
+      "sha256": "0b7d38f9e74deb743d3bedde5373d7f7f8dedbf01a2408d0742a50326c8ccac0"
     },
     "governance_modularity": {
       "path": "runtime/evidence/governance-modularity.json",
-      "sha256": "d445150a30abf9e5deeb674c4dac5456148cdd1f6d34477e569f84c9658c7b77"
+      "sha256": "f9877542f298113741d3de667f7211534c32e18cdcc05684037ab7a71aeeccd1"
     }
   },
   "zero_trust": {
