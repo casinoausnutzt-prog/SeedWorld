@@ -31,12 +31,15 @@ Dieser Ordner soll nur noch wenige fuehrende Einstiegspunkte haben. Fuehrend sin
 - `V2/`: primäre menschenlesbare Wahrheit, Systemplan, Regeln, offene Tasks und Archiv.
 - `SOT/`: fuehrende maschinennahe Referenzen.
 - `MANUEL/`: knappe Handreichungen fuer den reduzierten Repo-Kern.
-- `LLM/`: nachrangige Sonderdoku ausserhalb des Pflichtkerns.
+- `LLM/`: verpflichtende Governance-Prozedur (Pflichtlektuere), nicht Runtime-Logik.
 - `IN PLANUNG/`: historische oder vorbereitende Texte, nicht fuehrend.
 
-## Nachrangig / Archivnah
+## Governance-Pflichtlektuere (nicht Runtime)
 
 - `docs/LLM/`
+- `Sub_Agent/`
+
+## Nachrangig / Archivnah
 - `docs/IN PLANUNG/`
 - `docs/MANUEL/wiki/Kernel-Governance.md`
 - `docs/MANUEL/wiki/Patch-Flow.md`

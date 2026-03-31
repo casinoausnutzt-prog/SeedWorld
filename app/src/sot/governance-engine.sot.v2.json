@@ -11,6 +11,8 @@
   "pipeline": {
     "sync": [
       "versioning:sync",
+      "governance:llm:sync",
+      "governance:subagent:sync",
       "docs:v2:sync",
       "test:sync",
       "repo:hygiene:sync"
@@ -18,18 +20,26 @@
     "verify": [
       "versioning:verify",
       "governance:policy:verify",
+      "governance:llm:verify",
+      "governance:subagent:verify",
       "test:verify",
       "evidence:verify",
       "testline:verify",
       "repo:hygiene:verify",
       "docs:v2:verify",
       "docs:v2:coverage",
+      "docs:tasks:verify",
       "governance:coverage:verify"
+    ],
+    "post_verify": [
+      "governance:findings:materialize",
+      "governance:findings:verify"
     ],
     "contract": "sync steps are optional by run mode, verify steps are always mandatory and fail-closed"
   },
   "proofArtifacts": [
     "runtime/evidence/required-check-report.json",
+    "runtime/evidence/governance-findings.json",
     "runtime/evidence/governance-proof-manifest.json",
     "runtime/evidence/governance-coverage.json",
     "VERSION",
@@ -52,6 +62,7 @@
     "truthDocs": [
       "docs/SOT/ORIENTATION.md",
       "docs/MANUEL/WORKFLOW.md",
+      "docs/LLM/ENTRY.md",
       "docs/LLM/POLICY.md"
     ]
   }

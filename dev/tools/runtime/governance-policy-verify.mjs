@@ -30,6 +30,17 @@ function run(command, args, rendered) {
   }
 }
 
+function readGitValue(args) {
+  const result = spawnSync("git", args, {
+    cwd: process.cwd(),
+    encoding: "utf8"
+  });
+  if (result.status !== 0) {
+    return "";
+  }
+  return String(result.stdout || "").trim();
+}
+
 function main() {
   const isCi = String(process.env.CI || "").toLowerCase() === "true" || !!process.env.GITHUB_ACTIONS;
   const signingArgs = ["dev/tools/runtime/signing-guard.mjs", "--head-only", "--allow-empty-range"];
@@ -39,6 +50,10 @@ function main() {
   run(process.execPath, signingArgs, `node ${signingArgs.join(" ")}`);
   const hooks = resolveNpmCommand("hooks:verify");
   run(hooks.command, hooks.args, hooks.rendered);
+  const headSubject = readGitValue(["show", "-s", "--format=%s", "HEAD"]);
+  if (/^Revert\b/i.test(headSubject)) {
+    console.log("[GOVERNANCE_POLICY] rollback parity enforced: revert commits use full required-gate contract");
+  }
   console.log(`[GOVERNANCE_POLICY] OK mode=${isCi ? "ci-signature-only" : "local-signature+config"}`);
 }
 

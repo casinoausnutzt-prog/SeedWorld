@@ -13,6 +13,7 @@ import {
 const root = process.cwd();
 const writeSyncArtifacts = !process.argv.includes("--verify-only");
 const reportPath = path.join(root, "runtime", "evidence", "required-check-report.json");
+const findingsEvidenceRel = "runtime/evidence/governance-findings.json";
 
 function resolveNpmCommand(script) {
   const npmExecPath = process.env.npm_execpath;
@@ -155,6 +156,76 @@ async function buildEvidenceSummary() {
   };
 }
 
+async function runInternalNodeScript(scriptRel, args = []) {
+  const startedAt = new Date().toISOString();
+  const startedMs = Date.now();
+  return await new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [scriptRel, ...args], {
+      cwd: root,
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+    let output = "";
+    child.stdout.on("data", (chunk) => {
+      const text = String(chunk);
+      output += text;
+      process.stdout.write(chunk);
+    });
+    child.stderr.on("data", (chunk) => {
+      const text = String(chunk);
+      output += text;
+      process.stderr.write(chunk);
+    });
+    child.on("error", (error) => {
+      reject({
+        script: scriptRel,
+        started_at: startedAt,
+        ended_at: new Date().toISOString(),
+        duration_ms: Date.now() - startedMs,
+        exit_code: null,
+        output_sha256: digestText(`${output}\n${String(error?.message || error)}`),
+        error: String(error?.message || error)
+      });
+    });
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve({
+          script: scriptRel,
+          started_at: startedAt,
+          ended_at: new Date().toISOString(),
+          duration_ms: Date.now() - startedMs,
+          exit_code: 0,
+          output_sha256: digestText(output)
+        });
+        return;
+      }
+      reject({
+        script: scriptRel,
+        started_at: startedAt,
+        ended_at: new Date().toISOString(),
+        duration_ms: Date.now() - startedMs,
+        exit_code: code,
+        output_sha256: digestText(output),
+        error: `script failed: ${scriptRel}`
+      });
+    });
+  });
+}
+
+function toSyntheticVerifyStep(result, id) {
+  return {
+    id,
+    script: id,
+    type: "verify",
+    command: `node ${result.script}`,
+    started_at: result.started_at,
+    ended_at: result.ended_at,
+    duration_ms: result.duration_ms,
+    status: result.exit_code === 0 ? "PASSED" : "FAILED",
+    exit_code: result.exit_code,
+    output_sha256: result.output_sha256
+  };
+}
+
 async function buildContractHash({ report, pipeline }) {
   const payload = {
     policy: report.policy,
@@ -196,6 +267,10 @@ async function writeProofManifest({ report, evidenceSummary, sotHashes }) {
     proof: {
       evidence: evidenceSummary,
       sot: sotHashes,
+      governance_findings: {
+        path: findingsEvidenceRel,
+        sha256: await sha256File(path.join(root, findingsEvidenceRel))
+      },
       governance_coverage: {
         path: coverageRel,
         sha256: await sha256File(path.join(root, coverageRel))
@@ -252,6 +327,25 @@ async function main() {
       report.steps.push(gate);
     }
 
+    report.overall_status = "PASSED";
+    await writeReport(report);
+    const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
+      "--report",
+      "runtime/evidence/required-check-report.json"
+    ]);
+    const findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+    report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
+    report.findings = {
+      materialized: {
+        script: findingsStep.script,
+        output_sha256: findingsStep.output_sha256
+      },
+      verify: {
+        script: findingsVerify.script,
+        output_sha256: findingsVerify.output_sha256
+      }
+    };
+
     const evidenceSummary = await buildEvidenceSummary();
     const sotHashes = await buildSotHashes();
     const manifestRef = await writeProofManifest({ report, evidenceSummary, sotHashes });
@@ -271,8 +365,43 @@ async function main() {
       `[REQUIRED_CHECK][PROOF] manifest=${manifestRef.sha256.slice(0, 12)} evidence=${report.proof.evidence_summary.sha256.slice(0, 12)} sot=${sotHashes.length}`
     );
   } catch (failedStep) {
+    report.overall_status = "FAILED";
     report.steps.push(failedStep);
     report.failure_step = failedStep.id || failedStep.script || "unknown";
+    await writeReport(report);
+    try {
+      const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
+        "--report",
+        "runtime/evidence/required-check-report.json"
+      ]);
+      let findingsVerify = null;
+      try {
+        findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+        report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
+      } catch (verifyError) {
+        report.steps.push(toSyntheticVerifyStep(verifyError, "governance:findings:verify"));
+      }
+      report.findings = {
+        materialized: {
+          script: findingsStep.script,
+          output_sha256: findingsStep.output_sha256
+        },
+        verify: findingsVerify
+          ? {
+              script: findingsVerify.script,
+              output_sha256: findingsVerify.output_sha256
+            }
+          : null
+      };
+    } catch (findingError) {
+      report.findings = {
+        materialized: {
+          script: findingError.script || "dev/tools/runtime/governance-findings-materialize.mjs",
+          output_sha256: findingError.output_sha256 || digestText(String(findingError?.error || "materialize failed")),
+          status: "FAILED"
+        }
+      };
+    }
     report.finished_at = new Date().toISOString();
     await writeReport(report);
     console.error(`[REQUIRED_CHECK] BLOCK step=${report.failure_step}`);

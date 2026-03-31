@@ -6,6 +6,7 @@
     "Content-Authoritative": "Authoritative gameplay content, rules and contracts consumed by the kernel.",
     "Reproduction/Evidence": "Machine-readable proof artifacts, comparators and evidence contracts.",
     "Test/Gate-Core": "Only the mandatory double-run gates that prove reproduction.",
+    "Governance-Procedure": "Mandatory process governance, reading contracts and sub-agent role policy; enforced fail-closed but not runtime simulation logic.",
     "Transitional": "Active migration residue with planned removal.",
     "Deprecated": "Superseded runtime or tooling path retained temporarily.",
     "Archive": "Historical reference only.",
@@ -63,11 +64,36 @@
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "dev/tools/runtime/signing-guard.mjs",
+        "dev/tools/runtime/governance-policy-verify.mjs",
+        "dev/tools/runtime/governance-llm-verify.mjs",
+        "dev/tools/runtime/governance-subagent-verify.mjs",
+        "dev/tools/runtime/governance-findings-verify.mjs",
         "dev/tools/runtime/sync-versioning.mjs",
         "dev/tools/runtime/governance-coverage-verify.mjs",
         "dev/tools/runtime/verify-docs-v2-coverage.mjs"
       ],
       "why": "Only double-run tests that prove kernel or content reproduction remain mandatory."
+    },
+    {
+      "id": "governance_procedure",
+      "class": "Governance-Procedure",
+      "authoritative": [
+        "docs/LLM/",
+        "Sub_Agent/",
+        "dev/tools/runtime/llm-entry.mjs",
+        "dev/tools/runtime/llm-read-guard.mjs",
+        "dev/tools/runtime/llm-override.mjs",
+        "dev/tools/runtime/updateRedActions.mjs",
+        "dev/tools/runtime/sync-llm-read-contract.mjs",
+        "dev/tools/runtime/governance-llm-verify.mjs",
+        "dev/tools/runtime/sync-sub-agent-manifest.mjs",
+        "dev/tools/runtime/governance-subagent-verify.mjs",
+        "dev/tools/runtime/governance-findings-materialize.mjs",
+        "dev/tools/runtime/governance-findings-verify.mjs",
+        "app/src/sot/llm-read-contract.v1.json",
+        "app/src/sot/sub-agent-manifest.v1.json"
+      ],
+      "why": "Pflichtprozess fuer LLM/Sub-Agent-Reihenfolge, Rollen und Finding-zu-Task-Enforcement; strikt gated, aber nicht Runtime-Simulation."
     },
     {
       "id": "transitional_residue",
@@ -106,18 +132,15 @@
       "id": "archive",
       "class": "Archive",
       "authoritative": [
-        "legacy/UNVERFID/",
-        "Sub_Agent/"
+        "legacy/UNVERFID/"
       ],
       "why": "Historical only."
     },
     {
       "id": "out_of_scope",
       "class": "Out-of-Scope",
-      "authoritative": [
-        "docs/LLM/"
-      ],
-      "why": "Narrative policy notes, not executable kernel truth."
+      "authoritative": [],
+      "why": "Present in repo but not part of mandatory quality gates."
     }
   ]
 }

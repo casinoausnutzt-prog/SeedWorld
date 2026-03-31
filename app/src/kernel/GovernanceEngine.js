@@ -9,11 +9,15 @@ export const GOVERNANCE_SOT_PROOF_FILES = Object.freeze([
   "app/src/sot/repo-boundaries.json",
   "app/src/sot/docs-v2.json",
   "app/src/sot/governance-engine.sot.v2.json",
+  "app/src/sot/llm-read-contract.v1.json",
+  "app/src/sot/sub-agent-manifest.v1.json",
   "app/src/sot/testline-integrity.json"
 ]);
 
 export const GOVERNANCE_SYNC_STEPS = Object.freeze([
   Object.freeze({ id: "versioning:sync", script: "versioning:sync", type: "sync" }),
+  Object.freeze({ id: "governance:llm:sync", script: "governance:llm:sync", type: "sync" }),
+  Object.freeze({ id: "governance:subagent:sync", script: "governance:subagent:sync", type: "sync" }),
   Object.freeze({ id: "docs:v2:sync", script: "docs:v2:sync", type: "sync" }),
   Object.freeze({ id: "test:sync", script: "test:sync", type: "sync" }),
   Object.freeze({ id: "repo:hygiene:sync", script: "repo:hygiene:sync", type: "sync" })
@@ -22,6 +26,8 @@ export const GOVERNANCE_SYNC_STEPS = Object.freeze([
 export const GOVERNANCE_VERIFY_STEPS = Object.freeze([
   Object.freeze({ id: "versioning:verify", script: "versioning:verify", type: "verify" }),
   Object.freeze({ id: "governance:policy:verify", script: "governance:policy:verify", type: "verify" }),
+  Object.freeze({ id: "governance:llm:verify", script: "governance:llm:verify", type: "verify" }),
+  Object.freeze({ id: "governance:subagent:verify", script: "governance:subagent:verify", type: "verify" }),
   Object.freeze({ id: "tests", script: "test:verify", type: "verify" }),
   Object.freeze({ id: "evidence:verify", script: "evidence:verify", type: "verify" }),
   Object.freeze({ id: "testline:verify", script: "testline:verify", type: "verify" }),

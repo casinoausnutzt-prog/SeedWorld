@@ -34,6 +34,12 @@ Dies ist der laufende Systemplan fuer Documentation 2.0. Er deckt die aktiven Be
 - Roots: `docs/V2`, `tem/tasks`, `app/src/sot/docs-v2.json`
 - Open Tasks: keine
 
+### governance-procedure
+
+- Truth: Pflichtprozess fuer LLM/Sub_Agent-Governance und Finding-zu-Task-Mapping; strikt fail-closed, nicht Runtime-Simulation.
+- Roots: `docs/LLM`, `Sub_Agent`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`
+- Open Tasks: keine
+
 ### legacy-cleanup
 
 - Truth: Tracked migration residue that must not create unregistered plan drift.

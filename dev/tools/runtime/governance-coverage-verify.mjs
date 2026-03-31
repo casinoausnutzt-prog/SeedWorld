@@ -13,12 +13,20 @@ const scanRoots = Object.freeze([
   "dev/tools/runtime",
   "dev/scripts",
   "dev/tests/modules",
+  "docs/LLM",
+  "Sub_Agent",
   ".githooks",
   ".github/workflows",
   ".github/rulesets"
 ]);
 
-const rootFiles = Object.freeze(["package.json", "VERSION", "README.md"]);
+const rootFiles = Object.freeze([
+  "package.json",
+  "VERSION",
+  "README.md",
+  "app/src/sot/llm-read-contract.v1.json",
+  "app/src/sot/sub-agent-manifest.v1.json"
+]);
 
 function matchesPrefix(relPath, prefix) {
   if (prefix.endsWith("/")) {

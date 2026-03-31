@@ -45,6 +45,7 @@ jobs:
           name: governance-proof-artifacts
           path: |
             runtime/evidence/required-check-report.json
+            runtime/evidence/governance-findings.json
             runtime/evidence/governance-proof-manifest.json
             runtime/evidence/governance-coverage.json
             runtime/evidence/summary.json

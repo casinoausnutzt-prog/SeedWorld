@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "matrix_fingerprint": "c9aafd2895694007bccc0c1c6954c71bde2e74451facba156f4c2a51665a1e4a",
+  "matrix_fingerprint": "089881553bba774f906b9df082645fa976e8e462461f0aa34e5d8d2daba92fdc",
   "scan_roots": [
     "app/src/game",
     "app/src/kernel",
@@ -8,7 +8,7 @@
     "app/public"
   ],
   "file_count": 34,
-  "unique_string_count": 588,
+  "unique_string_count": 592,
   "files": [
     {
       "path": "app/public/game.html",
@@ -2003,8 +2003,8 @@
     },
     {
       "path": "app/src/kernel/GovernanceEngine.js",
-      "string_count": 28,
-      "fingerprint": "9e38d980b1eec4e3b474795e5292f11da49dc128b6e4e1d65566af9e2b303345",
+      "string_count": 32,
+      "fingerprint": "7e90409c253aadb5e3419ec9fce176289dd2c8427e42df88ebc21d2dec51a52f",
       "strings": [
         {
           "value": "Claims are valid only if all verify gates passed and proof artifacts were hashed and cross-checked.",
@@ -2051,8 +2051,24 @@
           "hash": "bc9a6178af11d5622f5637c3079977da31f72eb49ec72db57a9177c06ea37403"
         },
         {
+          "value": "governance:llm:sync",
+          "hash": "8491dbb34cf6b6218bd7224e2cfe4a6cfc7ed0eb81474514e727419a0b931f27"
+        },
+        {
+          "value": "governance:llm:verify",
+          "hash": "c7ed3d6316ff3aedb83e0b4368801c006c59b8bdf38b238bdafbad7d7009cb4a"
+        },
+        {
           "value": "governance:policy:verify",
           "hash": "85b12077e27072311ab2f60efe64a8e486f8a4f5ba1854c0005e5f46b37aa57a"
+        },
+        {
+          "value": "governance:subagent:sync",
+          "hash": "47ec1c43cd26ed06e1c4acde2b810a5eb97fb2bc79732fe6ea43ddb906e7e8db"
+        },
+        {
+          "value": "governance:subagent:verify",
+          "hash": "3412c5b1a11eb6a9d94c5f3df4e550a9dc04c2cf8e9b017a274c6e57e0c45cbf"
         },
         {
           "value": "KERNEL_GOVERNANCE_ERROR",

@@ -18,6 +18,8 @@ set -e
 
 echo "[hook:pre-commit] verify hook sync + deterministic core tests"
 npm run hooks:verify
+npm run governance:llm:verify
+npm run governance:subagent:verify
 npm test
 `;
 }

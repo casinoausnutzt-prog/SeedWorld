@@ -2,7 +2,7 @@
 
 Dieses Entry-Dokument ist der verpflichtende Einstieg fuer alle Arbeiten im Repo.
 
-- Absoluter Pfad: `C:\Users\Vannon\seedWorldLLM\docs\LLM`
+- Absoluter Pfad: `C:\Users\Vannon\Downloads\SeedWorld-main (1)\SeedWorld-main\docs\LLM`
 - Zweck: Bindeglied zwischen Projektindex und LLM-Policy.
 
 ## Pflicht-Lesereihenfolge
@@ -16,15 +16,22 @@ Dieses Entry-Dokument ist der verpflichtende Einstieg fuer alle Arbeiten im Repo
 
 1. Ein Scope pro Arbeit (keine Mischthemen im selben Commit).
 2. Vor Commit immer Gegenpruefung durch Guard/Hooks.
-3. Runtime-Synchronitaet bleibt Pflicht (`sync:docs`, `preflight`, Tests).
+3. Jeder Blocker aus Gate/Review muss als Task in `tem/tasks/open/*.json` materialisiert sein.
+4. LLM/Sub_Agent sind Governance-Pflichtpfad, aber nicht Runtime-Simulationspfad.
 
 ## Runtime-Enforcement
 
 - `npm run llm:entry` schreibt einen ACK-Status mit Docs-Hash.
 - `npm run llm:guard -- --action <stage|commit|push>` blockiert Stage/Commit/Push bei Hash-Drift oder fehlendem ACK.
+- `npm run governance:llm:verify` und `npm run governance:subagent:verify` sind Pflichtgates.
 - Hooks pruefen das standardmaessig vor jedem Commit/Push.
 - `docs/LLM/AKTUELLE_RED_ACTIONS.md` wird vor Preflight/Commit synchronisiert und dokumentiert den Commit-Kandidaten.
 - `npm run preflight` nutzt einen automatischen Preflight-Guard, der den Pflichtlauf fail-closed haelt, bis die aktuelle Guard-Abweichung behoben wurde.
+
+## Ruecklaeufigkeit (Rollback/Revert)
+
+- Revert-/Rollback-Commits haben keinen Sonderpfad.
+- Sie muessen denselben Required-Verify-Contract bestehen wie Forward-Commits.
 
 ## 3x Override-Regel (nur Notfall)
 

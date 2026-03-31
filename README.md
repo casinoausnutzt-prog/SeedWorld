@@ -1,5 +1,7 @@
 # SeedWorld
 
+[![Required Checks](https://github.com/Vannon0911/SeedWorld/actions/workflows/required-checks.yml/badge.svg?branch=main)](https://github.com/Vannon0911/SeedWorld/actions/workflows/required-checks.yml)
+
 SeedWorld ist jetzt auf drei Wahrheiten reduziert:
 
 - deterministischer Kernel
@@ -34,6 +36,7 @@ Ein gueltiger Erfolg ist nur `PASS_REPRODUCED` plus belegbare Evidence-Artefakte
 - `app/src/kernel/GovernanceEngine.js` einheitliche Governance-Engine fuer Kernel + Pflichtpipeline
 - `app/src/sot/governance-engine.sot.v2.json` SoT-2.0-Vertrag fuer Governance Engine
 - `runtime/evidence/governance-proof-manifest.json` zero-trust Manifest fuer Gate/SOT/Evidence-Hashes
+- `docs/LLM/` + `Sub_Agent/` verpflichtende Governance-Prozedur (Pflichtlektuere), nicht Runtime-Simulation
 - `docs/V2/` fuehrende Doku-, Plan- und Archivschicht
 - `app/src/sot/STRING_MATRIX.json` maschinenlesbare String-Disziplin fuer aktive Spiel- und Doku-Pfade
 

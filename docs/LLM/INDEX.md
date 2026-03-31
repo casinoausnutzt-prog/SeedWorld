@@ -1,6 +1,7 @@
 # LLM Index
 
-Out-of-Scope-Status: Dieser Bereich ist nicht Teil des Pflichtkerns und wird von Documentation 2.0 nur noch klassifiziert, nicht mehr fuehrend gemacht.
+Pflichtstatus: Dieser Bereich ist Teil der Governance-Prozedur-SoT und fail-closed in `check:required`/`check:required:verify-only` verdrahtet.
+Wichtig: LLM-Governance ist Pflichtprozess, aber keine Runtime-Simulation.
 
 - Entry: [ENTRY.md](./ENTRY.md)
 - Policy: [POLICY.md](./POLICY.md)

@@ -14,11 +14,6 @@ Archivierte oder ausserhalb des Pflichtkerns liegende Dokumentationsbereiche sin
 - Class: `Archive`
 - Paths: `docs/IN PLANUNG/`
 
-### docs-llm-out-of-scope
-
-- Class: `Out-of-Scope`
-- Paths: `docs/LLM/`
-
 ### manual-legacy-archive
 
 - Class: `Archive`
@@ -35,6 +30,48 @@ Archivierte oder ausserhalb des Pflichtkerns liegende Dokumentationsbereiche sin
 Archivierte Tasks wurden vom Scanner aus dem offenen Planungspfad entfernt, weil ihr deklarierter Scope im Aenderungssatz getroffen wurde.
 
 ## Archived Tasks
+
+### LLM-006 Sub_Agent-Promptbibliothek auf Pflicht-Governance aktualisieren
+
+- JSON: `tem/tasks/archive/LLM-006.json`
+- Archived At: `2026-03-31T09:50:51.364Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
+
+### LLM-005 Rollback-Paritaet und Verifiziert-Badge-Vertrag dokumentieren
+
+- JSON: `tem/tasks/archive/LLM-005.json`
+- Archived At: `2026-03-31T09:50:51.350Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
+
+### LLM-004 LLM/Sub_Agent-Contracts mit Hash-Manifesten absichern
+
+- JSON: `tem/tasks/archive/LLM-004.json`
+- Archived At: `2026-03-31T09:50:51.348Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
+
+### LLM-003 Review-Blocker deterministisch in Tasks materialisieren
+
+- JSON: `tem/tasks/archive/LLM-003.json`
+- Archived At: `2026-03-31T09:50:51.346Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
+
+### LLM-002 LLM- und Sub_Agent-Verify-Gates in Required-Pipeline verdrahten
+
+- JSON: `tem/tasks/archive/LLM-002.json`
+- Archived At: `2026-03-31T09:50:51.344Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
+
+### LLM-001 SoT-Klassifizierung fuer LLM/Sub_Agent auf Pflicht-Governance umstellen
+
+- JSON: `tem/tasks/archive/LLM-001.json`
+- Archived At: `2026-03-31T09:50:51.340Z`
+- Reason: scope matched current change set
+- Changed Files: `.githooks/pre-commit`, `.github/workflows/required-checks.yml`, `app/src/kernel/GovernanceEngine.js`, `app/src/sot/docs-v2.json`, `app/src/sot/governance-engine.sot.v2.json`, `app/src/sot/llm-read-contract.v1.json`, `app/src/sot/REPO_HYGIENE_MAP.json`, `app/src/sot/repo-boundaries.json`, `app/src/sot/source-of-truth.json`, `app/src/sot/STRING_MATRIX.json`, `app/src/sot/sub-agent-manifest.v1.json`, `dev/tools/runtime/governance-coverage-verify.mjs`, `dev/tools/runtime/governance-findings-materialize.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-policy-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/installGitHooks.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/sync-llm-read-contract.mjs`, `dev/tools/runtime/sync-sub-agent-manifest.mjs`, `docs/INDEX.md`, `docs/LLM/ENTRY.md`, `docs/LLM/INDEX.md`, `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/SOT/REPO_HYGIENE_MAP.md`, `docs/SOT/STRING_MATRIX.md`, `docs/V2/ARCHIVE.md`, `docs/V2/HOME.md`, `docs/V2/PLAN.md`, `docs/V2/SYSTEM_PLAN.md`, `docs/V2/TRUTH.md`, `package.json`, `README.md`, `Sub_Agent/01_code_reviewer.md`, `Sub_Agent/02_playwright_debugger.md`, `Sub_Agent/03_repo_hygiene_mapper.md`, `Sub_Agent/04_docs_sync_specialist.md`, `Sub_Agent/05_governance_guard.md`, `Sub_Agent/INDEX.md`, `tem/tasks/open/LLM-001.json`, `tem/tasks/open/LLM-002.json`, `tem/tasks/open/LLM-003.json`, `tem/tasks/open/LLM-004.json`, `tem/tasks/open/LLM-005.json`, `tem/tasks/open/LLM-006.json`
 
 ### GOV-006 Proof-Manifest und Report fail-closed absichern
 

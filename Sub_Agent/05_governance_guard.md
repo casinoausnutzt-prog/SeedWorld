@@ -8,6 +8,8 @@ Pflichtchecks:
 1. Keine Action ohne Registry-Eintrag und `requiredGate`.
 2. Keine Umgehung zentraler Ausfuehrungslogik (insbesondere `kernel.execute()`).
 3. CI- und Runtime-Enforcement explizit pruefen und Ergebnis benennen.
+4. LLM/Sub_Agent-Governance als Pflichtprozess pruefen (nicht Runtime-Simulation).
+5. Jeder Gate-Blocker muss als task-faehiger Befund mit Rule-ID/Pfad/Ursache ausgegeben werden.
 
 Ausgabeformat:
 1. Verstoss oder Bestanden (pro Regel mit Datei).

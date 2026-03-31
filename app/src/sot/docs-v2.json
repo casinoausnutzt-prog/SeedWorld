@@ -20,6 +20,8 @@
     "app/src/sot/source-of-truth.json",
     "app/src/sot/repo-boundaries.json",
     "app/src/sot/governance-engine.sot.v2.json",
+    "app/src/sot/llm-read-contract.v1.json",
+    "app/src/sot/sub-agent-manifest.v1.json",
     "app/src/sot/testline-integrity.json",
     "package.json",
     "docs/INDEX.md",
@@ -44,14 +46,35 @@
     "dev/tools/runtime/sync-docs-v2.mjs",
     "dev/tools/runtime/sync-tem-control-files.mjs",
     "dev/tools/runtime/updateRedActions.mjs",
+    "dev/tools/runtime/llm-entry.mjs",
+    "dev/tools/runtime/llm-read-shared.mjs",
+    "dev/tools/runtime/llm-read-guard.mjs",
+    "dev/tools/runtime/llm-override.mjs",
     "dev/tools/runtime/installGitHooks.mjs",
     "dev/tools/runtime/run-required-checks.mjs",
     "dev/tools/runtime/signing-guard.mjs",
     "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/governance-llm-verify.mjs",
+    "dev/tools/runtime/governance-subagent-verify.mjs",
+    "dev/tools/runtime/governance-findings-shared.mjs",
+    "dev/tools/runtime/governance-findings-materialize.mjs",
+    "dev/tools/runtime/governance-findings-verify.mjs",
+    "dev/tools/runtime/sync-llm-read-contract.mjs",
+    "dev/tools/runtime/sync-sub-agent-manifest.mjs",
     "dev/tools/runtime/sync-versioning.mjs",
     "dev/tools/runtime/governance-coverage-verify.mjs",
     "dev/tools/runtime/scan-doc-tasks-verify.mjs",
     "app/src/kernel/GovernanceEngine.js",
+    "docs/LLM/ENTRY.md",
+    "docs/LLM/POLICY.md",
+    "docs/LLM/INDEX.md",
+    "docs/LLM/AKTUELLE_RED_ACTIONS.md",
+    "Sub_Agent/INDEX.md",
+    "Sub_Agent/01_code_reviewer.md",
+    "Sub_Agent/02_playwright_debugger.md",
+    "Sub_Agent/03_repo_hygiene_mapper.md",
+    "Sub_Agent/04_docs_sync_specialist.md",
+    "Sub_Agent/05_governance_guard.md",
     ".githooks/pre-commit",
     ".githooks/pre-push",
     ".github/workflows/required-checks.yml",
@@ -83,6 +106,7 @@
     "scanRoots": [
       "docs",
       "tem",
+      "Sub_Agent",
       "legacy/UNVERFID"
     ],
     "rootFiles": [
@@ -172,10 +196,13 @@
         ]
       },
       {
-        "id": "docs-llm-out-of-scope",
-        "class": "Out-of-Scope",
+        "id": "governance-procedure",
+        "class": "Governance-Procedure",
         "paths": [
-          "docs/LLM/"
+          "docs/LLM/",
+          "Sub_Agent/",
+          "app/src/sot/llm-read-contract.v1.json",
+          "app/src/sot/sub-agent-manifest.v1.json"
         ]
       },
       {
@@ -238,6 +265,18 @@
           "app/src/sot/docs-v2.json"
         ],
         "truth": "Human-readable truth, atomic planning and archive automation."
+      },
+      {
+        "id": "governance-procedure",
+        "roots": [
+          "docs/LLM",
+          "Sub_Agent",
+          "dev/tools/runtime/governance-llm-verify.mjs",
+          "dev/tools/runtime/governance-subagent-verify.mjs",
+          "dev/tools/runtime/governance-findings-materialize.mjs",
+          "dev/tools/runtime/governance-findings-verify.mjs"
+        ],
+        "truth": "Pflichtprozess fuer LLM/Sub_Agent-Governance und Finding-zu-Task-Mapping; strikt fail-closed, nicht Runtime-Simulation."
       },
       {
         "id": "legacy-cleanup",

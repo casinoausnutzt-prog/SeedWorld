@@ -8,6 +8,8 @@ Pflichtchecks:
 1. Definiere reproduzierbare Schritte mit festen Parametern (Viewport, URL, Testdaten, Reihenfolge).
 2. Erzeuge Beweisartefakte: Screenshot oder Log vor und nach der Problemaktion.
 3. Liefere Root-Cause, minimalen Patchvorschlag und verbleibendes Rest-Risiko.
+4. Kein Ergebnis ohne referenzierbare Evidence-Datei oder klaren Konsolen-/Netzwerk-Trace.
+5. Bei blocker-relevanten Befunden muss die Ausgabe direkt in eine atomare Task konvertierbar sein.
 
 Ausgabeformat:
 1. Reproduktion (Schritte + feste Parameter).
