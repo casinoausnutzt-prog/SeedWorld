@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-007",
+  "title": "RAF resource leak in ViewportManager.js destroy()",
+  "status": "open",
+  "track": "resource-leak",
+  "source_docs": [
+    "app/src/ui/ViewportManager.js"
+  ],
+  "description": "Der diff entfernt die RAF-Cancellation aus destroy() (Zeile 46-50 im diff). Aber onResize() scheduled weiterhin RAF-Callbacks. Wenn destroy() nach onResize()-Trigger aber vor RAF-Callback ausgeführt wird, bleibt this.frameHandle gesetzt und der Callback referenziert möglicherweise eine zerstörte Instanz. Memory/Resource leak.",
+  "evidence": {
+    "code_locations": [
+      "app/src/ui/ViewportManager.js:63-75 (onResize scheduled RAF)",
+      "app/src/ui/ViewportManager.js:48-56 (destroy ohne RAF-Cancellation)",
+      "diff: removed frameHandle cancellation in destroy"
+    ],
+    "issue_type": "Resource Leak",
+    "impact": "Potentieller Memory Leak; Callback auf zerstörte Instanz; unstabiles Verhalten bei Hot-Reload/SPA-Navigation"
+  },
+  "fix_instructions": "Behalte die RAF-Cancellation in destroy(): if (this.frameHandle && this.source?.cancelAnimationFrame) { this.source.cancelAnimationFrame(this.frameHandle); this.frameHandle = null; }",
+  "acceptance_criteria": [
+    "RAF-Cancellation ist in destroy() vorhanden",
+    "frameHandle wird auf null gesetzt nach Cancellation",
+    "Keine Resource Leaks bei wiederholtem create/destroy",
+    "Tests bestehen"
+  ],
+  "scope_paths": [
+    "app/src/ui/ViewportManager.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "10 min",
+  "dependencies": []
+}

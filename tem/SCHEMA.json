@@ -6,7 +6,7 @@
     "WORKFLOW.md",
     "SCHEMA.json"
   ],
-  "artifactCount": 73,
+  "artifactCount": 80,
   "categories": {
     "planung": [
       "tem/beide-plaene.md",
@@ -75,6 +75,12 @@
       "tem/tasks/archive/RT-012.json"
     ],
     "task-open": [
+      "tem/tasks/open/ARC-001.json",
+      "tem/tasks/open/ARC-002.json",
+      "tem/tasks/open/BUG-001.json",
+      "tem/tasks/open/BUG-002.json",
+      "tem/tasks/open/BUG-003.json",
+      "tem/tasks/open/BUG-004.json",
       "tem/tasks/open/CF-003.json",
       "tem/tasks/open/CF-004.json",
       "tem/tasks/open/CF-005.json",
@@ -85,22 +91,70 @@
       "tem/tasks/open/CF-010.json",
       "tem/tasks/open/CF-011.json",
       "tem/tasks/open/CF-012.json",
+      "tem/tasks/open/CF-013.json",
       "tem/tasks/open/GOV-001.json",
       "tem/tasks/open/GOV-002.json",
       "tem/tasks/open/GOV-003.json",
       "tem/tasks/open/GOV-004.json",
       "tem/tasks/open/GOV-005.json",
       "tem/tasks/open/GOV-006.json",
+      "tem/tasks/open/GOV-007.json",
       "tem/tasks/open/LEG-001.json",
       "tem/tasks/open/RT-001.json",
+      "tem/tasks/open/RT-002.json",
+      "tem/tasks/open/RT-003.json",
       "tem/tasks/open/RT-004.json",
-      "tem/tasks/open/RT-013.json"
+      "tem/tasks/open/RT-005.json",
+      "tem/tasks/open/RT-006.json",
+      "tem/tasks/open/RT-007.json",
+      "tem/tasks/open/RT-008.json",
+      "tem/tasks/open/RT-009.json",
+      "tem/tasks/open/RT-010.json",
+      "tem/tasks/open/RT-011.json",
+      "tem/tasks/open/RT-012.json",
+      "tem/tasks/open/RT-013.json",
+      "tem/tasks/open/SEC-001.json"
     ],
     "sonstiges": [
       "tem/testline-missing-systems.md"
     ]
   },
   "artifacts": [
+    {
+      "path": "tem/tasks/open/ARC-001.json",
+      "category": "task-open",
+      "sha256": "7a45e31864c300f3f20eb98c254bbe5c2987d31a4962981c64b401edba1c9f5a"
+    },
+    {
+      "path": "tem/tasks/open/ARC-002.json",
+      "category": "task-open",
+      "sha256": "a9a515b1ef8728a9c2aed1d6002a286f76f43343b89437569fcff90b0fdc566b"
+    },
+    {
+      "path": "tem/tasks/open/BUG-001.json",
+      "category": "task-open",
+      "sha256": "c5aaf97543de893a53e14c951511b31b6b27530444934a646a8b84ef685762a7"
+    },
+    {
+      "path": "tem/tasks/open/BUG-002.json",
+      "category": "task-open",
+      "sha256": "c1722b000b983d09104dfc2b75bdba764f9948736fae5cedc4eaea5fa91350de"
+    },
+    {
+      "path": "tem/tasks/open/BUG-003.json",
+      "category": "task-open",
+      "sha256": "8d7289bc1478767c7f4a15057b9b211f75a2e820edd9937544fed5518ba4bb27"
+    },
+    {
+      "path": "tem/tasks/open/BUG-004.json",
+      "category": "task-open",
+      "sha256": "ad1f8875515b97cb902018c2bbc2aa1af573ccb244e77351d58dd322695e1db0"
+    },
+    {
+      "path": "tem/tasks/open/SEC-001.json",
+      "category": "task-open",
+      "sha256": "657450eeb5feaa1daaf353d6bafe250e6b629fa059fb167a82fabaec61798d38"
+    },
     {
       "path": "tem/beide-plaene.md",
       "category": "planung",
@@ -222,8 +276,8 @@
       "sha256": "805d07d3cddc213cc0756c20d125b007a2d00e6dce850cec5da75d2696f4c64e"
     },
     {
-      "path": "tem/tasks/archive/CF-013.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/CF-013.json",
+      "category": "task-open",
       "sha256": "a0408c8b6cdd7244d7a09dc535a88d06922efb0f622fbea1432ec03383c00191"
     },
     {
@@ -237,38 +291,38 @@
       "sha256": "a5f0eb759baf22e0bcc66dc7f09185218923c9a9a22d2edb4c2c914be9be463e"
     },
     {
-      "path": "tem/tasks/archive/GOV-001.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-001.json",
+      "category": "task-open",
       "sha256": "35d2c72a264caf0baea6712979736c8742481bd527be2a78ca175da997d5879e"
     },
     {
-      "path": "tem/tasks/archive/GOV-002.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-002.json",
+      "category": "task-open",
       "sha256": "90c3904d95f36d7a793a973b06c908bc2466bb51860ff491ca3294d2a17dedff"
     },
     {
-      "path": "tem/tasks/archive/GOV-003.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-003.json",
+      "category": "task-open",
       "sha256": "c807bcfdb0c39883fa983513e23a5c888b819d1148333df627fcf6cd79a160d5"
     },
     {
-      "path": "tem/tasks/archive/GOV-004.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-004.json",
+      "category": "task-open",
       "sha256": "188f01baa4d8224b592768676d50a177b5e29f01cbc5dade6878076ddab79e1f"
     },
     {
-      "path": "tem/tasks/archive/GOV-005.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-005.json",
+      "category": "task-open",
       "sha256": "50d07aa4be1ad6b93de2e8b13998067ddac13444a13f7f4019f58f01240f4c25"
     },
     {
-      "path": "tem/tasks/archive/GOV-006.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-006.json",
+      "category": "task-open",
       "sha256": "89df7fe2e93a92da83b893455c5dce2b2ef2052acb2fd9c23331871c728e9da1"
     },
     {
-      "path": "tem/tasks/archive/GOV-007.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/GOV-007.json",
+      "category": "task-open",
       "sha256": "c673388d27e615be980bd48539600a6602f14ae2fe2ff554c8579ab2478f2d56"
     },
     {
@@ -302,53 +356,53 @@
       "sha256": "69edf208a4bf42d1953d11f0c49255948bf18f53ff966d9fb3ee43040ac00b40"
     },
     {
-      "path": "tem/tasks/archive/RT-002.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-002.json",
+      "category": "task-open",
       "sha256": "c4fe27eac855eba1c558fcca02733155dcf9d49c5c706dc1bbadffafe18f50a4"
     },
     {
-      "path": "tem/tasks/archive/RT-003.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-003.json",
+      "category": "task-open",
       "sha256": "ae112280eeb1cd1e68f4647e3542f9fbb52dbed33b53c21a59b8efcc48411a5a"
     },
     {
-      "path": "tem/tasks/archive/RT-005.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-005.json",
+      "category": "task-open",
       "sha256": "a9df103967a87f17695e7a2dfb59c8ef50bd180de6dd07dfb8ec106f5c489647"
     },
     {
-      "path": "tem/tasks/archive/RT-006.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-006.json",
+      "category": "task-open",
       "sha256": "bcfb82afc9a0fb5223335abf0d9cf31cda7abeac30b3ef3acaf8d8d5e5af5e05"
     },
     {
-      "path": "tem/tasks/archive/RT-007.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-007.json",
+      "category": "task-open",
       "sha256": "2e8e032a67228b0393a28945ce3c4e1430e60372cdd4fdb495875de931e7fbdd"
     },
     {
-      "path": "tem/tasks/archive/RT-008.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-008.json",
+      "category": "task-open",
       "sha256": "36287df17d6f348a8b3ce4823e0c74ef4a84cb2b9695f2b1c24c684b2b8ce869"
     },
     {
-      "path": "tem/tasks/archive/RT-009.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-009.json",
+      "category": "task-open",
       "sha256": "99524d36d708cc1578e916d54e505a60807d67e91ad95e0f36f59b33784f0bc1"
     },
     {
-      "path": "tem/tasks/archive/RT-010.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-010.json",
+      "category": "task-open",
       "sha256": "d94279a89ff4aba915a786bc8acc4db3a7dcc855661fd654c1792ad8b7a3e077"
     },
     {
-      "path": "tem/tasks/archive/RT-011.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-011.json",
+      "category": "task-open",
       "sha256": "51322e02bffe264abd1c2106909abe0c5e73251e4cca4b4d0ba80ea9acbfd1d2"
     },
     {
-      "path": "tem/tasks/archive/RT-012.json",
-      "category": "task-archive",
+      "path": "tem/tasks/open/RT-012.json",
+      "category": "task-open",
       "sha256": "0d91582d91cc24d5b7868c2434c37026c39ee00da3e418b73f62165cf93ef3e5"
     },
     {

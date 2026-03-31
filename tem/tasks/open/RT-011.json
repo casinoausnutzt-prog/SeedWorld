@@ -1,22 +1,21 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-009",
-  "title": "Supply-Chain Spawn-Hardening (npm_execpath/PATH/prepare)",
-  "status": "archived",
+  "task_id": "RT-011",
+  "title": "Evidence-Verifikation von Struktur- zu Inhaltsbeweis aufruesten",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Keine ungeprueften Executable-Pfade aus Env/PATH; Hook-Installation nur explizit opt-in statt implizit ueber prepare.",
+  "description": "verify-evidence/testline muessen Comparator und run/pair Konsistenz aktiv neu berechnen statt Artefakt-Claims nur strukturell zu akzeptieren.",
   "scope_paths": [
-    "package.json",
-    "dev/tools/runtime/run-required-checks.mjs",
-    "dev/tools/runtime/governance-policy-verify.mjs",
-    "dev/tools/runtime/installGitHooks.mjs"
+    "dev/scripts/verify-evidence.mjs",
+    "dev/scripts/evidence-shared.mjs",
+    "dev/tools/runtime/verify-testline-integrity.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-009.json",
-  "archived_at": "2026-03-31T12:59:04.256Z",
+  "file_path": "tem/tasks/archive/RT-011.json",
+  "archived_at": "2026-03-31T12:59:04.267Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -74,5 +73,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-009.json"
+  "archived_from": "tem/tasks/open/RT-011.json"
 }

@@ -1,4 +1,4 @@
-import { extname, resolve } from 'node:path';
+import { extname, resolve, sep } from 'node:path';
 import { readFile, stat } from 'node:fs/promises';
 
 const ROOT_DIR = process.cwd();
@@ -33,10 +33,12 @@ function hasHiddenSegment(pathname) {
 
 /**
  * Ensures a resolved static candidate stays inside an approved parent directory.
+ * Uses path normalization to prevent traversal attacks across platforms.
  */
 function isPathInside(parentDir, candidate) {
-  const parent = resolve(parentDir);
-  return candidate.startsWith(`${parent}\\`) || candidate.startsWith(`${parent}/`);
+  const normalizedParent = resolve(parentDir).toLowerCase();
+  const normalizedCandidate = resolve(candidate).toLowerCase();
+  return normalizedCandidate.startsWith(normalizedParent + sep);
 }
 
 /**

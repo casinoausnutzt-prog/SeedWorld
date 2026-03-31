@@ -100,6 +100,25 @@ export class UIController {
     this.#startRenderLoop();
   }
 
+  destroy() {
+    if (this.tickTimer !== null) {
+      window.clearInterval(this.tickTimer);
+      this.tickTimer = null;
+    }
+    if (this.tickDrainTimer !== null) {
+      window.clearInterval(this.tickDrainTimer);
+      this.tickDrainTimer = null;
+    }
+    if (this.renderFrameHandle !== null) {
+      window.cancelAnimationFrame(this.renderFrameHandle);
+      this.renderFrameHandle = null;
+    }
+    if (this.unsubscribeViewport) {
+      this.unsubscribeViewport();
+      this.unsubscribeViewport = null;
+    }
+  }
+
   #ensureTileGrid() {
     const container = this.elements.tileGridContainer || document.getElementById("tile-grid-container");
     if (!container) {
@@ -168,7 +187,8 @@ export class UIController {
     try {
       const result = this.gameLogic.applyActionLocally({ type: "generate_world", payload }, this.currentState);
       this.currentState = clone(result.previewState);
-    } catch (_) {
+    } catch (error) {
+      console.warn("[UI_CONTROLLER] gameLogic.applyActionLocally failed, falling back to direct generateWorld:", error);
       this.currentState = clone({
         ...this.currentState,
         world: generateWorld(payload)

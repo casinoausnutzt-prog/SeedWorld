@@ -42,7 +42,6 @@ export class KernelController {
         ? options.confirmationPrefix.trim()
         : DEFAULT_CONFIRMATION_PREFIX;
     this.governanceMode = options.governanceMode === "shadow" ? "shadow" : "enforce";
-    this.governanceAuditTrail = [];
     this.currentTick = 0;
     this.deterministicSeed =
       typeof options.seed === "string" && options.seed.trim().length > 0 ? options.seed.trim() : "default-seed";

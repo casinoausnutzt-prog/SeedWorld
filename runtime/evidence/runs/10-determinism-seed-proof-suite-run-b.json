@@ -14,11 +14,11 @@
     ]
   },
   "kernel_revision": {
-    "fingerprint": "491aa46bc8c78b48fa37d3e7d2a57d564ac1d162cbf05af64f4d784c27547f15",
+    "fingerprint": "52f8557ba443c26fb1af87ccca48f76820be980fca5f3942f7835a33b4f776e3",
     "files": [
       {
         "path": "app/src/kernel/deterministicKernel.js",
-        "hash": "e4282205c9ad6d31752b1529a86e92382a0a3c290471ad6131333b14e4f9272b"
+        "hash": "071197398d108b4b8f87c731a70ff8f17337de12e912f25939163ae99768d715"
       },
       {
         "path": "app/src/kernel/fingerprint.js",
@@ -26,11 +26,11 @@
       },
       {
         "path": "app/src/kernel/KernelController.js",
-        "hash": "591cd2ba8287465f331f5931d74a912f8df44249b3bd8748e1c50d1231d60285"
+        "hash": "dcd437a56d1e309ce6aa596f7d6131dff421ef3ce81df9f253c09773f2beda5d"
       },
       {
         "path": "app/src/kernel/runtimeGuards.js",
-        "hash": "133d8afc67ab7de3016585d3e83aa4a90b5af1879fb072d9b29f2f4ddea8c2ac"
+        "hash": "065277358a4938f73d31df60f0bbe97b1c8a0f162d9084f0b6b49cf8887bf895"
       },
       {
         "path": "app/src/kernel/seedGuard.js",
@@ -38,7 +38,7 @@
       }
     ]
   },
-  "timestamp": "2026-03-31T13:19:28.616Z",
+  "timestamp": "2026-03-31T18:49:27.467Z",
   "deterministic_fingerprint": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84",
   "output_hashes": {
     "payload": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84"

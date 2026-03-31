@@ -3,6 +3,11 @@ import { readFile } from "node:fs/promises";
 import { spawn, spawnSync } from "node:child_process";
 import { resolveNpmCommand } from "./runtime-metadata.mjs";
 
+// Governance metadata for llm-governance compliance
+export const SCHEMA_VERSION = "1.0.0";
+export const CHECK_ID = "runtime-execution";
+export const CHECK_TYPE = "required-check";
+
 function resolveStepScriptArgs(step) {
   return step.id === "governance:policy:verify" ? ["--head-only"] : [];
 }

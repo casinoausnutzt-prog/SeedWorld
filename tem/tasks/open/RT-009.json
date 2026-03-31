@@ -1,22 +1,22 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-010",
-  "title": "Docs-V2 Coverage auf Governance-relevante Repo-Trees erweitern",
-  "status": "archived",
+  "task_id": "RT-009",
+  "title": "Supply-Chain Spawn-Hardening (npm_execpath/PATH/prepare)",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Registry/Coverage darf nicht nur working-tree dirty Files und Teilroots sehen; PR-Diff-basierte Vollabdeckung fuer app/dev/.github/.githooks erzwingen.",
+  "description": "Keine ungeprueften Executable-Pfade aus Env/PATH; Hook-Installation nur explizit opt-in statt implizit ueber prepare.",
   "scope_paths": [
-    "app/src/sot/docs-v2.json",
-    "dev/tools/runtime/verify-docs-v2-coverage.mjs",
-    "dev/tools/runtime/verify-docs-v2-guards.mjs",
-    "dev/tools/runtime/docs-v2-shared.mjs"
+    "package.json",
+    "dev/tools/runtime/run-required-checks.mjs",
+    "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/installGitHooks.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-010.json",
-  "archived_at": "2026-03-31T12:59:04.261Z",
+  "file_path": "tem/tasks/archive/RT-009.json",
+  "archived_at": "2026-03-31T12:59:04.256Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -74,5 +74,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-010.json"
+  "archived_from": "tem/tasks/open/RT-009.json"
 }

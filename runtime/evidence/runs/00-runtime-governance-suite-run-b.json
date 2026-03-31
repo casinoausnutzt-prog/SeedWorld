@@ -5,7 +5,7 @@
   "seed": "suite-00-runtime-governance-seed",
   "seed_source": "test-vector",
   "content_revision": {
-    "fingerprint": "0a80dc4ae70b4987fbe8bb07bf6691ac2d348e2913fd82fee6ce56e0e9c0f883",
+    "fingerprint": "fae7a4ac48c464d2fc2a1f5c97b24adefd392245890f760ac7ea46fbd7ef37bc",
     "files": [
       {
         "path": "app/src/game/worldGen.js",
@@ -13,12 +13,12 @@
       },
       {
         "path": "app/src/sot/source-of-truth.json",
-        "hash": "49dc0072fd11fd3047241f0eace8d040a981d7003fa5a251837fbae8eb848412"
+        "hash": "afb0ebe1961c0c27145ade39ce5c92ca4c32353fd8eb70da9e37fc11cb9742ba"
       }
     ]
   },
   "kernel_revision": {
-    "fingerprint": "0859cecb5c241a3727fd544267e5cbd669e0f6b4930de30c784574e364e656e9",
+    "fingerprint": "057b2084173686104bd91567da97c3a9e87ace65bd552f02896edbb776869325",
     "files": [
       {
         "path": "app/src/kernel/ActionRegistry.js",
@@ -26,7 +26,7 @@
       },
       {
         "path": "app/src/kernel/KernelController.js",
-        "hash": "591cd2ba8287465f331f5931d74a912f8df44249b3bd8748e1c50d1231d60285"
+        "hash": "dcd437a56d1e309ce6aa596f7d6131dff421ef3ce81df9f253c09773f2beda5d"
       },
       {
         "path": "app/src/kernel/KernelRouter.js",
@@ -34,7 +34,7 @@
       }
     ]
   },
-  "timestamp": "2026-03-31T13:19:28.562Z",
+  "timestamp": "2026-03-31T18:49:27.324Z",
   "deterministic_fingerprint": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84",
   "output_hashes": {
     "payload": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84"

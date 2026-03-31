@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-004",
+  "title": "Fehlerbehandlung fuer structuredClone in deepClone hinzufuegen",
+  "status": "open",
+  "track": "runtime-stability",
+  "source_docs": [
+    "app/src/game/gameInput.js"
+  ],
+  "description": "deepClone verwendet structuredClone ohne Fehlerbehandlung (Zeile 11). Wirft bei Funktionen, DOM-Nodes oder zirkulaeren Referenzen. Sollte try-catch oder Validierung fuer nicht unterstuetzte Typen enthalten.",
+  "evidence": {
+    "code_locations": [
+      "app/src/game/gameInput.js:10-12 (deepClone Funktion)"
+    ],
+    "issue_type": "Missing Error Handling",
+    "impact": "Unbehandelte Exceptions bei ungueltigen Input-Typen"
+  },
+  "scope_paths": [
+    "app/src/game/gameInput.js"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-001",
+  "title": "Doppelte governanceAuditTrail Zuweisung entfernen",
+  "status": "open",
+  "track": "code-quality",
+  "source_docs": [
+    "app/src/kernel/KernelController.js"
+  ],
+  "description": "Im Konstruktor wird governanceAuditTrail zweimal zugewiesen: Zuerst als leeres Array (Zeile 45), dann sofort ueberschrieben mit governanceEngine.auditTrail (Zeile 58). Die erste Zuweisung ist redundant.",
+  "evidence": {
+    "code_locations": [
+      "app/src/kernel/KernelController.js:45 (erste Zuweisung: = [])",
+      "app/src/kernel/KernelController.js:58 (zweite Zuweisung: = this.governanceEngine.auditTrail)"
+    ],
+    "issue_type": "Redundant Code",
+    "impact": "Unnoetige Code-Redundanz, keine funktionale Auswirkung"
+  },
+  "scope_paths": [
+    "app/src/kernel/KernelController.js"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

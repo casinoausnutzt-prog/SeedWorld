@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "RT-016",
+  "title": "WorldGen-Sampler-Schnittstellen",
+  "status": "open",
+  "track": "red-team-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "WorldGen von Full-Scan-Logik auf Sampler-Schnittstellen vorbereiten: sampleBiome(seed, wx, wy, wz), sampleDensity(seed, wx, wy, wz), sampleHeight(seed, wx, wz), sampleMaterial(seed, biome, density, localMask).",
+  "evidence": {
+    "code_locations": [
+      "app/src/game/worldSampler.js (neu)",
+      "app/src/game/worldGen.js"
+    ],
+    "sampler_interfaces": [
+      "sampleBiome(seed, wx, wy, wz)",
+      "sampleDensity(seed, wx, wy, wz)",
+      "sampleHeight(seed, wx, wz)",
+      "sampleMaterial(seed, biome, density, localMask)"
+    ],
+    "issue_type": "Architecture Refactoring",
+    "impact": "Entkopplung von WorldGen von Vollwelt-Erzeugung"
+  },
+  "acceptance_criteria": [
+    "Sampler existieren als pure, deterministische Funktionen",
+    "Bestehender V1-Generator nutzt dieselben kanonischen Regeln",
+    "Sampler sind testbar und deterministisch",
+    "Seed-Replay funktioniert korrekt"
+  ],
+  "risks": [
+    "Zu viel implizite Logik in worldGen.js",
+    "Sampler nur als duenne Fassade ohne echte Entkopplung"
+  ],
+  "scope_paths": [
+    "app/src/game/worldSampler.js",
+    "app/src/game/worldGen.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "4h",
+  "dependencies": ["RT-014"]
+}

@@ -8,7 +8,11 @@ export function isPlainObject(value) {
 }
 
 export function deepClone(value) {
-  return structuredClone(value);
+  try {
+    return structuredClone(value);
+  } catch (error) {
+    throw new Error(`[DEEP_CLONE] Failed to clone value: ${error.message}`);
+  }
 }
 
 export function deepFreeze(value) {

@@ -1,23 +1,21 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-003",
-  "title": "verify-only strikt write-frei machen",
-  "status": "archived",
+  "task_id": "RT-002",
+  "title": "Kernel-State-Aliasing eliminieren und frozen Snapshots liefern",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Alle Verify-Skripte muessen im verify-only Modus read-only laufen; jeder Write auf repo-tracked Artefakte blockiert den Lauf.",
+  "description": "Kernel-Action-Ergebnisse duerfen keine live mutierbaren Referenzen nach aussen leak-en; Rueckgaben werden deep-clone + deep-freeze abgesichert.",
   "scope_paths": [
-    "dev/tools/runtime/run-required-checks.mjs",
-    "dev/tools/runtime/governance-coverage-verify.mjs",
-    "dev/tools/runtime/governance-modularity-verify.mjs",
-    "dev/tools/runtime/verify-docs-v2-coverage.mjs",
-    "dev/tools/runtime/verify-testline-integrity.mjs"
+    "app/src/kernel/KernelController.js",
+    "app/src/kernel/deterministicKernel.js",
+    "dev/tests/modules/20.gameplay-state-suite.module.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-003.json",
-  "archived_at": "2026-03-31T12:59:04.234Z",
+  "file_path": "tem/tasks/archive/RT-002.json",
+  "archived_at": "2026-03-31T12:59:04.228Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -75,5 +73,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-003.json"
+  "archived_from": "tem/tasks/open/RT-002.json"
 }

@@ -1,21 +1,22 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-002",
-  "title": "Kernel-State-Aliasing eliminieren und frozen Snapshots liefern",
-  "status": "archived",
+  "task_id": "RT-010",
+  "title": "Docs-V2 Coverage auf Governance-relevante Repo-Trees erweitern",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Kernel-Action-Ergebnisse duerfen keine live mutierbaren Referenzen nach aussen leak-en; Rueckgaben werden deep-clone + deep-freeze abgesichert.",
+  "description": "Registry/Coverage darf nicht nur working-tree dirty Files und Teilroots sehen; PR-Diff-basierte Vollabdeckung fuer app/dev/.github/.githooks erzwingen.",
   "scope_paths": [
-    "app/src/kernel/KernelController.js",
-    "app/src/kernel/deterministicKernel.js",
-    "dev/tests/modules/20.gameplay-state-suite.module.mjs"
+    "app/src/sot/docs-v2.json",
+    "dev/tools/runtime/verify-docs-v2-coverage.mjs",
+    "dev/tools/runtime/verify-docs-v2-guards.mjs",
+    "dev/tools/runtime/docs-v2-shared.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-002.json",
-  "archived_at": "2026-03-31T12:59:04.228Z",
+  "file_path": "tem/tasks/archive/RT-010.json",
+  "archived_at": "2026-03-31T12:59:04.261Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -73,5 +74,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-002.json"
+  "archived_from": "tem/tasks/open/RT-010.json"
 }

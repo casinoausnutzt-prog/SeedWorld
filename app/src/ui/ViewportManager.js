@@ -46,6 +46,7 @@ export class ViewportManager {
   }
 
   destroy() {
+    // Cancel any pending RAF to prevent callback on destroyed instance
     if (this.frameHandle && this.source && typeof this.source.cancelAnimationFrame === "function") {
       this.source.cancelAnimationFrame(this.frameHandle);
     }

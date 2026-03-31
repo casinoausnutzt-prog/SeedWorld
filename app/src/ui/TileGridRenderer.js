@@ -60,68 +60,120 @@ export class TileGridRenderer {
     this.tileEntries = new Map();
     this.visualSeed = 0x5f3759df;
 
+    // Canvas als primären Rendering-Pfad
+    this.canvas = document.createElement("canvas");
+    this.canvas.className = "tile-grid-canvas";
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = "0";
+    this.canvas.style.left = "0";
+    this.canvas.style.zIndex = "1";
+    this.canvas.style.pointerEvents = "none"; // Events gehen durch zum DOM
+    this.ctx = this.canvas.getContext("2d");
+    this.#resizeCanvas();
+
+    // DOM als Container für Events (transparent, über Canvas)
     this.root = document.createElement("div");
     this.root.className = "tile-grid";
     this.root.setAttribute("role", "grid");
-    this.#syncLayout();
+    this.root.style.position = "relative";
+    this.root.style.width = `${this.width * this.tileSize}px`;
+    this.root.style.height = `${this.height * this.tileSize}px`;
+    this.root.style.zIndex = "2"; // Über dem Canvas für Events
+    this.root.appendChild(this.canvas);
 
+    this.container.replaceChildren(this.root);
+    this.#buildGrid();
+
+    // Click event listener auf dem root (DOM ist über Canvas für Events)
     this.root.addEventListener("click", (event) => {
       if (typeof this.clickCallback !== "function") {
         return;
       }
 
-      const tile = event.target?.closest?.(".tile");
-      if (!tile || !this.root.contains(tile)) {
-        return;
-      }
+      const rect = this.root.getBoundingClientRect();
+      const x = Math.floor((event.clientX - rect.left) / this.tileSize);
+      const y = Math.floor((event.clientY - rect.top) / this.tileSize);
 
-      const x = Number(tile.dataset.x);
-      const y = Number(tile.dataset.y);
-      const entry = this.getTileAt(x, y);
-      if (!entry) {
-        return;
+      if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+        const entry = this.getTileAt(x, y);
+        if (entry) {
+          this.clickCallback({
+            tile: entry,
+            x,
+            y,
+            event
+          });
+        }
       }
-
-      this.clickCallback({
-        tile: entry,
-        x,
-        y,
-        event
-      });
     });
-
-    this.container.replaceChildren(this.root);
-    this.#buildGrid();
   }
 
   render(gameState = {}, currentTick = 0) {
     this.currentTick = normalizeTick(currentTick);
     const tiles = this.#normalizeTiles(gameState);
+    
+    // Canvas als primären Rendering-Pfad
+    this.#clearCanvas();
+    for (const tile of tiles) {
+      this.#drawTileOnCanvas(tile);
+    }
+    
+    // DOM als Fallback/Adapter
     const tileLookup = new Map();
     for (const tile of tiles) {
       tileLookup.set(this.#key(tile.x, tile.y), tile);
     }
-
-    // Pass 1: grid/base layer first.
     for (const tile of tiles) {
       const key = this.#key(tile.x, tile.y);
       const entry = this.tileEntries.get(key);
-      if (!entry) {
-        continue;
-      }
+      if (!entry) continue;
       entry.data = tile;
       this.#drawGrid(entry, tile);
-    }
-
-    // Pass 2: tile content/effects on top of grid layer.
-    for (const tile of tiles) {
-      const key = this.#key(tile.x, tile.y);
-      const entry = this.tileEntries.get(key);
-      if (!entry) {
-        continue;
-      }
-
       this.#drawTile(entry, tile, this.currentTick, tileLookup);
+    }
+  }
+
+  #clearCanvas() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  #drawTileOnCanvas(tile) {
+    const px = tile.x * this.tileSize;
+    const py = tile.y * this.tileSize;
+    const biomeKind = this.#readBiomeKind(tile);
+    
+    // Biome-Farbe berechnen
+    const biomeBase = this.#biomeBaseHsl(biomeKind);
+    const tileHash = hashTile(tile.x, tile.y, this.visualSeed);
+    const hueJitter = (((tileHash >>> 11) % 9) - 4) * 0.7;
+    const satJitter = (((tileHash >>> 15) % 11) - 5) * 0.7;
+    const lightJitter = (((tileHash >>> 20) % 13) - 6) * 0.52;
+    
+    const baseHue = biomeBase.h + hueJitter;
+    const baseSat = clamp(biomeBase.s + satJitter, 14, 62);
+    const baseLight = clamp(biomeBase.l + lightJitter, 20, 68);
+    
+    // Tile-Hintergrund
+    this.ctx.fillStyle = this.#hslString(baseHue, baseSat, baseLight);
+    this.ctx.fillRect(px, py, this.tileSize, this.tileSize);
+    
+    // Icon zeichnen
+    const icon = this.#iconForType(tile.type);
+    if (icon) {
+      this.ctx.fillStyle = "#ffffff";
+      this.ctx.font = `${Math.floor(this.tileSize * 0.5)}px sans-serif`;
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "middle";
+      this.ctx.fillText(icon, px + this.tileSize / 2, py + this.tileSize / 2);
+    }
+    
+    // Output-Text
+    if (tile.type !== "empty" && tile.outputText) {
+      this.ctx.fillStyle = "#ffffff";
+      this.ctx.font = `${Math.floor(this.tileSize * 0.2)}px sans-serif`;
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "bottom";
+      this.ctx.fillText(tile.outputText, px + this.tileSize / 2, py + this.tileSize - 4);
     }
   }
 
@@ -143,12 +195,20 @@ export class TileGridRenderer {
     this.#syncLayout();
   }
 
+  #resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    this.canvas.width = this.width * this.tileSize * dpr;
+    this.canvas.height = this.height * this.tileSize * dpr;
+    this.ctx.scale(dpr, dpr);
+    // CSS size stays at device-independent pixels
+    this.canvas.style.width = `${this.width * this.tileSize}px`;
+    this.canvas.style.height = `${this.height * this.tileSize}px`;
+  }
+
   #syncLayout() {
-    this.root.style.gridTemplateColumns = `repeat(${this.width}, ${this.tileSize}px)`;
-    this.root.style.gridTemplateRows = `repeat(${this.height}, ${this.tileSize}px)`;
-    this.root.style.setProperty("--tile-size", `${this.tileSize}px`);
-    this.root.style.setProperty("--grid-width", String(this.width));
-    this.root.style.setProperty("--grid-height", String(this.height));
+    this.root.style.width = `${this.width * this.tileSize}px`;
+    this.root.style.height = `${this.height * this.tileSize}px`;
+    this.#resizeCanvas();
   }
 
   #buildGrid() {
@@ -161,17 +221,23 @@ export class TileGridRenderer {
         tile.dataset.x = String(x);
         tile.dataset.y = String(y);
         tile.setAttribute("role", "gridcell");
+        // Transparent für Canvas-Sichtbarkeit, aber Events empfangen
+        tile.style.background = "transparent";
+        tile.style.opacity = "0"; // Unsichtbar aber klickbar
 
         const icon = document.createElement("span");
         icon.className = "icon";
         icon.setAttribute("aria-hidden", "true");
+        icon.style.display = "none"; // Versteckt, Canvas zeigt Icons
 
         const fx = document.createElement("span");
         fx.className = "tile-fx";
         fx.setAttribute("aria-hidden", "true");
+        fx.style.display = "none";
 
         const output = document.createElement("span");
         output.className = "tile-output";
+        output.style.display = "none"; // Versteckt, Canvas zeigt Text
 
         tile.append(icon, fx, output);
         fragment.append(tile);

@@ -1,0 +1,32 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-009",
+  "title": "Canvas blurry on high-DPI displays in TileGridRenderer.js",
+  "status": "open",
+  "track": "visual-quality",
+  "source_docs": [
+    "app/src/ui/TileGridRenderer.js"
+  ],
+  "description": "#resizeCanvas() setzt Pixel-Dimensionen, aber berücksichtigt nicht devicePixelRatio. Auf High-DPI Displays (Retina, moderne Monitore) oder bei Window-Wechsel zwischen Monitoren mit unterschiedlichem DPR wirkt das Canvas unscharf/blurry.",
+  "evidence": {
+    "code_locations": [
+      "app/src/ui/TileGridRenderer.js:172-175 (#resizeCanvas Methode)",
+      "app/src/ui/TileGridRenderer.js:172 (this.canvas.width = this.width * this.tileSize;)"
+    ],
+    "issue_type": "Visual Quality / Rendering",
+    "impact": "Unscharfe Darstellung auf modernen Displays; schlechte User Experience; nicht konsistent mit viewport.devicePixelRatio"
+  },
+  "fix_instructions": "Skaliere Canvas mit DPR: #resizeCanvas() { const dpr = window.devicePixelRatio || 1; this.canvas.width = this.width * this.tileSize * dpr; this.canvas.height = this.height * this.tileSize * dpr; this.ctx.scale(dpr, dpr); }",
+  "acceptance_criteria": [
+    "Canvas berücksichtigt devicePixelRatio",
+    "Scharfe Darstellung auf High-DPI Displays",
+    "Rendering skaliert korrekt mit ctx.scale()",
+    "Keine visuelle Regression auf Standard-Displays"
+  ],
+  "scope_paths": [
+    "app/src/ui/TileGridRenderer.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "20 min",
+  "dependencies": []
+}

@@ -1,15 +1,16 @@
-let auditCounter = 0;
-
-function createAuditId() {
-  auditCounter += 1;
-  return `audit-${String(auditCounter).padStart(8, "0")}`;
-}
-
 function normalizeMode(value) {
   return value === "shadow" ? "shadow" : "enforce";
 }
 
+// Module-level counter ensures globally unique audit IDs across all instances
+let globalAuditCounter = 0;
+
 export class GateManager {
+  #createAuditId() {
+    globalAuditCounter += 1;
+    return `audit-${String(globalAuditCounter).padStart(8, "0")}`;
+  }
+
   constructor({ kernelGates, mode = "enforce", onAudit } = {}) {
     if (!kernelGates || typeof kernelGates.executeGate !== "function") {
       throw new Error("[GATE_MANAGER] kernelGates mit executeGate erforderlich.");
@@ -25,7 +26,7 @@ export class GateManager {
   }
 
   async enforce({ domain, actionType, requiredGate, context = {} } = {}) {
-    const auditId = createAuditId();
+    const auditId = this.#createAuditId();
     const baseEvent = {
       auditId,
       domain,

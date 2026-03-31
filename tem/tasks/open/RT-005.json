@@ -1,23 +1,22 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-008",
-  "title": "LLM/SubAgent Vertragssemantik vollstaendig validieren",
-  "status": "archived",
+  "task_id": "RT-005",
+  "title": "Ref-spezifische Signaturpruefung fuer alle gepushten Refs",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Verifier muessen alle file-Metadaten und Pflichtdateien vollstaendig pruefen; keine partial-hash Semantik.",
+  "description": "pre-push darf keine multi-ref Luecke haben; jeder gepushte Ref-Range wird separat signaturgeprueft.",
   "scope_paths": [
-    "dev/tools/runtime/governance-llm-verify.mjs",
-    "dev/tools/runtime/governance-subagent-verify.mjs",
-    "dev/tools/runtime/llm-read-shared.mjs",
-    "app/src/sot/llm-read-contract.v1.json",
-    "app/src/sot/sub-agent-manifest.v1.json"
+    ".githooks/pre-push",
+    "dev/tools/runtime/installGitHooks.mjs",
+    "dev/tools/runtime/signing-guard.mjs",
+    "dev/tools/runtime/governance-policy-verify.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-008.json",
-  "archived_at": "2026-03-31T12:59:04.249Z",
+  "file_path": "tem/tasks/archive/RT-005.json",
+  "archived_at": "2026-03-31T12:59:04.237Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -75,5 +74,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-008.json"
+  "archived_from": "tem/tasks/open/RT-005.json"
 }

@@ -1,21 +1,21 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-011",
-  "title": "Evidence-Verifikation von Struktur- zu Inhaltsbeweis aufruesten",
-  "status": "archived",
+  "task_id": "RT-012",
+  "title": "Findings-Materialize atomar und race-safe machen",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "verify-evidence/testline muessen Comparator und run/pair Konsistenz aktiv neu berechnen statt Artefakt-Claims nur strukturell zu akzeptieren.",
+  "description": "Task-ID Vergabe muss concurrent-safe und deterministisch werden; keine TOCTOU-Overwrites bei parallelen Materialize-Laeufen.",
   "scope_paths": [
-    "dev/scripts/verify-evidence.mjs",
-    "dev/scripts/evidence-shared.mjs",
-    "dev/tools/runtime/verify-testline-integrity.mjs"
+    "dev/tools/runtime/governance-findings-materialize.mjs",
+    "dev/tools/runtime/governance-findings-shared.mjs",
+    "dev/tools/runtime/governance-findings-verify.mjs"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-011.json",
-  "archived_at": "2026-03-31T12:59:04.267Z",
+  "file_path": "tem/tasks/archive/RT-012.json",
+  "archived_at": "2026-03-31T12:59:04.271Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -73,5 +73,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-011.json"
+  "archived_from": "tem/tasks/open/RT-012.json"
 }

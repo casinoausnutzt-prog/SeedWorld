@@ -1,0 +1,32 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-008",
+  "title": "Audit ID collision in GateManager.js",
+  "status": "open",
+  "track": "code-quality",
+  "source_docs": [
+    "app/src/kernel/GateManager.js"
+  ],
+  "description": "Umwandlung von modul-level auditCounter zu instance field #auditCounter (Zeile 6-11). Jede GateManager Instanz startet bei 0. Bei mehreren KernelController Instanzen (Tests, Hot Reload) kollidieren Audit-IDs. Nicht mehr global eindeutig.",
+  "evidence": {
+    "code_locations": [
+      "app/src/kernel/GateManager.js:6 (#auditCounter = 0;)",
+      "app/src/kernel/GateManager.js:8-11 (#createAuditId Methode)",
+      "diff: removed module-level counter, added instance field"
+    ],
+    "issue_type": "Logic Error / ID Collision",
+    "impact": "Audit-Trail nicht mehr verlässlich eindeutig; Analyse/Troubleshooting erschwert"
+  },
+  "fix_instructions": "Option 1: Module-level counter behalten für globale Eindeutigkeit. Option 2: Instanz-ID-Präfix hinzufügen (z.B. audit-{instanceId}-{counter}). Empfohlen: Option 1 für Einfachheit.",
+  "acceptance_criteria": [
+    "Audit-IDs sind global eindeutig über alle Instanzen hinweg",
+    "Kollisionen bei Multi-Instanz-Szenarien verhindert",
+    "Audit-Trail korrekt und analysierbar"
+  ],
+  "scope_paths": [
+    "app/src/kernel/GateManager.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "15 min",
+  "dependencies": []
+}

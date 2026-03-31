@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "RT-020",
+  "title": "Dirty-Chunk-System fuer gezielte Re-Render",
+  "status": "open",
+  "track": "red-team-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "Dirty-Chunk-System fuer gezielte Re-Render einfuehren. Bei Aenderung werden betroffener Block, owning chunk und erforderliche Nachbarchunks fuer Schatten/Occlusion markiert.",
+  "evidence": {
+    "code_locations": [
+      "Chunk-State-Management",
+      "Mutation-/Placement-Pfad",
+      "Worker-Queue"
+    ],
+    "dirty_marking": [
+      "Betroffener Block",
+      "Owning Chunk",
+      "Nachbarchunks fuer Schatten/Occlusion"
+    ],
+    "issue_type": "Performance Optimization",
+    "impact": "Nur geaenderte Chunks werden neu gerendert"
+  },
+  "acceptance_criteria": [
+    "Bei Aenderung werden betroffene Chunks markiert",
+    "Nachbarchunks fuer Schatten/Occlusion werden markiert",
+    "Nur dirty Chunks werden neu gebaut/gerendert",
+    "Dirty-Chunk-Smoke Test besteht",
+    "Neighbor-Propagation-Test besteht"
+  ],
+  "risks": [
+    "Nachbarabhaengigkeiten werden unvollstaendig markiert",
+    "Artefakte an Grenzen"
+  ],
+  "scope_paths": [
+    "app/src/game/chunkState.js (neu)"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "4h",
+  "dependencies": ["RT-019"]
+}

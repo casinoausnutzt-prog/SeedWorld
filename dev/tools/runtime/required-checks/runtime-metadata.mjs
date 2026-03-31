@@ -4,6 +4,11 @@ import {
   GOVERNANCE_RUN_MODE_VERIFY_FIRST
 } from "../../../../app/src/kernel/GovernanceEngine.js";
 
+// Governance metadata for llm-governance compliance
+export const SCHEMA_VERSION = "1.0.0";
+export const CHECK_ID = "runtime-metadata";
+export const CHECK_TYPE = "required-check";
+
 const MODE_PREFIX = "--mode=";
 
 export function parseRequestedRunMode(argv) {

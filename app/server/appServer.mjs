@@ -69,6 +69,7 @@ export class AppServer {
 }
 
 let appServerInstance = null;
+let isClosing = false;
 
 /**
  * Starts a singleton app server instance for local runtime usage.
@@ -87,19 +88,25 @@ export async function startAppServer(options = {}) {
  * Stops the singleton app server instance when one is active.
  */
 export async function stopAppServer() {
-  if (!appServerInstance) {
+  if (!appServerInstance || isClosing) {
     return;
   }
 
+  isClosing = true;
   const activeServer = appServerInstance;
   appServerInstance = null;
-  await new Promise((resolve, reject) => {
-    activeServer.server.close((error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      resolve();
+  
+  try {
+    await new Promise((resolve, reject) => {
+      activeServer.server.close((error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve();
+      });
     });
-  });
+  } finally {
+    isClosing = false;
+  }
 }

@@ -1,21 +1,23 @@
 {
   "schema_version": "2.0.0",
-  "task_id": "RT-012",
-  "title": "Findings-Materialize atomar und race-safe machen",
-  "status": "archived",
+  "task_id": "RT-008",
+  "title": "LLM/SubAgent Vertragssemantik vollstaendig validieren",
+  "status": "open",
   "track": "red-team-hardening",
   "source_docs": [
     "docs/V2/SYSTEM_PLAN.md"
   ],
-  "description": "Task-ID Vergabe muss concurrent-safe und deterministisch werden; keine TOCTOU-Overwrites bei parallelen Materialize-Laeufen.",
+  "description": "Verifier muessen alle file-Metadaten und Pflichtdateien vollstaendig pruefen; keine partial-hash Semantik.",
   "scope_paths": [
-    "dev/tools/runtime/governance-findings-materialize.mjs",
-    "dev/tools/runtime/governance-findings-shared.mjs",
-    "dev/tools/runtime/governance-findings-verify.mjs"
+    "dev/tools/runtime/governance-llm-verify.mjs",
+    "dev/tools/runtime/governance-subagent-verify.mjs",
+    "dev/tools/runtime/llm-read-shared.mjs",
+    "app/src/sot/llm-read-contract.v1.json",
+    "app/src/sot/sub-agent-manifest.v1.json"
   ],
   "match_policy": "all_scope_paths_touched",
-  "file_path": "tem/tasks/archive/RT-012.json",
-  "archived_at": "2026-03-31T12:59:04.271Z",
+  "file_path": "tem/tasks/archive/RT-008.json",
+  "archived_at": "2026-03-31T12:59:04.249Z",
   "archive_reason": "scope matched current change set",
   "archive_changed_files": [
     ".githooks/pre-commit",
@@ -73,5 +75,5 @@
     "tem/tasks/open/RT-012.json",
     "tem/tasks/open/RT-013.json"
   ],
-  "archived_from": "tem/tasks/open/RT-012.json"
+  "archived_from": "tem/tasks/open/RT-008.json"
 }
