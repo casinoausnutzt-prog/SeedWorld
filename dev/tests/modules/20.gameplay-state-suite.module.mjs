@@ -26,6 +26,8 @@ export async function runEvidence({ root, assert, seed: explicitSeed }) {
   const clone = reduceGameState(base, []);
   assert.deepEqual(clone, base);
   assert.notEqual(clone, base);
+  clone.resources.ore = 0;
+  assert.equal(base.resources.ore, 50);
 
   const patched = reduceGameState(base, [{ op: "set", domain: "game", path: "level", value: 7 }]);
   assert.equal(patched.level, 7);

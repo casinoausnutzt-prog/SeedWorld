@@ -3,8 +3,12 @@ import {
   collectChangedFiles,
   loadArchivedTasks,
   loadOpenTasks,
-  readJson
+  normalizeDocsV2Prefixes,
+  pathMatchesPrefix,
+  readJson,
+  resolveDocsV2ChangeContract
 } from "./docs-v2-shared.mjs";
+import { compareAlpha } from "./runtime-shared.mjs";
 
 const root = process.cwd();
 
@@ -45,23 +49,37 @@ function isRegisteredPath(relPath, registered) {
     return true;
   }
   for (const candidate of registered) {
-    if (candidate.endsWith("/") && relPath.startsWith(candidate)) {
+    if (candidate.endsWith("/") && pathMatchesPrefix(relPath, candidate)) {
       return true;
     }
   }
   return false;
 }
 
+function emitResult(result) {
+  const line = JSON.stringify(result);
+  if (result.status === "BLOCK") {
+    console.error(line);
+    return;
+  }
+  console.log(line);
+}
+
 async function main() {
   const docsV2 = await readJson(path.join(root, "app", "src", "sot", "docs-v2.json"));
+  const contract = await resolveDocsV2ChangeContract(root, { argv: process.argv.slice(2) });
   const [openTasks, archivedTasks] = await Promise.all([loadOpenTasks(root), loadArchivedTasks(root)]);
-  const changedFiles = await collectChangedFiles(root);
+  const changedFiles = await collectChangedFiles(root, contract);
   const registered = new Set();
+  const governanceRoots = normalizeDocsV2Prefixes(docsV2.governanceRoots || []);
 
   for (const relPath of docsV2.registeredControlFiles || []) {
     addRegistered(registered, relPath);
   }
   for (const relPath of docsV2.generatedDocs || []) {
+    addRegistered(registered, relPath);
+  }
+  for (const relPath of governanceRoots) {
     addRegistered(registered, relPath);
   }
   for (const bucket of docsV2.fullRepoCoverage?.buckets || []) {
@@ -78,28 +96,33 @@ async function main() {
     }
   }
 
-  const planViolations = changedFiles.filter((relPath) => isPlanCandidate(relPath, docsV2));
-  const unregistered = changedFiles.filter((relPath) => !isRegisteredPath(relPath, registered));
+  const planViolations = changedFiles.filter((relPath) => isPlanCandidate(relPath, docsV2)).sort(compareAlpha);
+  const unregistered = changedFiles.filter((relPath) => !isRegisteredPath(relPath, registered)).sort(compareAlpha);
 
   if (planViolations.length > 0 || unregistered.length > 0) {
-    if (planViolations.length > 0) {
-      console.error("[DOCS_V2_PLAN_GUARD] block: plan file still exists outside atomic task path");
-      for (const relPath of planViolations) {
-        console.error(` - ${relPath}`);
-      }
-      console.error("[DOCS_V2_PLAN_GUARD] action: delete the plan file or decompose it into tem/tasks/open/*.json");
-    }
-    if (unregistered.length > 0) {
-      console.error("[DOCS_V2_REGISTRY_GUARD] block: changed file is not registered in Documentation 2.0");
-      for (const relPath of unregistered) {
-        console.error(` - ${relPath}`);
-      }
-      console.error("[DOCS_V2_REGISTRY_GUARD] action: register the file via docs-v2 control files or task scope/source paths before the testline may pass");
-    }
+    emitResult({
+      tool: "DOCS_V2_GUARDS",
+      status: "BLOCK",
+      mode: contract.mode,
+      ranges: contract.ranges,
+      changed_files: changedFiles,
+      governance_roots: governanceRoots,
+      registered_count: registered.size,
+      plan_violations: planViolations,
+      unregistered_files: unregistered
+    });
     process.exit(1);
   }
 
-  console.log(`[DOCS_V2_GUARD] OK changed=${changedFiles.length} registered=${registered.size}`);
+  emitResult({
+    tool: "DOCS_V2_GUARDS",
+    status: "OK",
+    mode: contract.mode,
+    ranges: contract.ranges,
+    changed_files: changedFiles,
+    governance_roots: governanceRoots,
+    registered_count: registered.size
+  });
 }
 
 await main();

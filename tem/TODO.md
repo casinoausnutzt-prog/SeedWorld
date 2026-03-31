@@ -67,6 +67,16 @@ Diese Datei wird automatisch aus `tem/` erzeugt. Keine manuelle Pflege.
 - [ ] tem/tasks/archive/LLM-004.json
 - [ ] tem/tasks/archive/LLM-005.json
 - [ ] tem/tasks/archive/LLM-006.json
+- [ ] tem/tasks/archive/RT-002.json
+- [ ] tem/tasks/archive/RT-003.json
+- [ ] tem/tasks/archive/RT-005.json
+- [ ] tem/tasks/archive/RT-006.json
+- [ ] tem/tasks/archive/RT-007.json
+- [ ] tem/tasks/archive/RT-008.json
+- [ ] tem/tasks/archive/RT-009.json
+- [ ] tem/tasks/archive/RT-010.json
+- [ ] tem/tasks/archive/RT-011.json
+- [ ] tem/tasks/archive/RT-012.json
 
 ### task-open
 - [ ] tem/tasks/open/CF-003.json
@@ -85,6 +95,9 @@ Diese Datei wird automatisch aus `tem/` erzeugt. Keine manuelle Pflege.
 - [ ] tem/tasks/open/GOV-004.json
 - [ ] tem/tasks/open/GOV-005.json
 - [ ] tem/tasks/open/GOV-006.json
+- [ ] tem/tasks/open/RT-001.json
+- [ ] tem/tasks/open/RT-004.json
+- [ ] tem/tasks/open/RT-013.json
 
 ## Umfang
-- Gesamtartefakte: 59
+- Gesamtartefakte: 72

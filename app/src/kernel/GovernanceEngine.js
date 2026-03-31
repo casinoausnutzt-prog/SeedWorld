@@ -1,7 +1,10 @@
 export const GOVERNANCE_REPORT_SCHEMA_VERSION = 2;
 export const GOVERNANCE_POLICY_ID = "kernel-governance-engine.v2";
+export const GOVERNANCE_RUN_MODE_VERIFY_FIRST = "verify-first";
+export const GOVERNANCE_RUN_MODE_SYNC_AND_VERIFY = "sync-and-verify";
+export const GOVERNANCE_RUN_MODE_LEGACY_AUTO_SYNC_AND_VERIFY = "auto-sync-and-verify";
 export const GOVERNANCE_CLAIM_RULE =
-  "Claims are valid only if all verify gates passed and proof artifacts were hashed and cross-checked.";
+  "Claims are valid only if the read ACK is fresh, llm:guard passed, the required check ran in verify-first mode by default, sync/materialize stayed explicit, all verify gates passed, and proof artifacts were hashed and cross-checked.";
 export const GOVERNANCE_PROOF_MANIFEST_PATH = "runtime/evidence/governance-proof-manifest.json";
 export const GOVERNANCE_SOT_PROOF_FILES = Object.freeze([
   "VERSION",
@@ -24,6 +27,7 @@ export const GOVERNANCE_SYNC_STEPS = Object.freeze([
 ]);
 
 export const GOVERNANCE_VERIFY_STEPS = Object.freeze([
+  Object.freeze({ id: "llm:guard", script: "llm:guard", type: "verify" }),
   Object.freeze({ id: "versioning:verify", script: "versioning:verify", type: "verify" }),
   Object.freeze({ id: "governance:policy:verify", script: "governance:policy:verify", type: "verify" }),
   Object.freeze({ id: "governance:modularity:verify", script: "governance:modularity:verify", type: "verify" }),
@@ -39,8 +43,19 @@ export const GOVERNANCE_VERIFY_STEPS = Object.freeze([
   Object.freeze({ id: "governance:coverage:verify", script: "governance:coverage:verify", type: "verify" })
 ]);
 
-export function createGovernancePipeline({ verifyOnly = false } = {}) {
-  if (verifyOnly) {
+export function normalizeGovernanceRunMode(runMode = GOVERNANCE_RUN_MODE_VERIFY_FIRST) {
+  if (runMode === GOVERNANCE_RUN_MODE_VERIFY_FIRST) {
+    return GOVERNANCE_RUN_MODE_VERIFY_FIRST;
+  }
+  if (runMode === GOVERNANCE_RUN_MODE_SYNC_AND_VERIFY || runMode === GOVERNANCE_RUN_MODE_LEGACY_AUTO_SYNC_AND_VERIFY) {
+    return GOVERNANCE_RUN_MODE_SYNC_AND_VERIFY;
+  }
+  throw new Error(`[GOVERNANCE_ENGINE] unknown run mode: ${String(runMode)}`);
+}
+
+export function createGovernancePipeline({ runMode = GOVERNANCE_RUN_MODE_VERIFY_FIRST } = {}) {
+  const normalizedRunMode = normalizeGovernanceRunMode(runMode);
+  if (normalizedRunMode === GOVERNANCE_RUN_MODE_VERIFY_FIRST) {
     return [...GOVERNANCE_VERIFY_STEPS];
   }
   return [...GOVERNANCE_SYNC_STEPS, ...GOVERNANCE_VERIFY_STEPS];
@@ -50,7 +65,7 @@ export function createGovernanceReportBase({ runMode, repo, environment, started
   return {
     schema_version: GOVERNANCE_REPORT_SCHEMA_VERSION,
     policy: GOVERNANCE_POLICY_ID,
-    run_mode: runMode,
+    run_mode: normalizeGovernanceRunMode(runMode),
     repo,
     environment,
     started_at: startedAt,

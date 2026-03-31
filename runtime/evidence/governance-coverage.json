@@ -1,9 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-03-31T11:49:09.197Z",
-  "scanned_count": 103,
-  "scanned_files": 103,
-  "classified_count": 103,
+  "scanned_count": 112,
+  "scanned_files": 112,
+  "classified_count": 112,
   "classified_items": [
     {
       "path": ".githooks/pre-commit",
@@ -246,6 +245,31 @@
       "matched_prefix": "dev/tools/runtime/"
     },
     {
+      "path": "dev/tools/runtime/findings-shared/catalog.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/findings-shared/core.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/findings-shared/evidence.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/findings-shared/lock.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/findings-shared/plan.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
       "path": "dev/tools/runtime/function-sot-shared.mjs",
       "owner": "Reproduction Evidence",
       "matched_prefix": "dev/tools/runtime/"
@@ -306,6 +330,11 @@
       "matched_prefix": "dev/tools/runtime/"
     },
     {
+      "path": "dev/tools/runtime/llm-governance/shared.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
       "path": "dev/tools/runtime/llm-override.mjs",
       "owner": "Reproduction Evidence",
       "matched_prefix": "dev/tools/runtime/"
@@ -357,6 +386,21 @@
     },
     {
       "path": "dev/tools/runtime/report-untested-systems.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/required-checks/runtime-execution.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/required-checks/runtime-metadata.mjs",
+      "owner": "Reproduction Evidence",
+      "matched_prefix": "dev/tools/runtime/"
+    },
+    {
+      "path": "dev/tools/runtime/required-checks/runtime-proof.mjs",
       "owner": "Reproduction Evidence",
       "matched_prefix": "dev/tools/runtime/"
     },
@@ -532,7 +576,7 @@
     },
     {
       "owner": "Reproduction Evidence",
-      "count": 38
+      "count": 47
     },
     {
       "owner": "Governance Control Plane",
@@ -544,5 +588,6 @@
     }
   ],
   "ambiguous_files": [],
-  "unclassified_files": []
+  "unclassified_files": [],
+  "generated_at": "2026-03-31T13:01:04.006Z"
 }

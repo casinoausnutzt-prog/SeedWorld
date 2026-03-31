@@ -7,10 +7,9 @@ function parseArgs(argv) {
   const args = {
     configOnly: false,
     headOnly: false,
-    range: null,
+    ranges: [],
     allowEmptyRange: false,
-    skipConfig: false,
-    unpublishedOrigin: false
+    skipConfig: false
   };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -18,8 +17,12 @@ function parseArgs(argv) {
     else if (arg === "--head-only") args.headOnly = true;
     else if (arg === "--allow-empty-range") args.allowEmptyRange = true;
     else if (arg === "--skip-config") args.skipConfig = true;
-    else if (arg === "--unpublished-origin") args.unpublishedOrigin = true;
-    else if (arg === "--range") args.range = argv[++i] || null;
+    else if (arg === "--range") {
+      const range = argv[++i] || null;
+      if (range) {
+        args.ranges.push(range);
+      }
+    }
   }
   return args;
 }
@@ -57,6 +60,10 @@ function normalizeHex(value) {
   return String(value || "").replace(/[^a-fA-F0-9]/g, "").toUpperCase();
 }
 
+function rangeLooksExplicit(value) {
+  return /(\.\.|\.{3}|\^!|\^@|\^|\~|--not)/.test(String(value || ""));
+}
+
 function ensureConfig() {
   const commitSign = readGitConfig("commit.gpgsign").toLowerCase();
   const tagSign = readGitConfig("tag.gpgsign").toLowerCase();
@@ -79,54 +86,45 @@ function ensureConfig() {
 
 }
 
-function upstreamRange() {
-  const up = git(["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"], { allowFailure: true });
-  if (up.status === 0) {
-    const upstream = String(up.stdout || "").trim();
-    return upstream ? `${upstream}..HEAD` : null;
-  }
-  return null;
-}
-
 function resolveCommits(args) {
   if (args.headOnly) {
     const head = String(git(["rev-parse", "HEAD"]).stdout || "").trim();
     return head ? [head] : [];
   }
 
-  if (args.unpublishedOrigin) {
-    const list = git(["rev-list", "HEAD", "--not", "--remotes=origin"], { allowFailure: true });
-    if (list.status !== 0) {
-      throw new Error("cannot resolve unpublished commits against origin remotes");
+  if (args.ranges.length > 0) {
+    const commits = [];
+    const seen = new Set();
+    for (const range of args.ranges) {
+      const rangeCommits = rangeLooksExplicit(range)
+        ? (() => {
+            const list = git(["rev-list", range], { allowFailure: true });
+            if (list.status !== 0) {
+              throw new Error(`cannot resolve commit range: ${range}`);
+            }
+            return String(list.stdout || "")
+              .split(/\r?\n/)
+              .map((x) => x.trim())
+              .filter(Boolean);
+          })()
+        : [String(git(["rev-parse", range], { allowFailure: true }).stdout || "").trim()].filter(Boolean);
+      for (const commit of rangeCommits) {
+        if (!seen.has(commit)) {
+          seen.add(commit);
+          commits.push(commit);
+        }
+      }
     }
-    const commits = String(list.stdout || "")
-      .split(/\r?\n/)
-      .map((x) => x.trim())
-      .filter(Boolean);
     if (commits.length === 0 && args.allowEmptyRange) {
       return [];
     }
     return commits;
   }
 
-  const range = args.range || upstreamRange();
-  if (range) {
-    const list = git(["rev-list", range], { allowFailure: true });
-    if (list.status !== 0) {
-      throw new Error(`cannot resolve commit range: ${range}`);
-    }
-    const commits = String(list.stdout || "")
-      .split(/\r?\n/)
-      .map((x) => x.trim())
-      .filter(Boolean);
-    if (commits.length === 0 && args.allowEmptyRange) {
-      return [];
-    }
-    return commits;
+  if (args.allowEmptyRange) {
+    return [];
   }
-
-  const head = String(git(["rev-parse", "HEAD"]).stdout || "").trim();
-  return head ? [head] : [];
+  throw new Error("explicit --range or --head-only required");
 }
 
 function verifyCommitSignature(commit) {

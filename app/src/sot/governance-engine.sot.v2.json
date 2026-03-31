@@ -5,8 +5,8 @@
   "runtimeEntry": "dev/tools/runtime/run-required-checks.mjs",
   "policy": "kernel-governance-engine.v2",
   "runModes": [
-    "auto-sync-and-verify",
-    "verify-only"
+    "verify-first",
+    "sync-and-verify"
   ],
   "pipeline": {
     "sync": [
@@ -18,6 +18,7 @@
       "repo:hygiene:sync"
     ],
     "verify": [
+      "llm:guard",
       "versioning:verify",
       "governance:policy:verify",
       "governance:modularity:verify",
@@ -36,7 +37,7 @@
       "governance:findings:materialize",
       "governance:findings:verify"
     ],
-    "contract": "sync steps are optional by run mode, verify steps are always mandatory and fail-closed; post_verify runs in auto-sync-and-verify mode"
+    "contract": "verify-first is the default required mode and stays write-free; sync/materialize only run in explicit sync-and-verify mode, llm:guard is the mandatory read/commit/push gate, verify steps are always mandatory and fail-closed; post_verify runs only in sync-and-verify mode"
   },
   "proofArtifacts": [
     "runtime/evidence/required-check-report.json",

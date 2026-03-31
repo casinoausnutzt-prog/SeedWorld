@@ -120,8 +120,8 @@
     }
   ],
   "fileCounts": {
-    "allFiles": 93,
-    "codeFiles": 81
+    "allFiles": 102,
+    "codeFiles": 90
   },
   "unownedFiles": [],
   "unreachableCode": [
@@ -160,6 +160,7 @@
     "dev/tools/runtime/evidence-lock.mjs",
     "dev/tools/runtime/function-sot-shared.mjs",
     "dev/tools/runtime/governance-findings-materialize.mjs",
+    "dev/tools/runtime/governance-findings-shared.mjs",
     "dev/tools/runtime/governance-verify.mjs",
     "dev/tools/runtime/installGitHooks.mjs",
     "dev/tools/runtime/llm-entry.mjs",
@@ -203,6 +204,7 @@
     "dev/tools/runtime/check-wrapper-guardrails.mjs",
     "dev/tools/runtime/evidence-lock.mjs",
     "dev/tools/runtime/governance-findings-materialize.mjs",
+    "dev/tools/runtime/governance-findings-shared.mjs",
     "dev/tools/runtime/governance-verify.mjs",
     "dev/tools/runtime/llm-entry.mjs",
     "dev/tools/runtime/llm-override.mjs",
@@ -253,6 +255,12 @@
       "toOwner": "Kernel Core"
     },
     {
+      "from": "dev/tools/runtime/required-checks/runtime-metadata.mjs",
+      "to": "app/src/kernel/GovernanceEngine.js",
+      "fromOwner": "Reproduction Evidence",
+      "toOwner": "Kernel Core"
+    },
+    {
       "from": "dev/tools/runtime/run-required-checks.mjs",
       "to": "app/src/kernel/GovernanceEngine.js",
       "fromOwner": "Reproduction Evidence",
@@ -277,7 +285,7 @@
     "app/src/kernel/GateManager.js": 1,
     "app/src/kernel/gates/accessGates.js": 1,
     "app/src/kernel/gates/operationGates.js": 1,
-    "app/src/kernel/GovernanceEngine.js": 2,
+    "app/src/kernel/GovernanceEngine.js": 3,
     "app/src/kernel/KernelController.js": 1,
     "app/src/kernel/KernelGates.js": 1,
     "app/src/kernel/KernelRouter.js": 1,
@@ -299,10 +307,15 @@
     "dev/tools/runtime/check-wrapper-guardrails.mjs": 0,
     "dev/tools/runtime/docs-v2-shared.mjs": 9,
     "dev/tools/runtime/evidence-lock.mjs": 0,
+    "dev/tools/runtime/findings-shared/catalog.mjs": 2,
+    "dev/tools/runtime/findings-shared/core.mjs": 6,
+    "dev/tools/runtime/findings-shared/evidence.mjs": 2,
+    "dev/tools/runtime/findings-shared/lock.mjs": 2,
+    "dev/tools/runtime/findings-shared/plan.mjs": 2,
     "dev/tools/runtime/function-sot-shared.mjs": 1,
     "dev/tools/runtime/governance-coverage-verify.mjs": 0,
     "dev/tools/runtime/governance-findings-materialize.mjs": 0,
-    "dev/tools/runtime/governance-findings-shared.mjs": 2,
+    "dev/tools/runtime/governance-findings-shared.mjs": 0,
     "dev/tools/runtime/governance-findings-verify.mjs": 0,
     "dev/tools/runtime/governance-llm-verify.mjs": 0,
     "dev/tools/runtime/governance-modularity-verify.mjs": 0,
@@ -311,9 +324,10 @@
     "dev/tools/runtime/governance-verify.mjs": 0,
     "dev/tools/runtime/installGitHooks.mjs": 1,
     "dev/tools/runtime/llm-entry.mjs": 0,
+    "dev/tools/runtime/llm-governance/shared.mjs": 2,
     "dev/tools/runtime/llm-override.mjs": 0,
     "dev/tools/runtime/llm-read-guard.mjs": 0,
-    "dev/tools/runtime/llm-read-shared.mjs": 5,
+    "dev/tools/runtime/llm-read-shared.mjs": 7,
     "dev/tools/runtime/new-action-template.mjs": 0,
     "dev/tools/runtime/preflight-mutation-guard.mjs": 0,
     "dev/tools/runtime/probe-docs-v2-adversarial.mjs": 0,
@@ -322,8 +336,11 @@
     "dev/tools/runtime/repo-hygiene-verify.mjs": 0,
     "dev/tools/runtime/repo-hygiene-why.mjs": 0,
     "dev/tools/runtime/report-untested-systems.mjs": 0,
+    "dev/tools/runtime/required-checks/runtime-execution.mjs": 1,
+    "dev/tools/runtime/required-checks/runtime-metadata.mjs": 2,
+    "dev/tools/runtime/required-checks/runtime-proof.mjs": 1,
     "dev/tools/runtime/run-required-checks.mjs": 0,
-    "dev/tools/runtime/runtime-shared.mjs": 14,
+    "dev/tools/runtime/runtime-shared.mjs": 15,
     "dev/tools/runtime/scan-doc-tasks-verify.mjs": 0,
     "dev/tools/runtime/scan-doc-tasks.mjs": 0,
     "dev/tools/runtime/signing-guard.mjs": 0,
@@ -431,6 +448,21 @@
       "dev/tools/runtime/runtime-shared.mjs"
     ],
     "dev/tools/runtime/evidence-lock.mjs": [],
+    "dev/tools/runtime/findings-shared/catalog.mjs": [
+      "dev/tools/runtime/findings-shared/core.mjs"
+    ],
+    "dev/tools/runtime/findings-shared/core.mjs": [],
+    "dev/tools/runtime/findings-shared/evidence.mjs": [
+      "dev/tools/runtime/findings-shared/core.mjs",
+      "dev/tools/runtime/findings-shared/lock.mjs",
+      "dev/tools/runtime/findings-shared/plan.mjs"
+    ],
+    "dev/tools/runtime/findings-shared/lock.mjs": [
+      "dev/tools/runtime/findings-shared/core.mjs"
+    ],
+    "dev/tools/runtime/findings-shared/plan.mjs": [
+      "dev/tools/runtime/findings-shared/core.mjs"
+    ],
     "dev/tools/runtime/function-sot-shared.mjs": [
       "dev/tools/runtime/runtime-shared.mjs"
     ],
@@ -439,14 +471,21 @@
       "dev/tools/runtime/runtime-shared.mjs"
     ],
     "dev/tools/runtime/governance-findings-materialize.mjs": [
-      "dev/tools/runtime/governance-findings-shared.mjs"
+      "dev/tools/runtime/findings-shared/catalog.mjs",
+      "dev/tools/runtime/findings-shared/core.mjs",
+      "dev/tools/runtime/findings-shared/evidence.mjs",
+      "dev/tools/runtime/findings-shared/lock.mjs",
+      "dev/tools/runtime/findings-shared/plan.mjs"
     ],
     "dev/tools/runtime/governance-findings-shared.mjs": [],
     "dev/tools/runtime/governance-findings-verify.mjs": [
-      "dev/tools/runtime/governance-findings-shared.mjs"
+      "dev/tools/runtime/findings-shared/catalog.mjs",
+      "dev/tools/runtime/findings-shared/core.mjs",
+      "dev/tools/runtime/findings-shared/evidence.mjs"
     ],
     "dev/tools/runtime/governance-llm-verify.mjs": [
       "dev/tools/runtime/docs-v2-shared.mjs",
+      "dev/tools/runtime/llm-governance/shared.mjs",
       "dev/tools/runtime/llm-read-shared.mjs"
     ],
     "dev/tools/runtime/governance-modularity-verify.mjs": [
@@ -455,11 +494,16 @@
     ],
     "dev/tools/runtime/governance-policy-verify.mjs": [],
     "dev/tools/runtime/governance-subagent-verify.mjs": [
-      "dev/tools/runtime/docs-v2-shared.mjs"
+      "dev/tools/runtime/docs-v2-shared.mjs",
+      "dev/tools/runtime/llm-governance/shared.mjs",
+      "dev/tools/runtime/llm-read-shared.mjs"
     ],
     "dev/tools/runtime/governance-verify.mjs": [],
     "dev/tools/runtime/installGitHooks.mjs": [],
     "dev/tools/runtime/llm-entry.mjs": [
+      "dev/tools/runtime/llm-read-shared.mjs"
+    ],
+    "dev/tools/runtime/llm-governance/shared.mjs": [
       "dev/tools/runtime/llm-read-shared.mjs"
     ],
     "dev/tools/runtime/llm-override.mjs": [
@@ -483,8 +527,18 @@
     "dev/tools/runtime/report-untested-systems.mjs": [
       "dev/tools/runtime/runtime-shared.mjs"
     ],
-    "dev/tools/runtime/run-required-checks.mjs": [
+    "dev/tools/runtime/required-checks/runtime-execution.mjs": [
+      "dev/tools/runtime/required-checks/runtime-metadata.mjs"
+    ],
+    "dev/tools/runtime/required-checks/runtime-metadata.mjs": [
       "app/src/kernel/GovernanceEngine.js"
+    ],
+    "dev/tools/runtime/required-checks/runtime-proof.mjs": [],
+    "dev/tools/runtime/run-required-checks.mjs": [
+      "app/src/kernel/GovernanceEngine.js",
+      "dev/tools/runtime/required-checks/runtime-execution.mjs",
+      "dev/tools/runtime/required-checks/runtime-metadata.mjs",
+      "dev/tools/runtime/required-checks/runtime-proof.mjs"
     ],
     "dev/tools/runtime/runtime-shared.mjs": [],
     "dev/tools/runtime/scan-doc-tasks-verify.mjs": [
@@ -524,7 +578,8 @@
       "dev/tools/runtime/runtime-shared.mjs"
     ],
     "dev/tools/runtime/verify-docs-v2-guards.mjs": [
-      "dev/tools/runtime/docs-v2-shared.mjs"
+      "dev/tools/runtime/docs-v2-shared.mjs",
+      "dev/tools/runtime/runtime-shared.mjs"
     ],
     "dev/tools/runtime/verify-git-hooks.mjs": [
       "dev/tools/runtime/installGitHooks.mjs"

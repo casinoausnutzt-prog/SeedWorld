@@ -40,9 +40,8 @@
     "docs:v2:probe": "node dev/tools/runtime/probe-docs-v2-adversarial.mjs",
     "strings:sync": "node dev/tools/runtime/sync-string-matrix.mjs --write",
     "strings:verify": "node dev/tools/runtime/sync-string-matrix.mjs",
-    "hooks:install": "node dev/tools/runtime/installGitHooks.mjs",
-    "hooks:verify": "node dev/tools/runtime/verify-git-hooks.mjs",
-    "prepare": "npm run hooks:install"
+    "hooks:install": "node dev/tools/runtime/installGitHooks.mjs --explicit",
+    "hooks:verify": "node dev/tools/runtime/verify-git-hooks.mjs"
   },
   "devDependencies": {
     "chrome-remote-interface": "^0.33.3",

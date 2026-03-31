@@ -1,21 +1,26 @@
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import path from "node:path";
 
-function resolveNpmCommand(script) {
-  const npmExecPath = process.env.npm_execpath;
-  if (npmExecPath && npmExecPath.endsWith("npm-cli.js")) {
-    return {
-      command: process.execPath,
-      args: [npmExecPath, "run", script],
-      rendered: `node ${npmExecPath} run ${script}`
-    };
-  }
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  return {
-    command: npmCmd,
-    args: ["run", script],
-    rendered: `${npmCmd} run ${script}`
+function parseArgs(argv) {
+  const args = {
+    ranges: [],
+    headOnly: false,
+    skipConfig: false
   };
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === "--range") {
+      const range = argv[++i] || null;
+      if (range) {
+        args.ranges.push(range);
+      }
+    } else if (arg === "--head-only") {
+      args.headOnly = true;
+    } else if (arg === "--skip-config") {
+      args.skipConfig = true;
+    }
+  }
+  return args;
 }
 
 function run(command, args, rendered) {
@@ -42,28 +47,6 @@ function readGitValue(args) {
   return String(result.stdout || "").trim();
 }
 
-function resolveCiRange() {
-  const eventName = String(process.env.GITHUB_EVENT_NAME || "").trim();
-  if (eventName === "push") {
-    const eventPath = String(process.env.GITHUB_EVENT_PATH || "").trim();
-    if (!eventPath) {
-      throw new Error("[GOVERNANCE_POLICY] missing GITHUB_EVENT_PATH for push range resolution");
-    }
-    const payload = JSON.parse(readFileSync(eventPath, "utf8"));
-    const before = String(payload?.before || "").trim();
-    if (!before || /^0+$/.test(before)) {
-      throw new Error("[GOVERNANCE_POLICY] invalid push 'before' SHA for range verification");
-    }
-    return `${before}..HEAD`;
-  }
-
-  const baseRef = process.env.GITHUB_BASE_REF ? `origin/${process.env.GITHUB_BASE_REF}` : "origin/main";
-  if (!readGitValue(["rev-parse", "--verify", baseRef])) {
-    throw new Error(`[GOVERNANCE_POLICY] missing CI base ref for range verify: ${baseRef}`);
-  }
-  return `${baseRef}..HEAD`;
-}
-
 function ensureHooksPath() {
   const hooksPath = readGitValue(["config", "--get", "core.hooksPath"]);
   if (hooksPath !== ".githooks") {
@@ -71,31 +54,60 @@ function ensureHooksPath() {
   }
 }
 
+function ensureSafeExecHint() {
+  const npmExecPath = String(process.env.npm_execpath || "").trim();
+  if (!npmExecPath) {
+    return;
+  }
+
+  if (!path.isAbsolute(npmExecPath) || !npmExecPath.endsWith("npm-cli.js")) {
+    throw new Error(`[GOVERNANCE_POLICY] unsafe npm_execpath detected: ${npmExecPath}`);
+  }
+}
+
 function main() {
+  const args = parseArgs(process.argv.slice(2));
   const isCi = String(process.env.CI || "").toLowerCase() === "true" || !!process.env.GITHUB_ACTIONS;
-  const signingArgs = ["dev/tools/runtime/signing-guard.mjs", "--head-only", "--allow-empty-range"];
-  if (isCi) {
+  const explicitRanges = args.ranges.length > 0;
+  const signingArgs = ["dev/tools/runtime/signing-guard.mjs", "--allow-empty-range"];
+  ensureSafeExecHint();
+  if (isCi || args.skipConfig) {
     signingArgs.push("--skip-config");
   }
-  run(process.execPath, signingArgs, `node ${signingArgs.join(" ")}`);
-
-  if (isCi) {
-    const ciRange = resolveCiRange();
-    const rangeArgs = ["dev/tools/runtime/signing-guard.mjs", "--range", ciRange, "--skip-config"];
-    run(process.execPath, rangeArgs, `node ${rangeArgs.join(" ")}`);
-  } else {
-    ensureHooksPath();
-    const localRangeArgs = ["dev/tools/runtime/signing-guard.mjs", "--unpublished-origin", "--allow-empty-range"];
-    run(process.execPath, localRangeArgs, `node ${localRangeArgs.join(" ")}`);
+  if (args.headOnly && explicitRanges) {
+    throw new Error("[GOVERNANCE_POLICY] use either --head-only or --range, not both");
   }
 
-  const hooks = resolveNpmCommand("hooks:verify");
-  run(hooks.command, hooks.args, hooks.rendered);
+  if (args.headOnly) {
+    if (!isCi) {
+      ensureHooksPath();
+    }
+    signingArgs.push("--head-only");
+    run(process.execPath, signingArgs, `node ${signingArgs.join(" ")}`);
+  } else if (explicitRanges) {
+    if (!isCi) {
+      ensureHooksPath();
+    }
+    for (const range of args.ranges) {
+      signingArgs.push("--range", range);
+    }
+    run(process.execPath, signingArgs, `node ${signingArgs.join(" ")}`);
+  } else {
+    throw new Error("[GOVERNANCE_POLICY] explicit --head-only or --range required");
+  }
+
   const headSubject = readGitValue(["show", "-s", "--format=%s", "HEAD"]);
   if (/^Revert\b/i.test(headSubject)) {
     console.log("[GOVERNANCE_POLICY] rollback parity enforced: revert commits use full required-gate contract");
   }
-  console.log(`[GOVERNANCE_POLICY] OK mode=${isCi ? "ci-signature-range+head" : "local-signature+hooks-config"}`);
+  const mode = args.headOnly
+    ? "head-only-contract"
+    : explicitRanges
+      ? "explicit-range-contract"
+      : isCi
+        ? "ci-signature-range"
+        : "local-signature-range+hooks-config";
+  console.log(`[GOVERNANCE_POLICY] OK mode=${mode}`);
 }
 
 main();

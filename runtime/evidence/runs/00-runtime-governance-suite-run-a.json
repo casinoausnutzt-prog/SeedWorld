@@ -18,7 +18,7 @@
     ]
   },
   "kernel_revision": {
-    "fingerprint": "33fa4da1167c6b7e451272a23df9d51bd802d2f4b42720ad25948f09efca8f0e",
+    "fingerprint": "0859cecb5c241a3727fd544267e5cbd669e0f6b4930de30c784574e364e656e9",
     "files": [
       {
         "path": "app/src/kernel/ActionRegistry.js",
@@ -26,7 +26,7 @@
       },
       {
         "path": "app/src/kernel/KernelController.js",
-        "hash": "175ef996738347b54d7236d40b8680add0d3dba25d186043a5917937797a51c5"
+        "hash": "591cd2ba8287465f331f5931d74a912f8df44249b3bd8748e1c50d1231d60285"
       },
       {
         "path": "app/src/kernel/KernelRouter.js",
@@ -34,35 +34,16 @@
       }
     ]
   },
-  "timestamp": "2026-03-31T11:49:02.845Z",
-  "deterministic_fingerprint": "7607599dc8de1939c414158bc19f3d0dc132b43a3eb7b370d508a679a7dc94ce",
+  "timestamp": "2026-03-31T13:02:45.436Z",
+  "deterministic_fingerprint": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84",
   "output_hashes": {
-    "payload": "7607599dc8de1939c414158bc19f3d0dc132b43a3eb7b370d508a679a7dc94ce"
+    "payload": "ec13a36d2d8f0835ea8efbadfea999711657c382bb5e16e9bd93ff34e0e53b84"
   },
   "output_snapshots": {
-    "seedSignature": "003efc48",
-    "worldVersion": 1,
-    "kernelStatus": "deterministic",
-    "registeredActions": [
-      "game.advanceTick",
-      "game.createInitialState",
-      "game.getBuildOptions",
-      "game.inspectTile",
-      "game.placeStructure",
-      "kernel.setDeterministicSeed",
-      "kernel.status"
-    ],
-    "routerHistory": [
-      "game:createInitialState",
-      "kernel:status"
-    ],
-    "gateHistory": [
-      "game.action:allow",
-      "kernel.action:allow"
-    ]
+    "error": "[KERNEL_GUARD] `Date.now()` ist im deterministischen Kernel verboten."
   },
-  "status": "PASS_REPRODUCED",
-  "reason_code": null,
+  "status": "FAIL_INTERNAL",
+  "reason_code": "[KERNEL_GUARD] `Date.now()` ist im deterministischen Kernel verboten.",
   "environment_summary": {
     "node": "v25.8.2",
     "platform": "win32",

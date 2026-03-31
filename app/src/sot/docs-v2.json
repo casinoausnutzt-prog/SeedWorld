@@ -8,6 +8,12 @@
     "archiveTasks": "tem/tasks/archive",
     "humanDocs": "docs/V2"
   },
+  "governanceRoots": [
+    "app/src/sot/",
+    "dev/tools/runtime/",
+    ".github/",
+    ".githooks/"
+  ],
   "registeredControlFiles": [
     "README.md",
     "CHANGELOG.md",

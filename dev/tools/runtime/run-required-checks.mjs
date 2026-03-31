@@ -1,312 +1,50 @@
-import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { spawn, spawnSync } from "node:child_process";
 import path from "node:path";
 import {
   GOVERNANCE_CLAIM_RULE,
   GOVERNANCE_PROOF_MANIFEST_PATH,
+  GOVERNANCE_RUN_MODE_SYNC_AND_VERIFY,
   GOVERNANCE_SOT_PROOF_FILES,
   createGovernancePipeline,
-  createGovernanceReportBase
+  createGovernanceReportBase,
+  normalizeGovernanceRunMode
 } from "../../../app/src/kernel/GovernanceEngine.js";
+import {
+  assertFreshGitMetadata,
+  assertPipelineContract,
+  gitRequiredValue,
+  parseRequestedRunMode
+} from "./required-checks/runtime-metadata.mjs";
+import {
+  buildContractHash,
+  buildEvidenceSummary,
+  buildSotHashes,
+  writeProofManifest,
+  writeReport
+} from "./required-checks/runtime-proof.mjs";
+import {
+  digestText,
+  runInternalNodeScript,
+  runStep,
+  sha256File,
+  toSyntheticVerifyStep
+} from "./required-checks/runtime-execution.mjs";
 
 const root = process.cwd();
-const writeSyncArtifacts = !process.argv.includes("--verify-only");
 const reportPath = path.join(root, "runtime", "evidence", "required-check-report.json");
 const findingsEvidenceRel = "runtime/evidence/governance-findings.json";
-
-function resolveNpmCommand(script) {
-  const npmExecPath = process.env.npm_execpath;
-  if (npmExecPath && npmExecPath.endsWith("npm-cli.js")) {
-    return {
-      command: process.execPath,
-      args: [npmExecPath, "run", script],
-      rendered: `node ${npmExecPath} run ${script}`
-    };
-  }
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  return {
-    command: npmCmd,
-    args: ["run", script],
-    rendered: `${npmCmd} run ${script}`
-  };
-}
-
-function gitValue(args, fallback = "unknown") {
-  const result = spawnSync("git", args, {
-    cwd: root,
-    encoding: "utf8"
-  });
-  if (result.status !== 0) {
-    return fallback;
-  }
-  const value = String(result.stdout || "").trim();
-  return value || fallback;
-}
-
-function gitRequiredValue(args, field) {
-  const value = gitValue(args, "unknown");
-  if (!value || value === "unknown") {
-    throw new Error(`[REQUIRED_CHECK] missing git metadata: ${field}`);
-  }
-  return value;
-}
-
-function digestText(text) {
-  return createHash("sha256").update(text).digest("hex");
-}
-
-async function sha256File(absPath) {
-  const content = await readFile(absPath);
-  return createHash("sha256").update(content).digest("hex");
-}
-
-async function runStep(step) {
-  const npmCommand = resolveNpmCommand(step.script);
-  const startedAt = new Date().toISOString();
-  const startedMs = Date.now();
-  const outputChunks = [];
-
-  return await new Promise((resolve, reject) => {
-    let child;
-    try {
-      child = spawn(npmCommand.command, npmCommand.args, {
-        cwd: root,
-        stdio: ["inherit", "pipe", "pipe"]
-      });
-    } catch (error) {
-      reject({
-        ...step,
-        command: npmCommand.rendered,
-        started_at: startedAt,
-        ended_at: new Date().toISOString(),
-        duration_ms: Date.now() - startedMs,
-        status: "FAILED",
-        exit_code: null,
-        output_sha256: digestText(String(error?.message || error)),
-        error: String(error?.message || error)
-      });
-      return;
-    }
-
-    child.stdout.on("data", (chunk) => {
-      const text = String(chunk);
-      outputChunks.push(text);
-      process.stdout.write(chunk);
-    });
-
-    child.stderr.on("data", (chunk) => {
-      const text = String(chunk);
-      outputChunks.push(text);
-      process.stderr.write(chunk);
-    });
-
-    child.on("error", (error) => {
-      const endedAt = new Date().toISOString();
-      const outputText = outputChunks.join("");
-      reject({
-        ...step,
-        command: npmCommand.rendered,
-        started_at: startedAt,
-        ended_at: endedAt,
-        duration_ms: Date.now() - startedMs,
-        status: "FAILED",
-        exit_code: null,
-        output_sha256: digestText(`${outputText}\n${String(error?.message || error)}`),
-        error: String(error?.message || error)
-      });
-    });
-
-    child.on("close", (code) => {
-      const endedAt = new Date().toISOString();
-      const outputText = outputChunks.join("");
-      const gate = {
-        ...step,
-        command: npmCommand.rendered,
-        started_at: startedAt,
-        ended_at: endedAt,
-        duration_ms: Date.now() - startedMs,
-        status: code === 0 ? "PASSED" : "FAILED",
-        exit_code: code,
-        output_sha256: digestText(outputText)
-      };
-      if (code === 0) {
-        resolve(gate);
-        return;
-      }
-      reject(gate);
-    });
-  });
-}
-
-async function buildEvidenceSummary() {
-  const summaryRel = "runtime/evidence/summary.json";
-  const finalRel = "runtime/evidence/final/testline-summary.json";
-  const summaryAbs = path.join(root, summaryRel);
-  const finalAbs = path.join(root, finalRel);
-  return {
-    evidence_summary: {
-      path: summaryRel,
-      sha256: await sha256File(summaryAbs)
-    },
-    final_testline_summary: {
-      path: finalRel,
-      sha256: await sha256File(finalAbs)
-    }
-  };
-}
-
-async function runInternalNodeScript(scriptRel, args = []) {
-  const startedAt = new Date().toISOString();
-  const startedMs = Date.now();
-  return await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [scriptRel, ...args], {
-      cwd: root,
-      stdio: ["ignore", "pipe", "pipe"]
-    });
-    let output = "";
-    child.stdout.on("data", (chunk) => {
-      const text = String(chunk);
-      output += text;
-      process.stdout.write(chunk);
-    });
-    child.stderr.on("data", (chunk) => {
-      const text = String(chunk);
-      output += text;
-      process.stderr.write(chunk);
-    });
-    child.on("error", (error) => {
-      reject({
-        script: scriptRel,
-        started_at: startedAt,
-        ended_at: new Date().toISOString(),
-        duration_ms: Date.now() - startedMs,
-        exit_code: null,
-        output_sha256: digestText(`${output}\n${String(error?.message || error)}`),
-        error: String(error?.message || error)
-      });
-    });
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve({
-          script: scriptRel,
-          started_at: startedAt,
-          ended_at: new Date().toISOString(),
-          duration_ms: Date.now() - startedMs,
-          exit_code: 0,
-          output_sha256: digestText(output)
-        });
-        return;
-      }
-      reject({
-        script: scriptRel,
-        started_at: startedAt,
-        ended_at: new Date().toISOString(),
-        duration_ms: Date.now() - startedMs,
-        exit_code: code,
-        output_sha256: digestText(output),
-        error: `script failed: ${scriptRel}`
-      });
-    });
-  });
-}
-
-function toSyntheticVerifyStep(result, id) {
-  return {
-    id,
-    script: id,
-    type: "verify",
-    command: `node ${result.script}`,
-    started_at: result.started_at,
-    ended_at: result.ended_at,
-    duration_ms: result.duration_ms,
-    status: result.exit_code === 0 ? "PASSED" : "FAILED",
-    exit_code: result.exit_code,
-    output_sha256: result.output_sha256
-  };
-}
-
-async function buildContractHash({ report, pipeline }) {
-  const payload = {
-    policy: report.policy,
-    run_mode: report.run_mode,
-    step_contract: report.execution?.step_contract || "",
-    sync_steps: pipeline.filter((item) => item.type === "sync").map((item) => item.id),
-    verify_steps: pipeline.filter((item) => item.type === "verify").map((item) => item.id)
-  };
-  return digestText(JSON.stringify(payload));
-}
-
-async function buildSotHashes() {
-  const hashes = [];
-  for (const relPath of GOVERNANCE_SOT_PROOF_FILES) {
-    const absPath = path.join(root, relPath);
-    const sha256 = await sha256File(absPath);
-    hashes.push({ path: relPath, sha256 });
-  }
-  return hashes;
-}
-
-async function writeProofManifest({ report, evidenceSummary, sotHashes }) {
-  const manifestPath = path.join(root, GOVERNANCE_PROOF_MANIFEST_PATH);
-  await mkdir(path.dirname(manifestPath), { recursive: true });
-  const coverageRel = "runtime/evidence/governance-coverage.json";
-  const contractHash = report.contract_hash || digestText(`${report.policy}:${report.run_mode}`);
-  const manifest = {
-    schema_version: 1,
-    policy: report.policy,
-    contract_hash: contractHash,
-    generated_at: new Date().toISOString(),
-    run_mode: report.run_mode,
-    repo: report.repo,
-    gate_results: report.steps.map((step) => ({
-      id: step.id,
-      status: step.status,
-      output_sha256: step.output_sha256
-    })),
-    proof: {
-      evidence: evidenceSummary,
-      sot: sotHashes,
-      governance_findings: {
-        path: findingsEvidenceRel,
-        sha256: await sha256File(path.join(root, findingsEvidenceRel))
-      },
-      governance_coverage: {
-        path: coverageRel,
-        sha256: await sha256File(path.join(root, coverageRel))
-      },
-      governance_modularity: {
-        path: "runtime/evidence/governance-modularity.json",
-        sha256: await sha256File(path.join(root, "runtime/evidence/governance-modularity.json"))
-      }
-    },
-    zero_trust: {
-      all_verify_steps_passed: report.steps.every((step) => step.status === "PASSED"),
-      claim_rule: GOVERNANCE_CLAIM_RULE
-    }
-  };
-  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-  return {
-    path: GOVERNANCE_PROOF_MANIFEST_PATH,
-    sha256: await sha256File(manifestPath)
-  };
-}
-
-async function writeReport(report) {
-  if (!writeSyncArtifacts) {
-    return;
-  }
-  await mkdir(path.dirname(reportPath), { recursive: true });
-  await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
-}
+const coverageEvidenceRel = "runtime/evidence/governance-coverage.json";
 
 async function main() {
   const startedAt = new Date().toISOString();
-  const runMode = writeSyncArtifacts ? "auto-sync-and-verify" : "verify-only";
-  const head = gitRequiredValue(["rev-parse", "HEAD"], "head");
-  const branch = gitRequiredValue(["rev-parse", "--abbrev-ref", "HEAD"], "branch");
+  const runMode = parseRequestedRunMode(process.argv.slice(2));
+  const normalizedRunMode = normalizeGovernanceRunMode(runMode);
+  const explicitSyncMode = normalizedRunMode === GOVERNANCE_RUN_MODE_SYNC_AND_VERIFY;
+  const head = gitRequiredValue(root, ["rev-parse", "HEAD"], "head");
+  const branch = gitRequiredValue(root, ["branch", "--show-current"], "branch");
+  assertFreshGitMetadata({ head, branch });
+
   const report = createGovernanceReportBase({
-    runMode,
+    runMode: normalizedRunMode,
     repo: {
       head,
       branch
@@ -318,30 +56,42 @@ async function main() {
     },
     startedAt
   });
-  const pipeline = createGovernancePipeline({ verifyOnly: !writeSyncArtifacts });
+
+  const pipeline = createGovernancePipeline({ runMode: normalizedRunMode });
+  assertPipelineContract(normalizedRunMode, pipeline);
+
   report.execution = {
     total_steps: pipeline.length,
     sync_steps: pipeline.filter((item) => item.type === "sync").map((item) => item.id),
     verify_steps: pipeline.filter((item) => item.type === "verify").map((item) => item.id),
-    run_mode: writeSyncArtifacts ? "auto-sync-and-verify" : "verify-only",
-    step_contract: "sync (optional) -> verify (mandatory)"
+    run_mode: normalizedRunMode,
+    step_contract:
+      explicitSyncMode
+        ? "sync (explicit) -> verify (mandatory) -> post_verify (explicit)"
+        : "verify (mandatory) only; sync/materialize disabled"
   };
   report.contract_hash = await buildContractHash({ report, pipeline });
 
   try {
     for (const step of pipeline) {
-      const gate = await runStep(step);
+      const gate = await runStep(root, step);
       report.steps.push(gate);
     }
 
     report.overall_status = "PASSED";
-    await writeReport(report);
-    if (writeSyncArtifacts) {
-      const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
+    await writeReport(reportPath, report, explicitSyncMode);
+
+    if (explicitSyncMode) {
+      const findingsStep = await runInternalNodeScript(root, "dev/tools/runtime/governance-findings-materialize.mjs", [
         "--report",
         "runtime/evidence/required-check-report.json"
       ]);
-      const findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+      const findingsVerify = await runInternalNodeScript(
+        root,
+        "dev/tools/runtime/governance-findings-verify.mjs",
+        [],
+        { RUNTIME_VERIFY_READ_ONLY: "1" }
+      );
       report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
       report.findings = {
         materialized: {
@@ -355,10 +105,20 @@ async function main() {
       };
     }
 
-    if (writeSyncArtifacts) {
-      const evidenceSummary = await buildEvidenceSummary();
-      const sotHashes = await buildSotHashes();
-      const manifestRef = await writeProofManifest({ report, evidenceSummary, sotHashes });
+    if (explicitSyncMode) {
+      const evidenceSummary = await buildEvidenceSummary(root, sha256File);
+      const sotHashes = await buildSotHashes(root, GOVERNANCE_SOT_PROOF_FILES, sha256File);
+      const manifestRef = await writeProofManifest({
+        root,
+        report,
+        evidenceSummary,
+        sotHashes,
+        findingsEvidenceRel,
+        coverageRel: coverageEvidenceRel,
+        proofManifestPath: GOVERNANCE_PROOF_MANIFEST_PATH,
+        claimRule: GOVERNANCE_CLAIM_RULE,
+        sha256File
+      });
       report.proof = {
         ...evidenceSummary,
         sot: sotHashes,
@@ -367,7 +127,7 @@ async function main() {
       report.claim_rule = GOVERNANCE_CLAIM_RULE;
       report.overall_status = "PASSED";
       report.finished_at = new Date().toISOString();
-      await writeReport(report);
+      await writeReport(reportPath, report, true);
       console.log(
         `[REQUIRED_CHECK] PASS mode=${report.run_mode} proof=${report.proof.final_testline_summary.sha256.slice(0, 12)}`
       );
@@ -383,19 +143,26 @@ async function main() {
     report.overall_status = "FAILED";
     report.steps.push(failedStep);
     report.failure_step = failedStep.id || failedStep.script || "unknown";
-    await writeReport(report);
-    if (writeSyncArtifacts) {
+    await writeReport(reportPath, report, explicitSyncMode);
+
+    if (explicitSyncMode) {
       try {
-        const findingsStep = await runInternalNodeScript("dev/tools/runtime/governance-findings-materialize.mjs", [
+        const findingsStep = await runInternalNodeScript(root, "dev/tools/runtime/governance-findings-materialize.mjs", [
           "--report",
           "runtime/evidence/required-check-report.json"
         ]);
         let findingsVerify = null;
         try {
-          findingsVerify = await runInternalNodeScript("dev/tools/runtime/governance-findings-verify.mjs");
+          findingsVerify = await runInternalNodeScript(
+            root,
+            "dev/tools/runtime/governance-findings-verify.mjs",
+            [],
+            { RUNTIME_VERIFY_READ_ONLY: "1" }
+          );
           report.steps.push(toSyntheticVerifyStep(findingsVerify, "governance:findings:verify"));
         } catch (verifyError) {
           report.steps.push(toSyntheticVerifyStep(verifyError, "governance:findings:verify"));
+          findingsVerify = null;
         }
         report.findings = {
           materialized: {
@@ -419,8 +186,9 @@ async function main() {
         };
       }
     }
+
     report.finished_at = new Date().toISOString();
-    await writeReport(report);
+    await writeReport(reportPath, report, explicitSyncMode);
     console.error(`[REQUIRED_CHECK] BLOCK step=${report.failure_step}`);
     process.exit(1);
   }

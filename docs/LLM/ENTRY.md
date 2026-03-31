@@ -21,8 +21,9 @@ Dieses Entry-Dokument ist der verpflichtende Einstieg fuer alle Arbeiten im Repo
 
 ## Runtime-Enforcement
 
-- `npm run llm:entry` schreibt einen ACK-Status mit Docs-Hash.
-- `npm run llm:guard -- --action <stage|commit|push>` blockiert Stage/Commit/Push bei Hash-Drift oder fehlendem ACK.
+- `npm run llm:entry` schreibt einen ACK-Status mit Docs-Hash. Das ist der Read-Schritt, der den Guard erst sinnvoll macht.
+- `npm run llm:guard -- --action <stage|commit|push>` blockiert Stage/Commit/Push bei Hash-Drift, fehlendem ACK oder kaputter Read-Reihenfolge.
+- `llm:entry` und `llm:guard` sind zusammen der verbindliche Read/Commit/Push-Gate-Pfad.
 - `npm run governance:llm:verify` und `npm run governance:subagent:verify` sind Pflichtgates.
 - Hooks pruefen das standardmaessig vor jedem Commit/Push.
 - `docs/LLM/AKTUELLE_RED_ACTIONS.md` wird vor Preflight/Commit synchronisiert und dokumentiert den Commit-Kandidaten.

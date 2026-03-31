@@ -1,6 +1,6 @@
-import { mkdir } from "node:fs/promises";
+import { isDeepStrictEqual } from "node:util";
 import path from "node:path";
-import { readJson, writeJson } from "./docs-v2-shared.mjs";
+import { readJson } from "./docs-v2-shared.mjs";
 import { compareAlpha, listFilesRecursive, toPosixPath } from "./runtime-shared.mjs";
 
 const root = process.cwd();
@@ -130,11 +130,8 @@ async function main() {
     }))
     .filter((entry) => entry.count > 0);
 
-  const evidencePath = path.join(root, evidenceRel);
-  await mkdir(path.dirname(evidencePath), { recursive: true });
-  await writeJson(evidencePath, {
+  const expectedEvidence = {
     schema_version: evidenceSchemaVersion,
-    generated_at: new Date().toISOString(),
     scanned_count: uniqueFiles.length,
     scanned_files: uniqueFiles.length,
     classified_count: classified.length,
@@ -142,21 +139,49 @@ async function main() {
     owner_summary: ownerSummary,
     ambiguous_files: ambiguous,
     unclassified_files: unclassified
-  });
+  };
+  const evidencePath = path.join(root, evidenceRel);
+  const issues = [];
+  let evidence = null;
+  try {
+    evidence = await readJson(evidencePath);
+  } catch (error) {
+    issues.push(`[EVIDENCE_MISSING] ${evidenceRel}: ${String(error?.message || error)}`);
+  }
+
+  if (evidence) {
+    const { generated_at: generatedAt, ...stableEvidence } = evidence;
+    if (!generatedAt || Number.isNaN(Date.parse(generatedAt))) {
+      issues.push(`[EVIDENCE_TIMESTAMP] ${evidenceRel} missing or invalid generated_at`);
+    }
+    if (!isDeepStrictEqual(stableEvidence, expectedEvidence)) {
+      issues.push(`[EVIDENCE_DRIFT] ${evidenceRel} does not match computed governance coverage`);
+    }
+  }
 
   if (ambiguous.length > 0) {
-    console.error("[GOVERNANCE_COVERAGE] BLOCK: ambiguous ownership matches in governance scope");
-    for (const item of ambiguous) {
-      const alternatives = item.alternatives.map((alt) => `${alt.owner}:${alt.prefix}`).join(", ");
-      console.error(` - ${item.path} -> resolved=${item.resolved_owner}:${item.resolved_prefix} alternatives=${alternatives}`);
-    }
-    process.exit(1);
+    issues.push("ambiguous ownership matches in governance scope");
   }
 
   if (unclassified.length > 0) {
-    console.error("[GOVERNANCE_COVERAGE] BLOCK: unclassified files in governance scope");
-    for (const relPath of unclassified) {
-      console.error(` - ${relPath}`);
+    issues.push("unclassified files in governance scope");
+  }
+
+  if (issues.length > 0) {
+    console.error("[GOVERNANCE_COVERAGE] BLOCK");
+    for (const issue of issues) {
+      console.error(` - ${issue}`);
+    }
+    if (ambiguous.length > 0) {
+      for (const item of ambiguous) {
+        const alternatives = item.alternatives.map((alt) => `${alt.owner}:${alt.prefix}`).join(", ");
+        console.error(`   * ${item.path} -> resolved=${item.resolved_owner}:${item.resolved_prefix} alternatives=${alternatives}`);
+      }
+    }
+    if (unclassified.length > 0) {
+      for (const relPath of unclassified) {
+        console.error(`   * ${relPath}`);
+      }
     }
     process.exit(1);
   }

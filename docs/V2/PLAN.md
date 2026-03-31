@@ -148,3 +148,30 @@ Offene Planung liegt nur noch als atomare Einzel-Tasks vor. Ein Task bleibt offe
 - Scope: `docs/LLM/POLICY.md`, `docs/MANUEL/WORKFLOW.md`, `docs/V2/TRUTH.md`
 - Description: Bedrohungsmodell fuer Governance-Artefakte, Hooks und Claim-Proofs soll als kontrolliertes Dokument mit Verify-Referenz eingebunden werden.
 
+### RT-001 Kernel validator unter Determinism-Guards erzwingen
+
+- JSON: `tem/tasks/open/RT-001.json`
+- Track: `red-team-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `app/src/kernel/KernelController.js`, `app/src/kernel/runtimeGuards.js`, `dev/tests/modules/10.determinism-seed-proof-suite.module.mjs`
+- Description: Validator-Ausfuehrung darf keine Entropie vor Guard einschleusen; Action-Input muss immutable durch den Ausfuehrungspfad laufen.
+
+### RT-004 Proof-Frische und Manifest-Konsistenz erzwingen
+
+- JSON: `tem/tasks/open/RT-004.json`
+- Track: `red-team-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/governance-findings-verify.mjs`, `.github/workflows/required-checks.yml`
+- Description: verify-only muss Report/Manifest/Findings gegen aktuellen Lauf kryptografisch querpruefen; stale Artefakte duerfen nie als gruen gelten.
+
+### RT-013 Governance-Modularity Limits durch echte Modul-Splits einhalten
+
+- JSON: `tem/tasks/open/RT-013.json`
+- Track: `red-team-hardening`
+- Match: `all_scope_paths_touched`
+- Source: `docs/V2/SYSTEM_PLAN.md`
+- Scope: `dev/tools/runtime/docs-v2-shared.mjs`, `dev/tools/runtime/governance-findings-shared.mjs`, `dev/tools/runtime/governance-llm-verify.mjs`, `dev/tools/runtime/governance-subagent-verify.mjs`, `dev/tools/runtime/run-required-checks.mjs`, `dev/tools/runtime/governance-modularity-verify.mjs`, `runtime/evidence/governance-modularity.json`
+- Description: Uebergrosse Governance-Dateien muessen in stabile Teilmodule aufgeteilt werden; verify darf weder Ausnahmen noch Size-Bypass akzeptieren.
+

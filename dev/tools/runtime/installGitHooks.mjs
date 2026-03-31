@@ -12,13 +12,26 @@ export const HOOK_FILE_NAMES = Object.freeze({
   prePush: "pre-push"
 });
 
+function parseArgs(argv) {
+  const args = {
+    explicit: false
+  };
+  for (const arg of argv) {
+    if (arg === "--explicit") {
+      args.explicit = true;
+    }
+  }
+  return args;
+}
+
 export function renderPreCommitHook() {
   return `#!/bin/sh
 set -e
 
 echo "[hook:pre-commit] verify hook sync + chain preflight"
 npm run hooks:verify
-npm run governance:policy:verify
+npm run llm:guard -- --action commit
+npm run governance:policy:verify -- --head-only
 npm run governance:modularity:verify
 npm run governance:llm:verify
 npm run governance:subagent:verify
@@ -34,33 +47,49 @@ ZERO_SHA="0000000000000000000000000000000000000000"
 
 # Hard safety gate: reject history rewrites and ref deletions.
 # pre-push stdin lines: <local ref> <local sha> <remote ref> <remote sha>
-while read local_ref local_sha remote_ref remote_sha
-do
-  # Ignore empty lines.
-  [ -z "$local_ref" ] && continue
+verify_ref() {
+  local_ref="$1"
+  local_sha="$2"
+  remote_ref="$3"
+  remote_sha="$4"
 
-  # Block deleting remote refs.
   if [ "$local_sha" = "$ZERO_SHA" ]; then
     echo "[hook:pre-push] BLOCK: ref deletion is forbidden ($remote_ref)"
     exit 1
   fi
 
-  # New remote refs are fine (no remote ancestor yet).
-  if [ "$remote_sha" = "$ZERO_SHA" ]; then
-    continue
+  if [ "$remote_sha" != "$ZERO_SHA" ]; then
+    if ! git merge-base --is-ancestor "$remote_sha" "$local_sha"; then
+      echo "[hook:pre-push] BLOCK: non-fast-forward push is forbidden ($local_ref -> $remote_ref)"
+      echo "[hook:pre-push] BLOCK: --force/--force-with-lease/history rewrite are not allowed."
+      exit 1
+    fi
+    range="$remote_sha..$local_sha"
+  else
+    upstream_ref=$(git rev-parse --abbrev-ref --symbolic-full-name "\${local_ref}@{upstream}" 2>/dev/null || true)
+    if [ -z "$upstream_ref" ]; then
+      echo "[hook:pre-push] BLOCK: no deterministic base range for new ref ($local_ref -> $remote_ref)"
+      echo "[hook:pre-push] BLOCK: configure an upstream or push with a tracked ref base."
+      exit 1
+    fi
+    range="$upstream_ref..$local_sha"
   fi
 
-  # Non-fast-forward means force/update rewrite.
-  if ! git merge-base --is-ancestor "$remote_sha" "$local_sha"; then
-    echo "[hook:pre-push] BLOCK: non-fast-forward push is forbidden ($local_ref -> $remote_ref)"
-    echo "[hook:pre-push] BLOCK: --force/--force-with-lease/history rewrite are not allowed."
-    exit 1
-  fi
+  echo "[hook:pre-push] verify ref=$local_ref range=$range"
+  npm run governance:policy:verify -- --range "$range"
+}
+
+while read local_ref local_sha remote_ref remote_sha
+do
+  [ -z "$local_ref" ] && continue
+  verify_ref "$local_ref" "$local_sha" "$remote_ref" "$remote_sha"
 done
 
 echo "[hook:pre-push] verify hook sync + fail-closed proof gate"
+echo "[hook:pre-push] all pushed refs verified explicitly"
 npm run hooks:verify
 npm run check:required:verify-only
+echo "[hook:pre-push] recommendation: run 'npm run check:required:verify-only' separately if you need runner-level validation"
 `;
 }
 
@@ -93,5 +122,10 @@ export async function installHooks(root = process.cwd()) {
 }
 
 if (isDirectRun) {
+  const args = parseArgs(process.argv.slice(2));
+  if (!args.explicit) {
+    console.error("[HOOKS] explicit install required: use `npm run hooks:install`");
+    process.exit(1);
+  }
   await installHooks();
 }

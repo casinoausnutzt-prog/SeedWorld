@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "730b01db578bc1ef7cead2693d4989d58d8dfc681bd11662fc15189b518f7764",
+  "snapshotId": "60563f6bcb6462292438e817146219fcaba1f759fa97b725a3a67c8ca8d71e68",
   "controlFiles": [
     "TODO.md",
     "WORKFLOW.md",
     "SCHEMA.json"
   ],
-  "artifactCount": 59,
+  "artifactCount": 72,
   "categories": {
     "planung": [
       "tem/beide-plaene.md",
@@ -62,7 +62,17 @@
       "tem/tasks/archive/LLM-003.json",
       "tem/tasks/archive/LLM-004.json",
       "tem/tasks/archive/LLM-005.json",
-      "tem/tasks/archive/LLM-006.json"
+      "tem/tasks/archive/LLM-006.json",
+      "tem/tasks/archive/RT-002.json",
+      "tem/tasks/archive/RT-003.json",
+      "tem/tasks/archive/RT-005.json",
+      "tem/tasks/archive/RT-006.json",
+      "tem/tasks/archive/RT-007.json",
+      "tem/tasks/archive/RT-008.json",
+      "tem/tasks/archive/RT-009.json",
+      "tem/tasks/archive/RT-010.json",
+      "tem/tasks/archive/RT-011.json",
+      "tem/tasks/archive/RT-012.json"
     ],
     "task-open": [
       "tem/tasks/open/CF-003.json",
@@ -80,7 +90,10 @@
       "tem/tasks/open/GOV-003.json",
       "tem/tasks/open/GOV-004.json",
       "tem/tasks/open/GOV-005.json",
-      "tem/tasks/open/GOV-006.json"
+      "tem/tasks/open/GOV-006.json",
+      "tem/tasks/open/RT-001.json",
+      "tem/tasks/open/RT-004.json",
+      "tem/tasks/open/RT-013.json"
     ],
     "sonstiges": [
       "tem/testline-missing-systems.md"
@@ -288,6 +301,56 @@
       "sha256": "69edf208a4bf42d1953d11f0c49255948bf18f53ff966d9fb3ee43040ac00b40"
     },
     {
+      "path": "tem/tasks/archive/RT-002.json",
+      "category": "task-archive",
+      "sha256": "c4fe27eac855eba1c558fcca02733155dcf9d49c5c706dc1bbadffafe18f50a4"
+    },
+    {
+      "path": "tem/tasks/archive/RT-003.json",
+      "category": "task-archive",
+      "sha256": "ae112280eeb1cd1e68f4647e3542f9fbb52dbed33b53c21a59b8efcc48411a5a"
+    },
+    {
+      "path": "tem/tasks/archive/RT-005.json",
+      "category": "task-archive",
+      "sha256": "a9df103967a87f17695e7a2dfb59c8ef50bd180de6dd07dfb8ec106f5c489647"
+    },
+    {
+      "path": "tem/tasks/archive/RT-006.json",
+      "category": "task-archive",
+      "sha256": "bcfb82afc9a0fb5223335abf0d9cf31cda7abeac30b3ef3acaf8d8d5e5af5e05"
+    },
+    {
+      "path": "tem/tasks/archive/RT-007.json",
+      "category": "task-archive",
+      "sha256": "2e8e032a67228b0393a28945ce3c4e1430e60372cdd4fdb495875de931e7fbdd"
+    },
+    {
+      "path": "tem/tasks/archive/RT-008.json",
+      "category": "task-archive",
+      "sha256": "36287df17d6f348a8b3ce4823e0c74ef4a84cb2b9695f2b1c24c684b2b8ce869"
+    },
+    {
+      "path": "tem/tasks/archive/RT-009.json",
+      "category": "task-archive",
+      "sha256": "99524d36d708cc1578e916d54e505a60807d67e91ad95e0f36f59b33784f0bc1"
+    },
+    {
+      "path": "tem/tasks/archive/RT-010.json",
+      "category": "task-archive",
+      "sha256": "d94279a89ff4aba915a786bc8acc4db3a7dcc855661fd654c1792ad8b7a3e077"
+    },
+    {
+      "path": "tem/tasks/archive/RT-011.json",
+      "category": "task-archive",
+      "sha256": "51322e02bffe264abd1c2106909abe0c5e73251e4cca4b4d0ba80ea9acbfd1d2"
+    },
+    {
+      "path": "tem/tasks/archive/RT-012.json",
+      "category": "task-archive",
+      "sha256": "0d91582d91cc24d5b7868c2434c37026c39ee00da3e418b73f62165cf93ef3e5"
+    },
+    {
       "path": "tem/tasks/open/CF-003.json",
       "category": "task-open",
       "sha256": "23b241ea247af742ce2aaf3a587494f7226ffd658f15a96fdb7aa11a31e72bb5"
@@ -366,6 +429,21 @@
       "path": "tem/tasks/open/GOV-006.json",
       "category": "task-open",
       "sha256": "ea01778c13be477f494e5771d95bd044e200fd113f5a75acc32aa84c69d3d582"
+    },
+    {
+      "path": "tem/tasks/open/RT-001.json",
+      "category": "task-open",
+      "sha256": "d0cacf225b17ef31cd45b74eeb43b6774e92020d9048491b7f70ab42b8a63e0c"
+    },
+    {
+      "path": "tem/tasks/open/RT-004.json",
+      "category": "task-open",
+      "sha256": "ff7a24b0f28b8cc3327304a6d69ac4ee90a01332e1549ba5b41754e927054c4d"
+    },
+    {
+      "path": "tem/tasks/open/RT-013.json",
+      "category": "task-open",
+      "sha256": "410553b153784699e126cb142a726856ce595645a9796db4ad92bdb0734438ec"
     },
     {
       "path": "tem/test-evidence-report.md",

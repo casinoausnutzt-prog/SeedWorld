@@ -3,7 +3,8 @@ set -e
 
 echo "[hook:pre-commit] verify hook sync + chain preflight"
 npm run hooks:verify
-npm run governance:policy:verify
+npm run llm:guard -- --action commit
+npm run governance:policy:verify -- --head-only
 npm run governance:modularity:verify
 npm run governance:llm:verify
 npm run governance:subagent:verify

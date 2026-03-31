@@ -69,6 +69,7 @@
 - dev/tools/runtime/evidence-lock.mjs
 - dev/tools/runtime/function-sot-shared.mjs
 - dev/tools/runtime/governance-findings-materialize.mjs
+- dev/tools/runtime/governance-findings-shared.mjs
 - dev/tools/runtime/governance-verify.mjs
 - dev/tools/runtime/installGitHooks.mjs
 - dev/tools/runtime/llm-entry.mjs
@@ -112,6 +113,7 @@
 - dev/tools/runtime/check-wrapper-guardrails.mjs
 - dev/tools/runtime/evidence-lock.mjs
 - dev/tools/runtime/governance-findings-materialize.mjs
+- dev/tools/runtime/governance-findings-shared.mjs
 - dev/tools/runtime/governance-verify.mjs
 - dev/tools/runtime/llm-entry.mjs
 - dev/tools/runtime/llm-override.mjs
@@ -141,6 +143,7 @@
 - dev/scripts/evidence-shared.mjs (Reproduction Evidence) -> app/src/kernel/fingerprint.js (Kernel Core)
 - dev/scripts/runtime-guards-test.mjs (Reproduction Evidence) -> app/src/kernel/runtimeGuards.js (Kernel Core)
 - dev/scripts/test-runner.mjs (Reproduction Evidence) -> app/src/kernel/fingerprint.js (Kernel Core)
+- dev/tools/runtime/required-checks/runtime-metadata.mjs (Reproduction Evidence) -> app/src/kernel/GovernanceEngine.js (Kernel Core)
 - dev/tools/runtime/run-required-checks.mjs (Reproduction Evidence) -> app/src/kernel/GovernanceEngine.js (Kernel Core)
 
 ## Notes

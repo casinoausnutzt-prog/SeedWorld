@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "matrix_fingerprint": "a4ec4b6cc9e5a13a8b7e317f7387865a2e3c70008e45dd2a6190a03fc7ae1ac6",
+  "matrix_fingerprint": "2cbe01ac5a935d52e1a7fba080212c0ab31182a83e7df3006c465c14779fb565",
   "scan_roots": [
     "app/src/game",
     "app/src/kernel",
@@ -8,7 +8,7 @@
     "app/public"
   ],
   "file_count": 34,
-  "unique_string_count": 593,
+  "unique_string_count": 597,
   "files": [
     {
       "path": "app/public/game.html",
@@ -2003,12 +2003,16 @@
     },
     {
       "path": "app/src/kernel/GovernanceEngine.js",
-      "string_count": 33,
-      "fingerprint": "10d146031736d17d386cd0fee73a5f050986a69d63bbdca9b4fef5b9bfd4d37a",
+      "string_count": 37,
+      "fingerprint": "82b61e205c978b7fce62113ba53bdf72cbd3cd602146e6e1bfb6bec8ece75107",
       "strings": [
         {
-          "value": "Claims are valid only if all verify gates passed and proof artifacts were hashed and cross-checked.",
-          "hash": "6f9522d6849e43f587efbeb074035179acabc651a0c69bdcbf5af2b0bb9c32c1"
+          "value": "[GOVERNANCE_ENGINE] unknown run mode: ${String(runMode)}",
+          "hash": "210689a053b7008b08c9c653badd75aff08a90b22d1bc0ee7c5d53427fd24ca2"
+        },
+        {
+          "value": "auto-sync-and-verify",
+          "hash": "2cd8ed761ee68c878eeeb9c9ef3fbb5f5216e0ce42d932ef651061979975e0a9"
         },
         {
           "value": "deny",
@@ -2087,6 +2091,10 @@
           "hash": "5274053c8a04d4603bee352097420fc07ab10f6e7e3e5527ad72eeed47c30bdf"
         },
         {
+          "value": "llm:guard",
+          "hash": "699bae8344fe25032d4746aca8229412847a021c93822018224bc72d24ab68eb"
+        },
+        {
           "value": "repo:hygiene:sync",
           "hash": "37b5363b966cbd31c90b4b5edead3dbf961a53c15ce62e2a3af56edcd34ae500"
         },
@@ -2107,6 +2115,10 @@
           "hash": "75c75efe327a8ef35a072f25117961f5b99e35035dc9bd86493dd29fd7bc07eb"
         },
         {
+          "value": "sync-and-verify",
+          "hash": "ac38046b712c96ca22a200b58b9d772e44b1079be7f5d471d8a9ea9314c5c69d"
+        },
+        {
           "value": "test:sync",
           "hash": "f312e57ec53ea662d5c0959cfc6cc3feb448a03c622be4242b914353334cc5cc"
         },
@@ -2125,6 +2137,10 @@
         {
           "value": "verify",
           "hash": "a12dd3a7fd3203a452eb34d91a9be20569d5e337a3384347068895c07f3e0c5a"
+        },
+        {
+          "value": "verify-first",
+          "hash": "92518c277e26f0efa1b8a603619cd2a49c64cba06bcc1e0ab1ea61c37b1ea1ac"
         },
         {
           "value": "VERSION",

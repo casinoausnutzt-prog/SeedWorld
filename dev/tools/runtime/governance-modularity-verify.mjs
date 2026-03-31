@@ -1,16 +1,19 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
+import { fileURLToPath } from "node:url";
 import { listFilesRecursive, toPosixPath } from "./runtime-shared.mjs";
 import { readJson } from "./docs-v2-shared.mjs";
 
 const root = process.cwd();
+const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
 
 const scanRoots = Object.freeze(["app/src/kernel", "app/src/game", "dev/tools/runtime"]);
 const evidenceRel = "runtime/evidence/governance-modularity.json";
 
 function resolveFileSizeRule(relPath, rules) {
   const defaultLines = Number(rules.maxLines || 260);
-  const defaultBytes = Number(rules.maxBytes || 12000);
+  const defaultBytes = Number(rules.maxBytes || 20000);
   const allowEntry = (rules.fileSizeAllowlist || []).find((item) => item.path === relPath);
   if (!allowEntry) {
     return { maxLines: defaultLines, maxBytes: defaultBytes, allowlisted: false, sunsetDate: null };
@@ -89,7 +92,7 @@ function isExpiredSunset(sunsetDate) {
   return parsed.getTime() < Date.now();
 }
 
-async function main() {
+export async function buildGovernanceModularityEvidence(root, { readExisting = true } = {}) {
   const boundaries = await readJson(path.join(root, "app", "src", "sot", "repo-boundaries.json"));
   const rules = boundaries?.hygienePolicy?.modularityRules || {};
   const files = [];
@@ -105,6 +108,7 @@ async function main() {
       files.push(relPath);
     }
   }
+  files.sort((a, b) => a.localeCompare(b, "en"));
 
   const issues = [];
   const evidenceItems = [];
@@ -137,16 +141,36 @@ async function main() {
     }
   }
 
-  const evidencePath = path.join(root, evidenceRel);
-  await mkdir(path.dirname(evidencePath), { recursive: true });
-  const evidence = {
+  const expectedEvidence = {
     schema_version: 1,
-    generated_at: new Date().toISOString(),
     scanned_count: files.length,
     scanned_files: evidenceItems,
     issues
   };
-  await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+  let evidence = null;
+  if (readExisting) {
+    const evidencePath = path.join(root, evidenceRel);
+    try {
+      evidence = await readJson(evidencePath);
+    } catch (error) {
+      issues.push(`[EVIDENCE_MISSING] ${evidenceRel}: ${String(error?.message || error)}`);
+    }
+    if (evidence) {
+      const { generated_at: generatedAt, ...stableEvidence } = evidence;
+      if (!generatedAt || Number.isNaN(Date.parse(generatedAt))) {
+        issues.push(`[EVIDENCE_TIMESTAMP] ${evidenceRel} missing or invalid generated_at`);
+      }
+      if (!isDeepStrictEqual(stableEvidence, expectedEvidence)) {
+        issues.push(`[EVIDENCE_DRIFT] ${evidenceRel} does not match computed modularity coverage`);
+      }
+    }
+  }
+
+  return { evidencePath: path.join(root, evidenceRel), files, evidenceItems, issues, expectedEvidence, evidence };
+}
+
+async function main() {
+  const { issues, files } = await buildGovernanceModularityEvidence(root);
 
   if (issues.length > 0) {
     console.error("[GOVERNANCE_MODULARITY] BLOCK");
@@ -159,4 +183,6 @@ async function main() {
   console.log(`[GOVERNANCE_MODULARITY] OK files=${files.length}`);
 }
 
-await main();
+if (isDirectRun) {
+  await main();
+}

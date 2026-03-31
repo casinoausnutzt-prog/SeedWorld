@@ -2,18 +2,20 @@
 
 ## Default-Pflichten
 
-1. Pflicht-Lesereihenfolge strikt einhalten.
-2. Nur atomare Arbeitspakete umsetzen.
-3. Vor Commit lokal `npm run check:required` ausfuehren (teilautomatischer Sync + fail-closed Verify).
-4. Vor Push `npm run check:required:verify-only` bestehen (kein Auto-Write).
-5. Zero-Trust: Claims nur aus Gate-Output + `runtime/evidence/required-check-report.json` + `runtime/evidence/governance-proof-manifest.json` ableiten.
-6. Governance-Vertrag kommt aus `app/src/kernel/GovernanceEngine.js`; SoT-2.0-Mapping aus `app/src/sot/governance-engine.sot.v2.json`.
-7. Jeder Blocker aus Required-Report oder Subagent-Review muss als Task materialisiert und pruefbar sein.
-8. `docs/LLM/` und `Sub_Agent/` sind Pflicht-Governance-Domain, aber nicht Runtime-Simulation.
+1. Pflicht-Lesereihenfolge strikt einhalten; der Read endet mit `npm run llm:entry`, damit ein frischer ACK fuer den Guard existiert.
+2. `npm run llm:guard -- --action <stage|commit|push>` ist der verbindliche Read/Commit/Push-Gate und blockiert bei Hash-Drift oder fehlendem ACK.
+3. Nur atomare Arbeitspakete umsetzen.
+4. Vor Commit lokal `npm run llm:guard -- --action commit` und `npm run check:required` ausfuehren (Default ist `verify-first`; Sync/Materialize nur per explizitem Modus).
+5. Vor Push `npm run llm:guard -- --action push` und `npm run check:required:verify-only` bestehen (ebenfalls `verify-first`, kein Auto-Write).
+6. Zero-Trust: Claims nur aus Gate-Output + `runtime/evidence/required-check-report.json` + `runtime/evidence/governance-proof-manifest.json` ableiten.
+7. Governance-Vertrag kommt aus `app/src/kernel/GovernanceEngine.js`; SoT-2.0-Mapping aus `app/src/sot/governance-engine.sot.v2.json`.
+8. Jeder Blocker aus Required-Report oder Subagent-Review muss als Task materialisiert und pruefbar sein.
+9. `docs/LLM/` und `Sub_Agent/` sind Pflicht-Governance-Domain, aber nicht Runtime-Simulation.
 
 ## Commit-Blocker
 
 - Fehlender ACK-Status (`runtime/.patch-manager/llm-read-state.json`)
+- Fehlender oder veralteter `llm:guard`-Pass nach einem Read-ACK
 - Hash-Mismatch zwischen ACK und Pflichtdokumenten
 - Fehlende Runtime-Gegenpruefung
 - Fehlende oder invalide Test-Evidence
@@ -21,7 +23,7 @@
 - Fehlender oder invalider `runtime/evidence/required-check-report.json`
 - Fehlender oder invalider `runtime/evidence/governance-findings.json`
 - Fehlender oder invalider `runtime/evidence/governance-proof-manifest.json`
-- Verify-Gate nicht komplett gruen (`versioning -> policy -> llm -> subagent -> findings -> tests -> evidence -> testline -> hygiene -> docs:v2 -> docs:tasks -> coverage`)
+- Verify-Gate nicht komplett gruen (`llm:guard -> versioning -> policy -> llm -> subagent -> findings -> tests -> evidence -> testline -> hygiene -> docs:v2 -> docs:tasks -> coverage`)
 
 ## Push-Sicherheitsregeln (verbindlich)
 
@@ -34,6 +36,9 @@
 ## Standardbefehle
 
 ```bash
+npm run llm:entry
+npm run llm:guard -- --action commit
+npm run llm:guard -- --action push
 npm run check:required
 npm run check:required:verify-only
 npm run governance:policy:verify

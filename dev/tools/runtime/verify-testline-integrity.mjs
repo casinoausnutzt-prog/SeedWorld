@@ -1,12 +1,13 @@
-import { readFile, stat, writeFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import {
   REQUIRED_TEST_IDS,
-  finalSummaryPath,
   summaryPath,
+  reconcilePairEvidence,
+  resolveWithinRoot,
   validatePairEvidence,
-  validateRunEvidence,
-  validateSummaryEvidence
+  validateSummaryEvidence,
+  verifyRunEvidenceAgainstDisk
 } from "../../scripts/evidence-shared.mjs";
 import { buildTestlineHashes, collectTestlineFiles } from "./testline-integrity-shared.mjs";
 
@@ -59,19 +60,36 @@ async function main() {
   }
 
   for (const entry of summary.tests) {
-    const runAPath = path.join(root, entry.run_a_ref);
-    const runBPath = path.join(root, entry.run_b_ref);
-    const pairPath = path.join(root, entry.pair_ref);
+    const runAPath = resolveWithinRoot(root, entry.run_a_ref, `summary.tests.${entry.test_id}.run_a_ref`);
+    const runBPath = resolveWithinRoot(root, entry.run_b_ref, `summary.tests.${entry.test_id}.run_b_ref`);
+    const pairPath = resolveWithinRoot(root, entry.pair_ref, `summary.tests.${entry.test_id}.pair_ref`);
     const runA = await readJson(runAPath);
     const runB = await readJson(runBPath);
     const pair = await readJson(pairPath);
 
-    validateRunEvidence(runA);
-    validateRunEvidence(runB);
+    await verifyRunEvidenceAgainstDisk(root, runA);
+    await verifyRunEvidenceAgainstDisk(root, runB);
     validatePairEvidence(pair);
+    const comparison = reconcilePairEvidence(runA, runB, pair);
 
-    if (pair.comparator_result !== "PASS_REPRODUCED") {
-      throw new Error(`pair failed reproduction: ${entry.test_id} -> ${pair.comparator_result}`);
+    if (runA.test_id !== entry.test_id || runB.test_id !== entry.test_id) {
+      throw new Error(`summary entry test_id mismatch for ${entry.test_id}`);
+    }
+    if (pair.test_id !== entry.test_id) {
+      throw new Error(`pair test_id mismatch for ${entry.test_id}`);
+    }
+    if (path.parse(runAPath).name !== runA.run_id || path.parse(runBPath).name !== runB.run_id) {
+      throw new Error(`run id mismatch for ${entry.test_id}`);
+    }
+    if (path.parse(pairPath).name !== pair.pair_id) {
+      throw new Error(`pair id mismatch for ${entry.test_id}`);
+    }
+    if (entry.status !== pair.comparator_result) {
+      throw new Error(`summary status mismatch for ${entry.test_id}: ${entry.status} !== ${pair.comparator_result}`);
+    }
+
+    if (comparison.comparator_result !== "PASS_REPRODUCED") {
+      throw new Error(`pair failed reproduction: ${entry.test_id} -> ${comparison.comparator_result}`);
     }
     if (runA.seed !== runB.seed || runA.seed_source !== runB.seed_source) {
       throw new Error(`seed proof mismatch in ${entry.test_id}`);
@@ -88,13 +106,13 @@ async function main() {
   }
 
   const finalSummary = {
-    generated_at: new Date().toISOString(),
+    schema_version: "1.0",
+    overall_status: "PASS_REPRODUCED",
     required_tests: REQUIRED_TEST_IDS,
-    checked_pairs: summary.tests.length,
-    overall_status: "PASS_REPRODUCED"
+    checked_pairs: summary.tests.length
   };
-  await writeFile(finalSummaryPath(root), `${JSON.stringify(finalSummary, null, 2)}\n`, "utf8");
-  console.log(`[TESTLINE] PASS_REPRODUCED (${summary.tests.length} pairs)`);
+
+  process.stdout.write(`${JSON.stringify(finalSummary)}\n`);
 }
 
 await main();

@@ -1,80 +1,152 @@
 import path from "node:path";
 import { readJson } from "./docs-v2-shared.mjs";
-import { REQUIRED_READ_ORDER, collectReadState } from "./llm-read-shared.mjs";
+import {
+  compareFileInventory,
+  REQUIRED_READ_ORDER,
+  collectReadState,
+  findDuplicateValues,
+  normalizeReadPath
+} from "./llm-read-shared.mjs";
+import {
+  checkGovernanceDomain,
+  errorPath,
+  failClosed,
+  ensureExactKeys,
+  ensureObject,
+  isHex64,
+  isIsoTimestamp,
+  issue,
+  validateContractEnvelope,
+  validateFileEntries,
+  validateStringList
+} from "./llm-governance/shared.mjs";
 
 const root = process.cwd();
+const CONTRACT_REL = "app/src/sot/llm-read-contract.v1.json";
 
-function hasAll(values, required) {
-  const set = new Set(values || []);
-  return required.every((item) => set.has(item));
+function normalizeList(values) {
+  return (values || []).map((value) => normalizeReadPath(value));
 }
 
-function findDomain(sourceOfTruth, id) {
-  return (sourceOfTruth.domains || []).find((entry) => entry.id === id) || null;
-}
-
-function ensure(condition, message) {
-  if (!condition) {
-    throw new Error(message);
+function compareReadState(contract, state, issues) {
+  const contractPaths = normalizeList(contract.required_read_order || []);
+  if (contractPaths.join("|") !== REQUIRED_READ_ORDER.join("|")) {
+    issues.push(issue("ORDER", "required_read_order does not match governance read order"));
   }
+
+  if (state.files.map((item) => normalizeReadPath(item.relPath)).join("|") !== REQUIRED_READ_ORDER.join("|")) {
+    issues.push(issue("STATE", "runtime read inventory does not match governance read order"));
+  }
+
+  compareFileInventory({
+    label: "llm-read-contract",
+    expectedEntries: contract.files,
+    actualEntries: state.files,
+    expectedPathOf: (entry) => entry.path,
+    actualPathOf: (entry) => entry.relPath,
+    exactOrder: true,
+    emitIssue: (code, message) => issues.push(issue(code, message))
+  });
 }
 
 async function main() {
-  const docsV2 = await readJson(path.join(root, "app", "src", "sot", "docs-v2.json"));
-  const sourceOfTruth = await readJson(path.join(root, "app", "src", "sot", "source-of-truth.json"));
-  const contract = await readJson(path.join(root, "app", "src", "sot", "llm-read-contract.v1.json"));
-  const state = await collectReadState(root);
+  const issues = [];
+  let docsV2 = null;
+  let sourceOfTruth = null;
+  let contract = null;
+  let state = null;
+  try {
+    docsV2 = await readJson(path.join(root, "app", "src", "sot", "docs-v2.json"));
+    sourceOfTruth = await readJson(path.join(root, "app", "src", "sot", "source-of-truth.json"));
+    contract = await readJson(path.join(root, CONTRACT_REL));
+    state = await collectReadState(root);
+  } catch (error) {
+    issues.push(issue("IO", `unable to load governance inputs: ${errorPath(error, CONTRACT_REL)}`));
+  }
 
-  ensure(
-    Array.isArray(contract.required_read_order) &&
-      contract.required_read_order.join("|") === REQUIRED_READ_ORDER.join("|"),
-    "[GOVERNANCE_LLM] invalid required_read_order contract"
-  );
-  ensure(contract.combined_hash === state.combinedHash, "[GOVERNANCE_LLM] LLM read contract hash drift");
+  if (!ensureObject(issues, "llm-read-contract", contract)) {
+    failClosed("GOVERNANCE_LLM", issues);
+    return;
+  }
+  if (!ensureExactKeys(issues, "llm-read-contract", contract, [
+    "schema_version",
+    "policy_id",
+    "generated_at",
+    "required_read_order",
+    "combined_hash",
+    "files"
+  ])) {
+    failClosed("GOVERNANCE_LLM", issues);
+    return;
+  }
 
-  const governanceDomain = findDomain(sourceOfTruth, "governance_procedure");
-  const outOfScopeDomain = findDomain(sourceOfTruth, "out_of_scope");
-  const archiveDomain = findDomain(sourceOfTruth, "archive");
+  if (contract.schema_version !== 1) {
+    issues.push(issue("SCHEMA", "llm-read-contract schema_version must be 1"));
+  }
+  if (contract.policy_id !== "governance-llm-read.v1") {
+    issues.push(issue("SCHEMA", "llm-read-contract policy_id mismatch"));
+  }
+  if (!isIsoTimestamp(contract.generated_at)) {
+    issues.push(issue("SCHEMA", "llm-read-contract generated_at invalid"));
+  }
+  if (!Array.isArray(contract.required_read_order) || contract.required_read_order.some((value) => typeof value !== "string")) {
+    issues.push(issue("SCHEMA", "llm-read-contract required_read_order must be a string array"));
+  }
+  if (!Array.isArray(contract.files)) {
+    issues.push(issue("SCHEMA", "llm-read-contract files must be an array"));
+  }
+  if (!isHex64(contract.combined_hash)) {
+    issues.push(issue("SCHEMA", "llm-read-contract combined_hash invalid"));
+  }
 
-  ensure(governanceDomain, "[GOVERNANCE_LLM] missing governance_procedure domain in source-of-truth");
-  ensure(governanceDomain.class === "Governance-Procedure", "[GOVERNANCE_LLM] governance_procedure class mismatch");
-  ensure(
-    hasAll(governanceDomain.authoritative || [], ["docs/LLM/", "Sub_Agent/"]),
-    "[GOVERNANCE_LLM] governance_procedure must include docs/LLM/ and Sub_Agent/"
-  );
+  const contractDuplicates = findDuplicateValues((contract.required_read_order || []).map((value) => normalizeReadPath(value)));
+  if (contractDuplicates.length > 0) {
+    issues.push(issue("DUPLICATE", `required_read_order duplicates=${contractDuplicates.join(",")}`));
+  }
 
-  ensure(
-    !((outOfScopeDomain?.authoritative || []).includes("docs/LLM/")),
-    "[GOVERNANCE_LLM] docs/LLM/ must not be Out-of-Scope"
-  );
-  ensure(
-    !((archiveDomain?.authoritative || []).includes("Sub_Agent/")),
-    "[GOVERNANCE_LLM] Sub_Agent/ must not be Archive"
-  );
+  if (Array.isArray(contract.files)) {
+    const filePaths = contract.files.map((entry) => normalizeReadPath(entry?.path));
+    const duplicateFilePaths = findDuplicateValues(filePaths);
+    if (duplicateFilePaths.length > 0) {
+      issues.push(issue("DUPLICATE", `contract file paths duplicates=${duplicateFilePaths.join(",")}`));
+    }
+    for (let index = 0; index < contract.files.length; index += 1) {
+      const entry = contract.files[index];
+      if (!ensureObject(issues, `llm-read-contract.files[${index}]`, entry)) {
+        continue;
+      }
+      if (!ensureExactKeys(issues, `llm-read-contract.files[${index}]`, entry, ["path", "sha256", "bytes"])) {
+        continue;
+      }
+      if (typeof entry.path !== "string" || !entry.path.trim()) {
+        issues.push(issue("SCHEMA", `llm-read-contract.files[${index}] path invalid`));
+      }
+      if (!isHex64(entry.sha256)) {
+        issues.push(issue("SCHEMA", `llm-read-contract.files[${index}] sha256 invalid`));
+      }
+      if (!Number.isInteger(entry.bytes) || entry.bytes < 0) {
+        issues.push(issue("SCHEMA", `llm-read-contract.files[${index}] bytes invalid`));
+      }
+    }
+  }
 
-  const bucket = (docsV2.fullRepoCoverage?.buckets || []).find((entry) => entry.id === "governance-procedure");
-  ensure(bucket, "[GOVERNANCE_LLM] missing docs-v2 bucket governance-procedure");
-  ensure(bucket.class === "Governance-Procedure", "[GOVERNANCE_LLM] governance-procedure bucket class mismatch");
-  ensure(
-    hasAll(bucket.paths || [], ["docs/LLM/", "Sub_Agent/"]),
-    "[GOVERNANCE_LLM] docs-v2 governance-procedure bucket must include docs/LLM/ and Sub_Agent/"
-  );
+  if (state) {
+    compareReadState(contract, state, issues);
+  }
 
-  const requiredControlFiles = [
-    "docs/LLM/ENTRY.md",
-    "docs/LLM/POLICY.md",
-    "docs/LLM/INDEX.md",
-    "docs/LLM/AKTUELLE_RED_ACTIONS.md",
-    "Sub_Agent/INDEX.md",
-    "app/src/sot/llm-read-contract.v1.json",
-    "app/src/sot/sub-agent-manifest.v1.json"
-  ];
-  ensure(
-    hasAll(docsV2.registeredControlFiles || [], requiredControlFiles),
-    "[GOVERNANCE_LLM] docs-v2 registeredControlFiles missing LLM/Sub_Agent contracts"
-  );
+  if ((contract.required_read_order || []).join("|") !== REQUIRED_READ_ORDER.join("|")) {
+    issues.push(issue("ORDER", "contract required_read_order drift"));
+  }
+  if (state && contract.combined_hash !== state.combinedHash) {
+    issues.push(issue("PARITY", "llm-read-contract combined_hash drift"));
+  }
 
-  console.log(`[GOVERNANCE_LLM] OK hash=${state.combinedHash.slice(0, 16)} files=${REQUIRED_READ_ORDER.length}`);
+  if (docsV2 && sourceOfTruth) {
+    checkGovernanceDomain(sourceOfTruth, docsV2, issues);
+  }
+
+  failClosed("GOVERNANCE_LLM", issues);
+  console.log(`[GOVERNANCE_LLM] OK hash=${state.combinedHash.slice(0, 16)} files=${state.files.length}`);
 }
 
 await main();

@@ -26,6 +26,10 @@ function deepFreeze(value) {
   return value;
 }
 
+function cloneKernelValue(value) {
+  return structuredClone(value);
+}
+
 import { KernelController } from "./KernelController.js";
 
 export async function runDeterministicKernel(seed, ticks = 8, options = {}) {
@@ -48,7 +52,7 @@ export async function runDeterministicKernel(seed, ticks = 8, options = {}) {
     action: { type: 'createInitialState' }
   });
   
-  let state = initialRes.result;
+  let state = cloneKernelValue(initialRes.result);
   const states = [];
 
   // 3. Echte Tick-Loop über den KernelRouter
@@ -58,14 +62,14 @@ export async function runDeterministicKernel(seed, ticks = 8, options = {}) {
       domain: 'game',
       action: { type: 'advanceTick', state, ticks: 1 }
     });
-    state = advanceRes.result;
+    state = cloneKernelValue(advanceRes.result);
 
     // Wir speichern Snapshot-Auszüge, um den Fingerprint zu erzeugen
-    states.push({
+    states.push(deepFreeze(cloneKernelValue({
       tick: state.clock.tick,
       resources: { ...state.resources },
       statistics: { ...state.statistics }
-    });
+    })));
   }
 
   const mutFingerprint = await createMutFingerprint({

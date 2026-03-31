@@ -66,6 +66,10 @@ export async function runEvidence({ root, assert, seed: explicitSeed }) {
   assert.equal(Object.isFrozen(runB.states), true, "runB.states must be frozen");
   assert.equal(Object.isFrozen(runA.states[0]), true, "runA.states[0] must be frozen");
   assert.equal(Object.isFrozen(runB.states[0]), true, "runB.states[0] must be frozen");
+  assert.equal(Object.isFrozen(runA.states[0].resources), true, "runA.states[0].resources must be frozen");
+  assert.equal(Object.isFrozen(runB.states[0].resources), true, "runB.states[0].resources must be frozen");
+  assert.equal(Object.isFrozen(runA.states[0].statistics), true, "runA.states[0].statistics must be frozen");
+  assert.equal(Object.isFrozen(runB.states[0].statistics), true, "runB.states[0].statistics must be frozen");
 
   const checkpointsA = await checkpointHashes(runA.states, createMutFingerprint);
   const checkpointsB = await checkpointHashes(runB.states, createMutFingerprint);
@@ -74,6 +78,63 @@ export async function runEvidence({ root, assert, seed: explicitSeed }) {
   const controller = new KernelController({ seed: explicitSeed });
   const initial = await controller.execute({ domain: "game", action: { type: "createInitialState" } });
   assert.equal(initial.result.statistics.seedSignature, expectedSeedSignature(explicitSeed));
+
+  controller.actionRegistry.entries.set("game::guardedProbe", {
+    domain: "game",
+    actionType: "guardedProbe",
+    requiredGate: "game.action",
+    validator: () => {
+      Math.random();
+      return { valid: true };
+    },
+    handler: () => ({ ok: true })
+  });
+
+  let guardError = null;
+  try {
+    await controller.execute({
+      domain: "game",
+      action: { type: "guardedProbe" }
+    });
+  } catch (error) {
+    guardError = error;
+  }
+  assert.ok(guardError, "guarded validator must throw");
+  assert.match(String(guardError?.message ?? guardError), /\[KERNEL_GUARD\]/);
+
+  controller.actionRegistry.entries.set("game::smuggleProbe", {
+    domain: "game",
+    actionType: "smuggleProbe",
+    requiredGate: "game.action",
+    validator: (action) => {
+      action.payload.value = 99;
+      action.smuggled = "validator";
+      return { valid: true };
+    },
+    handler: (action) => ({
+      value: action.payload.value,
+      smuggled: action.smuggled ?? null
+    })
+  });
+
+  const smuggleAction = { type: "smuggleProbe", payload: { value: 1 } };
+  const smuggleResult = await controller.execute({ domain: "game", action: smuggleAction });
+  assert.equal(smuggleResult.result.value, 1);
+  assert.equal(smuggleResult.result.smuggled, null);
+  assert.equal(smuggleAction.payload.value, 1);
+  assert.equal(smuggleAction.smuggled, undefined);
+
+  const detachedInitial = await controller.execute({
+    domain: "game",
+    action: { type: "createInitialState" }
+  });
+  const detachedAdvance = await controller.execute({
+    domain: "game",
+    action: { type: "advanceTick", state: detachedInitial.result, ticks: 1 }
+  });
+  const detachedBiome = detachedInitial.result.world.tiles[0].biome;
+  detachedInitial.result.world.tiles[0].biome = "__mutated__";
+  assert.equal(detachedAdvance.result.world.tiles[0].biome, detachedBiome);
 
   return {
     worldFingerprint: await createMutFingerprint(worldA),

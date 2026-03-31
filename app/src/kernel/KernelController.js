@@ -31,6 +31,10 @@ function deriveSeedSignature(seed) {
   return (hash >>> 0).toString(16).padStart(8, "0");
 }
 
+function cloneKernelValue(value) {
+  return structuredClone(value);
+}
+
 export class KernelController {
   constructor(options = {}) {
     this.confirmationPrefix =
@@ -83,56 +87,63 @@ export class KernelController {
   }
 
   async #execute(input) {
-    this.#assertPlainObject(input, "input");
+    return withDeterminismGuards(async () => {
+      this.#assertPlainObject(input, "input");
 
-    const domain = this.#readString(input, "domain", "[KERNEL_CONTROLLER] domain fehlt.");
-    const action = this.#readPlainObject(input, "action", "[KERNEL_CONTROLLER] action fehlt.");
-    const actionType = this.#readString(action, "type", "[KERNEL_CONTROLLER] action.type fehlt.");
-    const definition = this.actionRegistry.resolve(domain, actionType);
+      const domain = this.#readString(input, "domain", "[KERNEL_CONTROLLER] domain fehlt.");
+      const action = this.#readPlainObject(input, "action", "[KERNEL_CONTROLLER] action fehlt.");
+      const actionType = this.#readString(action, "type", "[KERNEL_CONTROLLER] action.type fehlt.");
+      const definition = this.actionRegistry.resolve(domain, actionType);
 
-    if (!definition) {
-      throw this.#denyAction({
-        code: "ACTION_NOT_REGISTERED",
-        reason: `Ungemappte Action geblockt: ${domain}.${actionType}`,
+      if (!definition) {
+        throw this.#denyAction({
+          code: "ACTION_NOT_REGISTERED",
+          reason: `Ungemappte Action geblockt: ${domain}.${actionType}`,
+          domain,
+          actionType
+        });
+      }
+
+      const validatorAction = cloneKernelValue(action);
+      const gateAction = cloneKernelValue(action);
+      const handlerAction = cloneKernelValue(action);
+
+      const validation = await definition.validator(validatorAction);
+      if (!isPlainObject(validation) || typeof validation.valid !== "boolean") {
+        throw this.#denyAction({
+          code: "ACTION_VALIDATOR_INVALID",
+          reason: `Ungueltiges Validator-Ergebnis fuer ${domain}.${actionType}`,
+          domain,
+          actionType
+        });
+      }
+      if (!validation.valid) {
+        throw this.#denyAction({
+          code: "ACTION_VALIDATION_FAILED",
+          reason: validation.reason || `Action-Validation fehlgeschlagen: ${domain}.${actionType}`,
+          domain,
+          actionType
+        });
+      }
+
+      const gateDecision = await this.gateManager.enforce({
         domain,
-        actionType
+        actionType,
+        requiredGate: definition.requiredGate,
+        context: this.#buildGateContext({ domain, actionType, action: gateAction, input })
       });
-    }
+      if (!gateDecision.allowed) {
+        throw this.#denyAction({
+          code: "ACTION_GATE_DENIED",
+          reason: gateDecision.event?.reason || `Action-Gate abgelehnt: ${domain}.${actionType}`,
+          domain,
+          actionType
+        });
+      }
 
-    const validation = await definition.validator(action);
-    if (!isPlainObject(validation) || typeof validation.valid !== "boolean") {
-      throw this.#denyAction({
-        code: "ACTION_VALIDATOR_INVALID",
-        reason: `Ungueltiges Validator-Ergebnis fuer ${domain}.${actionType}`,
-        domain,
-        actionType
-      });
-    }
-    if (!validation.valid) {
-      throw this.#denyAction({
-        code: "ACTION_VALIDATION_FAILED",
-        reason: validation.reason || `Action-Validation fehlgeschlagen: ${domain}.${actionType}`,
-        domain,
-        actionType
-      });
-    }
-
-    const gateDecision = await this.gateManager.enforce({
-      domain,
-      actionType,
-      requiredGate: definition.requiredGate,
-      context: this.#buildGateContext({ domain, actionType, action, input })
+      const routeResult = this.router.route({ domain, action: handlerAction, sourceDomain: input.sourceDomain });
+      return cloneKernelValue(routeResult);
     });
-    if (!gateDecision.allowed) {
-      throw this.#denyAction({
-        code: "ACTION_GATE_DENIED",
-        reason: gateDecision.event?.reason || `Action-Gate abgelehnt: ${domain}.${actionType}`,
-        domain,
-        actionType
-      });
-    }
-
-    return withDeterminismGuards(() => this.router.route({ domain, action, sourceDomain: input.sourceDomain }));
   }
 
   #handleRegisteredAction(domain, action) {

@@ -1,156 +1,228 @@
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   FINDINGS_EVIDENCE_REL,
+  FINDINGS_LOCK_REL,
   REQUIRED_REPORT_REL,
-  buildBlockers,
-  findingFingerprint,
   loadReport,
-  nextTaskId,
+  readJsonOrNull,
+  readUtf8OrNull,
   reportFingerprint
-} from "./governance-findings-shared.mjs";
+} from "./findings-shared/core.mjs";
+import {
+  buildBlockers,
+  buildFindingTaskPlan,
+  compareEvidenceBlockers,
+  compareTaskMappings
+} from "./findings-shared/plan.mjs";
+import {
+  assertFindingsState,
+  buildFindingsEvidenceRecord
+} from "./findings-shared/evidence.mjs";
+import {
+  buildFindingsLockOwner,
+  buildFindingsLockRecord,
+  decodeFindingsLockRecord,
+  ensureFindingsLockKey,
+  replaceTextAtomic,
+  writeTextAtomic
+} from "./findings-shared/lock.mjs";
+import { loadTaskCatalog } from "./findings-shared/catalog.mjs";
 
 const root = process.cwd();
 
-const STEP_SCOPE_MAP = Object.freeze({
-  "versioning:verify": ["dev/tools/runtime/sync-versioning.mjs"],
-  "governance:policy:verify": ["dev/tools/runtime/governance-policy-verify.mjs"],
-  "governance:modularity:verify": ["dev/tools/runtime/governance-modularity-verify.mjs"],
-  "governance:llm:verify": ["dev/tools/runtime/governance-llm-verify.mjs"],
-  "governance:subagent:verify": ["dev/tools/runtime/governance-subagent-verify.mjs"],
-  tests: ["dev/scripts/test-runner.mjs"],
-  "evidence:verify": ["dev/scripts/verify-evidence.mjs"],
-  "testline:verify": ["dev/tools/runtime/verify-testline-integrity.mjs"],
-  "repo:hygiene:verify": ["dev/tools/runtime/repo-hygiene-verify.mjs"],
-  "docs:v2:verify": ["dev/tools/runtime/sync-docs-v2.mjs"],
-  "docs:v2:coverage": ["dev/tools/runtime/verify-docs-v2-coverage.mjs"],
-  "docs:tasks:verify": ["dev/tools/runtime/scan-doc-tasks-verify.mjs"],
-  "governance:coverage:verify": ["dev/tools/runtime/governance-coverage-verify.mjs"],
-  "governance:findings:verify": ["dev/tools/runtime/governance-findings-verify.mjs"]
-});
-
-function parseArgs(argv) {
-  const out = { report: REQUIRED_REPORT_REL };
-  for (let i = 0; i < argv.length; i += 1) {
-    if (argv[i] === "--report") {
-      out.report = String(argv[i + 1] || REQUIRED_REPORT_REL);
-      i += 1;
-    }
-  }
-  return out;
-}
-
-async function loadTaskDir(absDir) {
-  const entries = await readdir(absDir, { withFileTypes: true }).catch(() => []);
-  const tasks = [];
-  for (const entry of entries) {
-    if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
-    const abs = path.join(absDir, entry.name);
-    const raw = await readFile(abs, "utf8");
-    tasks.push(JSON.parse(raw));
-  }
-  return tasks;
-}
-
-async function loadTasks() {
-  const [openTasks, archivedTasks] = await Promise.all([
-    loadTaskDir(path.join(root, "tem", "tasks", "open")),
-    loadTaskDir(path.join(root, "tem", "tasks", "archive"))
-  ]);
-  return { openTasks, archivedTasks, allTasks: [...openTasks, ...archivedTasks] };
-}
-
-function resolvePrefix(stepId) {
-  if (stepId.startsWith("governance:llm") || stepId.startsWith("governance:subagent")) {
-    return "LLM";
-  }
-  return "GOV";
-}
-
-function resolveTrack(prefix) {
-  return prefix === "LLM" ? "governance-llm-hardening" : "governance-hardening";
-}
-
-function resolveScope(stepId) {
-  return STEP_SCOPE_MAP[stepId] || ["dev/tools/runtime/run-required-checks.mjs"];
-}
-
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const { report, reportRel } = await loadReport(root, args.report);
+  const reportData = await loadReport(root, REQUIRED_REPORT_REL);
+  const report = reportData.report;
+  const evidenceAbs = path.join(root, FINDINGS_EVIDENCE_REL);
+  const lockAbs = path.join(root, FINDINGS_LOCK_REL);
+  const key = await ensureFindingsLockKey(root);
+  const catalog = await loadTaskCatalog(root);
   const blockers = buildBlockers(report);
-  const { openTasks, allTasks } = await loadTasks();
-  const existingByFingerprint = new Map();
+  const expectation = buildFindingTaskPlan({
+    report,
+    blockers,
+    catalog,
+    reportRel: reportData.reportRel
+  });
+  const expectedCreatedTaskIds = expectation.plan.filter((entry) => entry.state === "created").map((entry) => entry.task_id);
+  const lockOwner = buildFindingsLockOwner();
 
-  for (const task of openTasks) {
-    const fingerprint = String(task.finding_fingerprint || "").trim();
-    if (fingerprint) {
-      existingByFingerprint.set(fingerprint, task.task_id);
+  const existingLockRaw = await readUtf8OrNull(lockAbs);
+  const existingEvidenceRaw = await readUtf8OrNull(evidenceAbs);
+  let pendingLockRaw = null;
+
+  if (existingLockRaw) {
+    const decodedLock = decodeFindingsLockRecord(existingLockRaw, key);
+    if (decodedLock.payload.state !== "committed") {
+      const stale = decodedLock.isExpired();
+      const lockPlanTaskIds = [...decodedLock.payload.task_ids].map((value) => String(value || ""));
+      const lockPlanBlockers = [...decodedLock.payload.blocker_fingerprints].map((value) => String(value || ""));
+      if (
+        (decodedLock.payload.report_fingerprint || "") !== reportFingerprint(report) ||
+        (decodedLock.payload.report_path || "") !== reportData.reportRel ||
+        (decodedLock.payload.task_plan_hash || "") !== expectation.taskPlanHash ||
+        JSON.stringify(lockPlanTaskIds) !== JSON.stringify(expectation.plan.map((entry) => entry.task_id)) ||
+        JSON.stringify(lockPlanBlockers) !== JSON.stringify(expectation.plan.map((entry) => entry.finding_fingerprint))
+      ) {
+        throw new Error("[GOVERNANCE_FINDINGS] stale findings lock does not match current plan");
+      }
+      if (!stale) {
+        throw new Error("[GOVERNANCE_FINDINGS] active findings lock present");
+      }
+
+      const takeoverLock = buildFindingsLockRecord({
+        key,
+        report,
+        reportRel: reportData.reportRel,
+        taskPlanHash: expectation.taskPlanHash,
+        plan: expectation.plan,
+        state: "pending",
+        owner: lockOwner
+      });
+      pendingLockRaw = `${JSON.stringify(takeoverLock, null, 2)}\n`;
+      await replaceTextAtomic(lockAbs, existingLockRaw, pendingLockRaw);
+    } else {
+      pendingLockRaw = existingLockRaw;
+      let existingEvidence = null;
+      try {
+        existingEvidence = existingEvidenceRaw ? JSON.parse(existingEvidenceRaw) : null;
+      } catch {
+        throw new Error("[GOVERNANCE_FINDINGS] invalid evidence JSON");
+      }
+      if (!existingEvidence) {
+        throw new Error("[GOVERNANCE_FINDINGS] committed lock without evidence");
+      }
+      const state = assertFindingsState({
+        report,
+        reportRel: reportData.reportRel,
+        catalog,
+        evidence: existingEvidence,
+        lock: existingLockRaw,
+        lockKey: key
+      });
+      console.log(
+        JSON.stringify({
+          kind: "governance-findings",
+          action: "materialize",
+          status: "already_materialized",
+          blockers: state.expectation.plan.length,
+          created: state.expectation.plan.filter((entry) => entry.state === "created").length,
+          task_plan: state.expectation.taskPlanHash.slice(0, 12)
+        })
+      );
+      return;
     }
   }
 
-  const created = [];
-  const mapped = [];
+  if (!pendingLockRaw) {
+    const pendingLock = buildFindingsLockRecord({
+      key,
+      report,
+      reportRel: reportData.reportRel,
+      taskPlanHash: expectation.taskPlanHash,
+      plan: expectation.plan,
+      state: "pending",
+      owner: lockOwner
+    });
+    pendingLockRaw = `${JSON.stringify(pendingLock, null, 2)}\n`;
+    await writeTextAtomic(lockAbs, pendingLockRaw);
+  }
 
-  for (const blocker of blockers) {
-    const fingerprint = findingFingerprint({ report, blocker });
-    const existingTaskId = existingByFingerprint.get(fingerprint);
-    if (existingTaskId) {
-      mapped.push({
-        ...blocker,
-        finding_fingerprint: fingerprint,
-        task_id: existingTaskId,
-        state: "existing"
-      });
+  if (existingEvidenceRaw) {
+    let existingEvidence = null;
+    try {
+      existingEvidence = JSON.parse(existingEvidenceRaw);
+    } catch {
+      throw new Error("[GOVERNANCE_FINDINGS] invalid legacy evidence JSON");
+    }
+    if ((existingEvidence.report_fingerprint || "") && existingEvidence.report_fingerprint !== reportFingerprint(report)) {
+      throw new Error("[GOVERNANCE_FINDINGS] legacy evidence/report fingerprint mismatch");
+    }
+    if ((existingEvidence.report_status || "UNKNOWN") !== (report.overall_status || "UNKNOWN")) {
+      throw new Error("[GOVERNANCE_FINDINGS] legacy evidence/report status mismatch");
+    }
+    if (Array.isArray(existingEvidence.blockers) && existingEvidence.blockers.length > 0) {
+      const blockerComparison = compareEvidenceBlockers(expectation.plan, existingEvidence);
+      if (!blockerComparison.matches) {
+        throw new Error("[GOVERNANCE_FINDINGS] legacy evidence blocker mismatch");
+      }
+    }
+    if (Array.isArray(existingEvidence.task_mappings) && existingEvidence.task_mappings.length > 0) {
+      const mappingComparison = compareTaskMappings(expectation.plan, existingEvidence);
+      if (!mappingComparison.matches) {
+        throw new Error("[GOVERNANCE_FINDINGS] legacy evidence mapping mismatch");
+      }
+    }
+  }
+
+  for (const entry of expectation.plan) {
+    if (entry.state !== "created") {
       continue;
     }
-
-    const prefix = resolvePrefix(blocker.step_id);
-    const taskId = nextTaskId(prefix, [...allTasks, ...created]);
-    const task = {
-      schema_version: "2.0.0",
-      task_id: taskId,
-      title: `Blocker: ${blocker.step_id}`,
-      status: "open",
-      track: resolveTrack(prefix),
-      source_docs: ["docs/V2/SYSTEM_PLAN.md"],
-      description: `${blocker.reason}. proof=${blocker.output_sha256}.`,
-      scope_paths: resolveScope(blocker.step_id),
-      match_policy: "all_scope_paths_touched",
-      finding_fingerprint: fingerprint,
-      finding_rule_id: blocker.step_id,
-      finding_report: reportRel
-    };
-
-    const absPath = path.join(root, "tem", "tasks", "open", `${taskId}.json`);
-    await writeFile(absPath, `${JSON.stringify(task, null, 2)}\n`, "utf8");
-    created.push(task);
-    mapped.push({
-      ...blocker,
-      finding_fingerprint: fingerprint,
-      task_id: taskId,
-      state: "created"
-    });
+    const taskAbs = path.join(root, ...entry.task_rel_path.split("/"));
+    await writeTextAtomic(taskAbs, `${JSON.stringify(entry.task, null, 2)}\n`);
   }
 
-  const evidence = {
-    schema_version: 1,
-    generated_at: new Date().toISOString(),
-    policy: "governance-findings.v1",
-    report_path: reportRel,
-    report_fingerprint: reportFingerprint(report),
-    report_status: report.overall_status || "UNKNOWN",
-    blockers: mapped,
-    created_task_ids: created.map((task) => task.task_id)
-  };
+  const committedLock = buildFindingsLockRecord({
+    key,
+    report,
+    reportRel: reportData.reportRel,
+    taskPlanHash: expectation.taskPlanHash,
+    plan: expectation.plan,
+    state: "committed",
+    committedAt: new Date().toISOString(),
+    owner: lockOwner
+  });
+  const committedLockRaw = `${JSON.stringify(committedLock, null, 2)}\n`;
+  const committedLockDecoded = decodeFindingsLockRecord(committedLockRaw, key);
+  const evidence = buildFindingsEvidenceRecord({
+    report,
+    reportRel: reportData.reportRel,
+    plan: expectation.plan,
+    taskPlanHash: expectation.taskPlanHash,
+    lockRecord: committedLockDecoded
+  });
+  const evidenceRaw = `${JSON.stringify(evidence, null, 2)}\n`;
+  if (existingEvidenceRaw) {
+    await replaceTextAtomic(evidenceAbs, existingEvidenceRaw, evidenceRaw);
+  } else {
+    await writeTextAtomic(evidenceAbs, evidenceRaw);
+  }
+  await replaceTextAtomic(lockAbs, pendingLockRaw, committedLockRaw);
 
-  const evidenceAbs = path.join(root, FINDINGS_EVIDENCE_REL);
-  await mkdir(path.dirname(evidenceAbs), { recursive: true });
-  await writeFile(evidenceAbs, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+  const finalCatalog = await loadTaskCatalog(root);
+  const finalEvidence = await readJsonOrNull(evidenceAbs);
+  const finalLockRaw = await readUtf8OrNull(lockAbs);
+  assertFindingsState({
+    report,
+    reportRel: reportData.reportRel,
+    catalog: finalCatalog,
+    evidence: finalEvidence,
+    lock: finalLockRaw,
+    lockKey: key,
+    expectedCreatedTaskIds
+  });
 
   console.log(
-    `[GOVERNANCE_FINDINGS] MATERIALIZED blockers=${mapped.length} created=${created.length} report=${report.overall_status}`
+    JSON.stringify({
+      kind: "governance-findings",
+      action: "materialize",
+      status: "materialized",
+      blockers: expectation.plan.length,
+      created: expectation.plan.filter((entry) => entry.state === "created").length,
+      task_plan: expectation.taskPlanHash.slice(0, 12)
+    })
   );
 }
 
-await main();
+await main().catch((error) => {
+  console.error(
+    JSON.stringify({
+      kind: "governance-findings",
+      action: "materialize",
+      status: "error",
+      message: String(error?.message || error)
+    })
+  );
+  process.exit(1);
+});
