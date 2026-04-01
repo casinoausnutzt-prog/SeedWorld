@@ -1,126 +1,106 @@
 // @doc-anchor ENGINE-CORE
 // @doc-anchor KERNEL-CONTROLLER
 //
-// KernelController – schlanker, direkter Kernel ohne Wrapper-Schichten.
-// Nutzt engine/kernel direkt fuer Determinismus-Guards.
-// Kein GateManager, kein PatchOrchestrator, kein GovernanceEngine zur Runtime.
-// Erweitert um Factorio-Light-Mechaniken: Smelter, Conveyor, Ressourcen-Produktion.
+// KernelController – Bruecke zwischen UI/GameLogic und dem deterministischen Kernel.
+// Bietet eine asynchrone API fuer Actions und verwaltet den lokalen State-Snapshot.
 
 import { withDeterminismGuards } from "../../engine/kernel/runtimeGuards.js";
-import { generateWorld } from "../game/worldGen.js";
+
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function isPlainObject(o) {
+  return o !== null && typeof o === "object" && Object.getPrototypeOf(o) === Object.prototype;
+}
 
 function assert(condition, message) {
-  if (!condition) throw new Error(message);
-}
-
-function isPlainObject(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-  const proto = Object.getPrototypeOf(value);
-  return proto === Object.prototype || proto === null;
-}
-
-function clone(value) {
-  return structuredClone(value);
+  if (!condition) throw new Error(`[KERNEL_CONTROLLER] ${message}`);
 }
 
 function deriveSeedSignature(seed) {
-  let hash = 2166136261;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash ^= seed.charCodeAt(i);
-    hash = Math.imul(hash, 16777619);
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+    hash |= 0;
   }
-  return (hash >>> 0).toString(16).padStart(8, "0");
+  return `sig-${Math.abs(hash).toString(16)}`;
 }
 
-// ── Factorio-Konstanten ────────────────────────────────────────────────────
+// Struktur-Kosten (Zentral definiert fuer Voxel-MVP)
 const STRUCTURE_COSTS = {
-  mine:     { ore: 50 },
-  smelter:  { ore: 100 },
+  mine:     { ore: 100 },
+  smelter:  { ore: 200 },
   conveyor: { ore: 20 }
 };
 
-const MINE_ORE_PER_TICK    = 2;
-const SMELTER_ORE_PER_TICK = 5;
-const SMELTER_IRON_PER_TICK = 1;
-const TICKS_PER_PRODUCTION  = 5;
-
-// ── Hilfsfunktionen ────────────────────────────────────────────────────────
-
-function getTile(state, x, y) {
-  const tiles = Array.isArray(state.world?.tiles) ? state.world.tiles : [];
-  return tiles.find(t => t?.x === x && t?.y === y) || null;
-}
-
-function getStructuresOfType(state, type) {
-  const structs = state.structures && typeof state.structures === "object" ? state.structures : {};
-  return Object.entries(structs)
-    .filter(([, s]) => s?.id === type)
-    .map(([key, s]) => {
-      const [x, y] = key.split(",").map(Number);
-      return { key, x, y, ...s };
-    });
-}
-
 function runProductionTick(state) {
-  const next = clone(state);
-  const tick = Number(next.clock?.tick) || 0;
+  const structures = state.structures || {};
+  const resources = { ...(state.resources || {}) };
+  const statistics = { ...(state.statistics || {}) };
 
-  // Nur jedes N-te Tick produzieren
-  if (tick % TICKS_PER_PRODUCTION !== 0) return next;
+  // 1. Minen produzieren Erz
+  const mines = Object.values(structures).filter(s => s?.id === "mine");
+  const oreGain = mines.length;
+  resources.ore = (Number(resources.ore) || 0) + oreGain;
+  statistics.totalOreProduced = (Number(statistics.totalOreProduced) || 0) + oreGain;
 
-  const capacity = 500 + (getStructuresOfType(next, "storage").length * 200);
-
-  // Minen: Erz abbauen
-  const mines = getStructuresOfType(next, "mine");
-  for (const mine of mines) {
-    const tile = getTile(next, mine.x, mine.y);
-    if (!tile) continue;
-    const isOnResource = tile.resource === "ore" || tile.resource === "coal";
-    if (!isOnResource) continue;
-    const currentOre = Number(next.resources?.ore) || 0;
-    if (currentOre >= capacity) continue;
-    const gain = Math.min(MINE_ORE_PER_TICK, capacity - currentOre);
-    next.resources.ore = currentOre + gain;
-    next.statistics.totalOreProduced = (Number(next.statistics?.totalOreProduced) || 0) + gain;
+  // 2. Schmelzoefen verarbeiten Erz zu Eisen (5 Erz -> 1 Eisen)
+  const smelters = Object.values(structures).filter(s => s?.id === "smelter");
+  const maxIronFromOre = Math.floor(resources.ore / 5);
+  const ironGain = Math.min(smelters.length, maxIronFromOre);
+  
+  if (ironGain > 0) {
+    resources.ore -= (ironGain * 5);
+    resources.iron = (Number(resources.iron) || 0) + ironGain;
+    statistics.totalIronProduced = (Number(statistics.totalIronProduced) || 0) + ironGain;
   }
 
-  // Smelter: Erz -> Eisen
-  const smelters = getStructuresOfType(next, "smelter");
-  for (const _ of smelters) {
-    const currentOre = Number(next.resources?.ore) || 0;
-    if (currentOre < SMELTER_ORE_PER_TICK) continue;
-    next.resources.ore  = currentOre - SMELTER_ORE_PER_TICK;
-    next.resources.iron = (Number(next.resources?.iron) || 0) + SMELTER_IRON_PER_TICK;
-    next.statistics.totalIronProduced = (Number(next.statistics?.totalIronProduced) || 0) + SMELTER_IRON_PER_TICK;
-  }
-
-  return next;
+  return { ...state, resources, statistics };
 }
-
-// ── Action Handlers ────────────────────────────────────────────────────────
 
 const ACTION_HANDLERS = {
-  "game.createInitialState": (ctx) => {
-    const world = generateWorld({ seed: ctx.seed, width: 20, height: 15 });
+  "game.generate_world": (ctx, action) => {
+    const seed = typeof action.payload?.seed === "string" ? action.payload.seed : ctx.seed;
+    const width = Number.isInteger(action.payload?.width) ? action.payload.width : 16;
+    const height = Number.isInteger(action.payload?.height) ? action.payload.height : 12;
+    
+    // Einfache deterministische Weltgenerierung fuer den Browser-Pfad
+    const tiles = [];
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const noise = (Math.abs(Math.sin(x * 12.9898 + y * 78.233 + deriveSeedSignature(seed).length)) * 43758.5453) % 1;
+        let terrain = "meadow";
+        let resource = "none";
+        
+        if (noise < 0.1) terrain = "water";
+        else if (noise < 0.2) terrain = "forest";
+        else if (noise < 0.25) { terrain = "rock"; resource = "ore"; }
+        else if (noise < 0.3) { terrain = "dry"; resource = "coal"; }
+        
+        tiles.push({ x, y, terrain, resource });
+      }
+    }
+
     return {
-      world,
-      clock: { tick: 0, msPerTick: 100 },
-      resources: { ore: 200, iron: 0, coal: 0 },
+      world: { seed, size: { width, height }, tiles },
+      clock: { tick: 0 },
+      resources: { ore: 0, iron: 0 },
       structures: {},
       statistics: {
         totalTicks: 0,
         structuresBuilt: 0,
         totalOreProduced: 0,
         totalIronProduced: 0,
-        seedSignature: deriveSeedSignature(ctx.seed)
+        seedSignature: deriveSeedSignature(seed)
       }
     };
   },
 
   "game.advanceTick": (ctx, action) => {
     assert(isPlainObject(action.state), "[ADVANCE_TICK] state fehlt.");
-    const ticks = Number.isInteger(action.ticks) && action.ticks > 0 ? action.ticks : 1;
     let state = action.state;
+    const ticks = Number.isInteger(action.ticks) && action.ticks > 0 ? action.ticks : 1;
 
     for (let i = 0; i < ticks; i++) {
       const currentTick = (Number(state.clock?.tick) || 0) + 1;
@@ -152,8 +132,7 @@ const ACTION_HANDLERS = {
 
   "game.getBuildOptions": (_ctx, action) => {
     assert(isPlainObject(action.state), "[GET_BUILD_OPTIONS] state fehlt.");
-    const ore  = Number(action.state.resources?.ore)  || 0;
-    const iron = Number(action.state.resources?.iron) || 0;
+    const ore = Number(action.state.resources?.ore) || 0;
     return [
       {
         id: "mine",
@@ -162,7 +141,7 @@ const ACTION_HANDLERS = {
         icon: "⛏",
         cost: STRUCTURE_COSTS.mine,
         canAfford: ore >= STRUCTURE_COSTS.mine.ore,
-        requiresTile: ["ore", "coal"]
+        requiresTile: ["rock"]
       },
       {
         id: "smelter",
@@ -192,48 +171,38 @@ const ACTION_HANDLERS = {
     const y = Number.isInteger(action.y) ? action.y : 0;
     const structureId = typeof action.structureId === "string" ? action.structureId.trim() : "";
     assert(structureId, "[PLACE_STRUCTURE] structureId fehlt.");
-
+    
     const tiles = Array.isArray(state.world?.tiles) ? state.world.tiles : [];
     const tile = tiles.find(t => t?.x === x && t?.y === y);
     assert(tile, `[PLACE_STRUCTURE] Tile nicht gefunden: ${x},${y}`);
-    assert(tile.biome !== "water", `[PLACE_STRUCTURE] Struktur auf water unzulaessig: ${x},${y}`);
-
+    
     const cost = STRUCTURE_COSTS[structureId];
     assert(cost, `[PLACE_STRUCTURE] Unbekannte Struktur: ${structureId}`);
-
+    
     const ore = Number(state.resources?.ore) || 0;
     assert(ore >= cost.ore, `[PLACE_STRUCTURE] Nicht genug Erz: benoetigt ${cost.ore}, vorhanden ${ore}`);
 
-    // Mine darf nur auf Ressourcen-Feldern gebaut werden
     if (structureId === "mine") {
-      assert(
-        tile.resource === "ore" || tile.resource === "coal",
-        `[PLACE_STRUCTURE] Mine kann nur auf Erz oder Kohle gebaut werden.`
-      );
+      assert(tile.resource !== "none", "[PLACE_STRUCTURE] Mine kann nur auf Ressourcen-Feldern gebaut werden.");
     }
-
-    // Kein Doppelbau
+    
     const existingKey = `${x},${y}`;
     assert(!state.structures?.[existingKey], `[PLACE_STRUCTURE] Bereits eine Struktur auf ${x},${y}`);
 
-    const structures = {
-      ...(state.structures || {}),
-      [existingKey]: {
-        id: structureId,
+    const structures = { 
+      ...(state.structures || {}), 
+      [existingKey]: { 
+        id: structureId, 
         builtAt: Number(state.clock?.tick) || 0,
-        x,
-        y
-      }
+        x, y
+      } 
     };
 
     return {
       ...state,
       structures,
       resources: { ...state.resources, ore: ore - cost.ore },
-      statistics: {
-        ...state.statistics,
-        structuresBuilt: (Number(state.statistics?.structuresBuilt) || 0) + 1
-      }
+      statistics: { ...state.statistics, structuresBuilt: (Number(state.statistics?.structuresBuilt) || 0) + 1 }
     };
   },
 
@@ -251,12 +220,7 @@ const ACTION_HANDLERS = {
     return { ...state, structures };
   },
 
-  "kernel.status": (ctx) => ({
-    status: "deterministic",
-    seed: ctx.seed,
-    tick: ctx.currentTick
-  }),
-
+  "kernel.status": (ctx) => ({ status: "deterministic", seed: ctx.seed, tick: ctx.currentTick }),
   "kernel.setDeterministicSeed": (ctx, action) => {
     assert(typeof action.seed === "string" && action.seed.trim(), "[SET_SEED] seed fehlt.");
     ctx.seed = action.seed.trim();
@@ -266,7 +230,7 @@ const ACTION_HANDLERS = {
 
 export class KernelController {
   constructor(options = {}) {
-    this.seed = typeof options.seed === "string" && options.seed.trim() ? options.seed.trim() : "default-seed";
+    this.seed = typeof options.seed === "string" && options.seed.trim() ? options.seed.trim() : "seedworld-v1";
     this.deterministicSeed = this.seed;
     this.currentTick = 0;
     this._callHistory = [];

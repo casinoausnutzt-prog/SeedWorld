@@ -48,8 +48,5 @@
     "jszip": "^3.10.1",
     "playwright": "^1.58.2",
     "playwright-core": "^1.58.2"
-  },
-  "dependencies": {
-    "three": "^0.183.2"
   }
 }
