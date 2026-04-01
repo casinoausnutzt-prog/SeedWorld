@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-007",
+  "title": "SVG-Overlay auf Restlinien reduzieren",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "SVG nur noch fuer unvermeidliche Linien- oder Pulseffekte behalten und Layer-Reihenfolge absichern.",
+  "scope_paths": [
+    "app/src/ui/RenderManager.js",
+    "app/src/ui/UIController.js",
+    "app/public/game.html"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

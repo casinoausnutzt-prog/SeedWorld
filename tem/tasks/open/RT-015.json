@@ -1,0 +1,39 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "RT-015",
+  "title": "Hash- und Versionsvertrag fuer Welt- und Renderzustand",
+  "status": "open",
+  "track": "red-team-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "worldHash = hash(seed + generatorVersion + biomeVersion + blockConfig) und renderHash = hash(worldHash + cameraPreset + lightPreset + renderVersion + visibleChunks) implementieren, versionieren und testbar machen.",
+  "evidence": {
+    "code_locations": [
+      "app/src/render/renderFingerprint.js (neu)",
+      "app/src/game/worldHash.js (neu)"
+    ],
+    "hash_formulas": [
+      "worldHash = hash(seed + generatorVersion + biomeVersion + blockConfig)",
+      "renderHash = hash(worldHash + cameraPreset + lightPreset + renderVersion + visibleChunks)"
+    ],
+    "issue_type": "Determinism Contract",
+    "impact": "Kryptographische Verifizierbarkeit aller Render-Outputs"
+  },
+  "acceptance_criteria": [
+    "worldHash ist implementiert und versioniert",
+    "renderHash ist implementiert und versioniert",
+    "Hashes sind testbar und deterministisch",
+    "Keine versteckten Defaults oder impliziten Inputs in Hash-Berechnung"
+  ],
+  "risks": [
+    "Versteckte Defaults oder implizite Inputs machen die Hashes wertlos"
+  ],
+  "scope_paths": [
+    "app/src/render/renderFingerprint.js",
+    "app/src/game/worldHash.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "3h",
+  "dependencies": ["RT-014"]
+}

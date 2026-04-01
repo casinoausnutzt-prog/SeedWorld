@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "CF-003",
+  "title": "Einen einzigen aktiven Frame-Scheduler festziehen",
+  "status": "open",
+  "track": "canvas-migration",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "Doppelte Render-Loops entfernen und nur einen aktiven Scheduler fuer die Browseransicht lassen.",
+  "scope_paths": [
+    "app/src/ui/UIController.js",
+    "app/src/ui/RenderManager.js",
+    "app/src/main.js",
+    "app/public/game.html"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

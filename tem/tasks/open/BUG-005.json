@@ -1,0 +1,32 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "BUG-005",
+  "title": "Missing path import in staticHandler.mjs",
+  "status": "open",
+  "track": "code-quality",
+  "source_docs": [
+    "app/server/staticHandler.mjs"
+  ],
+  "description": "Die isPathInside Funktion verwendet path.sep (Zeile 41), aber path ist nicht importiert. Nur named exports { extname, resolve } werden importiert. Dies führt zu einem ReferenceError bei Runtime.",
+  "evidence": {
+    "code_locations": [
+      "app/server/staticHandler.mjs:1 (import { extname, resolve } from 'node:path';)",
+      "app/server/staticHandler.mjs:41 (return normalizedCandidate.startsWith(normalizedParent + path.sep);)"
+    ],
+    "issue_type": "Runtime Error / ReferenceError",
+    "impact": "Server crash beim Zugriff auf geschützte Pfade; Path-Traversal-Schutz funktioniert nicht"
+  },
+  "fix_instructions": "Importiere 'sep' aus 'node:path' und verwende es direkt: import { extname, resolve, sep } from 'node:path'; ... return normalizedCandidate.startsWith(normalizedParent + sep);",
+  "acceptance_criteria": [
+    "sep ist importiert aus node:path",
+    "path.sep wird nicht mehr verwendet",
+    "npm test läuft durch",
+    "Path-Traversal-Tests bestehen"
+  ],
+  "scope_paths": [
+    "app/server/staticHandler.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "15 min",
+  "dependencies": []
+}

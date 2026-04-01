@@ -4,9 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "llm:entry": "node dev/tools/runtime/llm-entry.mjs",
-    "llm:guard": "node dev/tools/runtime/llm-read-guard.mjs",
-    "llm:override": "node dev/tools/runtime/llm-override.mjs",
+    "llm:preflight": "node dev/llm-preflight.mjs",
+    "llm:preflight:update-lock": "node dev/llm-preflight.mjs update-lock",
+    "llm:preflight:entry": "node dev/llm-preflight.mjs entry",
+    "llm:preflight:ack": "node dev/llm-preflight.mjs ack",
+    "llm:preflight:check": "node dev/llm-preflight.mjs check",
+    "llm:preflight:spawn-proof": "node dev/llm-preflight.mjs spawn-proof",
+    "llm:preflight:cache-sync": "node dev/llm-preflight.mjs cache-sync",
+    "llm:preflight:cache-validate": "node dev/llm-preflight.mjs cache-validate",
+
     "sync:docs:apply": "node dev/tools/runtime/updateRedActions.mjs --write && npm run docs:v2:sync",
     "governance:llm:sync": "node dev/tools/runtime/sync-llm-read-contract.mjs --write",
     "governance:llm:verify": "node dev/tools/runtime/governance-llm-verify.mjs",

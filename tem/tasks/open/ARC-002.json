@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "ARC-002",
+  "title": "Race Condition in stopAppServer beheben",
+  "status": "open",
+  "track": "runtime-stability",
+  "source_docs": [
+    "app/server/appServer.mjs"
+  ],
+  "description": "stopAppServer() prueft appServerInstance vor dem asynchronen Close (Zeile 90), setzt es aber sofort auf null bevor der Close-Callback abgeschlossen ist (Zeile 95). Race Condition bei parallelen Shutdown-Aufrufen moeglich.",
+  "evidence": {
+    "code_locations": [
+      "app/server/appServer.mjs:89-105 (stopAppServer Funktion)",
+      "app/server/appServer.mjs:90-92 (Instance-Check vor async)",
+      "app/server/appServer.mjs:95 (Instance wird vor Close auf null gesetzt)"
+    ],
+    "issue_type": "Race Condition",
+    "impact": "Parallele Shutdown-Aufrufe koennen zu inkonsistentem Zustand fuehren"
+  },
+  "scope_paths": [
+    "app/server/appServer.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

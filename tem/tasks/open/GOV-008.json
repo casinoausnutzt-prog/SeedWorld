@@ -1,0 +1,40 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "GOV-008",
+  "title": "Preset-Registry fuer Kamera, Licht, Material und Schatten",
+  "status": "open",
+  "track": "governance",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "Preset-Registry als einzige zulaessige Eingabebasis einfuehren: cameraPreset, lightPreset, materialPreset, shadowPreset kommen nur aus versionierter Registry.",
+  "evidence": {
+    "code_locations": [
+      "app/src/render/renderPresets.js (neu)",
+      "app/src/kernel/gates/..."
+    ],
+    "presets": [
+      "cameraPreset",
+      "lightPreset",
+      "materialPreset",
+      "shadowPreset"
+    ],
+    "issue_type": "Governance Enforcement",
+    "impact": "Keine freien Produktionsparameter mehr moeglich"
+  },
+  "acceptance_criteria": [
+    "Preset-Registry ist implementiert und versioniert",
+    "Alle Presets kommen aus Registry",
+    "Gate-Validatoren pruefen gegen Whitelist",
+    "Keine freien Rohwerte koennen durchgereicht werden"
+  ],
+  "risks": [
+    "Versteckte Altpfade reichen doch noch Rohwerte durch"
+  ],
+  "scope_paths": [
+    "app/src/render/renderPresets.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "estimated_effort": "3h",
+  "dependencies": []
+}

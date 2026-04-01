@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "SEC-001",
+  "title": "Path Traversal Sicherheitsluecke in staticHandler beheben",
+  "status": "open",
+  "track": "security-hardening",
+  "source_docs": [
+    "app/server/staticHandler.mjs"
+  ],
+  "description": "Die isPathInside-Funktion verwendet plattformspezifische Pfad-Trennzeichen (backslash vs slash) in Zeile 39, die in gemischten Umgebungen fehlschlagen koennten. Pfad-Traversal-Angriff moeglich bei nicht standardisierten Pfaden.",
+  "evidence": {
+    "code_locations": [
+      "app/server/staticHandler.mjs:37-40 (isPathInside Funktion)"
+    ],
+    "issue_type": "Path Traversal Vulnerability",
+    "impact": "Potentielle Directory Traversal in gemischten OS-Umgebungen"
+  },
+  "scope_paths": [
+    "app/server/staticHandler.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

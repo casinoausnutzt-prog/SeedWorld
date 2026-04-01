@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "ARC-001",
+  "title": "Timer Memory Leak in UIController beheben",
+  "status": "open",
+  "track": "runtime-stability",
+  "source_docs": [
+    "app/src/ui/UIController.js"
+  ],
+  "description": "setInterval Timer (tickTimer, tickDrainTimer) und requestAnimationFrame (renderFrameHandle) werden in bootstrap() erstellt (Zeilen 184-196, 213), aber nie aufgeraeumt. Keine destroy()-Methode vorhanden fuehrt zu Memory Leaks bei Neuladen oder Komponenten-Destruktion.",
+  "evidence": {
+    "code_locations": [
+      "app/src/ui/UIController.js:179-197 (tickTimer/tickDrainTimer erstellt)",
+      "app/src/ui/UIController.js:199-214 (renderFrameHandle erstellt)",
+      "app/src/ui/UIController.js:84-91 (Timer-Properties deklariert)"
+    ],
+    "issue_type": "Memory Leak",
+    "impact": "Memory Leak bei Komponenten-Destruktion oder Seiten-Reload"
+  },
+  "scope_paths": [
+    "app/src/ui/UIController.js"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

@@ -1,0 +1,22 @@
+{
+  "ui": {
+    "description": "Changes related to the user interface.",
+    "triggerPrefixes": ["app/src/ui/", "app/public/"],
+    "requiredEntry": "docs/llm/entry/UI_ENTRY.md"
+  },
+  "gameplay": {
+    "description": "Changes related to game logic and mechanics.",
+    "triggerPrefixes": ["app/src/game/", "engine/game/"],
+    "requiredEntry": "docs/llm/entry/GAMEPLAY_ENTRY.md"
+  },
+  "kernel": {
+    "description": "Changes related to the core deterministic kernel.",
+    "triggerPrefixes": ["app/src/kernel/", "engine/kernel/"],
+    "requiredEntry": "docs/llm/entry/KERNEL_ENTRY.md"
+  },
+  "governance": {
+    "description": "Changes related to governance, testline, and hygiene.",
+    "triggerPrefixes": ["dev/governance/", "dev/testline/", "dev/hygiene/"],
+    "requiredEntry": "docs/llm/entry/GOVERNANCE_ENTRY.md"
+  }
+}

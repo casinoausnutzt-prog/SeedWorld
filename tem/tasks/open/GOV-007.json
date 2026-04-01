@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "GOV-007",
+  "title": "Blocker: repo:hygiene:verify",
+  "status": "open",
+  "track": "governance-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "required gate failed: repo:hygiene:verify. proof=a1a0809ec631a5c90f523d3fd98ae2246d816df151a2d3080dab9681fe668d05.",
+  "scope_paths": [
+    "dev/tools/runtime/run-required-checks.mjs",
+    "app/src/kernel/GovernanceEngine.js"
+  ],
+  "match_policy": "all_scope_paths_touched",
+  "finding_fingerprint": "66a92dd7fcfcade7ceb1cffe011815a2f964a6ce3a57be4547947404ad5a32b0",
+  "finding_rule_id": "repo:hygiene:verify",
+  "finding_report": "runtime/evidence/required-check-report.json",
+  "file_path": "tem/tasks/archive/GOV-007.json",
+  "archived_at": "2026-03-31T11:10:20.164Z",
+  "archive_reason": "scope matched current change set",
+  "archive_changed_files": [
+    ".githooks/pre-commit",
+    "app/src/kernel/GovernanceEngine.js",
+    "app/src/sot/docs-v2.json",
+    "app/src/sot/governance-engine.sot.v2.json",
+    "app/src/sot/llm-read-contract.v1.json",
+    "app/src/sot/repo-boundaries.json",
+    "app/src/sot/source-of-truth.json",
+    "app/src/sot/sub-agent-manifest.v1.json",
+    "dev/tools/runtime/governance-findings-materialize.mjs",
+    "dev/tools/runtime/governance-modularity-verify.mjs",
+    "dev/tools/runtime/governance-policy-verify.mjs",
+    "dev/tools/runtime/installGitHooks.mjs",
+    "dev/tools/runtime/run-required-checks.mjs",
+    "dev/tools/runtime/signing-guard.mjs",
+    "docs/V2/HOME.md",
+    "docs/V2/PLAN.md",
+    "docs/V2/SYSTEM_PLAN.md",
+    "docs/V2/TRUTH.md",
+    "package.json",
+    "tem/tasks/open/GOV-001.json",
+    "tem/tasks/open/GOV-002.json",
+    "tem/tasks/open/GOV-003.json",
+    "tem/tasks/open/GOV-004.json",
+    "tem/tasks/open/GOV-005.json",
+    "tem/tasks/open/GOV-006.json",
+    "tem/tasks/open/GOV-007.json"
+  ],
+  "archived_from": "tem/tasks/open/GOV-007.json"
+}

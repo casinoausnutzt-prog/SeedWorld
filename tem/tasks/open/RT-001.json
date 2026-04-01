@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "RT-001",
+  "title": "Kernel validator unter Determinism-Guards erzwingen",
+  "status": "open",
+  "track": "red-team-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "Validator-Ausfuehrung darf keine Entropie vor Guard einschleusen; Action-Input muss immutable durch den Ausfuehrungspfad laufen.",
+  "scope_paths": [
+    "app/src/kernel/KernelController.js",
+    "app/src/kernel/runtimeGuards.js",
+    "dev/tests/modules/10.determinism-seed-proof-suite.module.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "task_id": "GOV-003",
+  "title": "Mutation-Guard in deterministische Teilmodule splitten",
+  "status": "open",
+  "track": "governance-hardening",
+  "source_docs": [
+    "docs/V2/SYSTEM_PLAN.md"
+  ],
+  "description": "preflight-mutation-guard muss in parser, classifier und writer getrennt werden, damit die derzeitige Max-Size-Ausnahme mit Sunset ausläuft.",
+  "scope_paths": [
+    "dev/tools/runtime/preflight-mutation-guard.mjs",
+    "dev/tools/runtime/llm-read-shared.mjs",
+    "dev/tools/runtime/repo-hygiene-map.mjs"
+  ],
+  "match_policy": "all_scope_paths_touched"
+}
