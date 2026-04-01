@@ -3,77 +3,176 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SeedWorld - Game</title>
-    <link rel="stylesheet" href="./src/ui/tileGrid.css" />
+    <title>SeedWorld - Voxel Factorio Light</title>
     <style>
       :root {
         --bg-base: #0a1210;
         --bg-mid: #13221d;
         --bg-highlight: #224437;
         --ink: #ebf9f1;
+        --accent: #d4a017;
+        --error: #e05a00;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       body {
         margin: 0;
-        min-height: 100vh;
+        overflow: hidden;
         color: var(--ink);
-        font-family: "Space Grotesk", "IBM Plex Sans", "Trebuchet MS", sans-serif;
-        background:
-          radial-gradient(1150px 650px at 12% -8%, rgb(67 127 100 / 38%), transparent 62%),
-          radial-gradient(980px 520px at 88% 108%, rgb(33 82 69 / 48%), transparent 58%),
-          linear-gradient(165deg, var(--bg-mid), var(--bg-base) 65%);
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--bg-base);
       }
 
-      .game-shell {
-        min-height: 100vh;
-        padding: 18px 18px 192px;
-        display: grid;
-        place-items: center;
+      #game-container {
+        width: 100vw;
+        height: 100vh;
         position: relative;
-        animation: rise-in 420ms ease-out;
       }
 
-      #tile-grid-container {
+      /* HUD Styles */
+      .hud-top {
+        position: absolute;
+        top: 20px;
+        left: 20px;
         display: flex;
+        gap: 20px;
+        z-index: 10;
+        background: rgba(10, 18, 16, 0.8);
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid var(--bg-highlight);
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-label { font-size: 10px; text-transform: uppercase; opacity: 0.6; }
+      .stat-value { font-size: 18px; font-weight: bold; color: var(--accent); }
+
+      .hud-bottom {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 3;
+        gap: 10px;
       }
 
-      @keyframes rise-in {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      #build-menu {
+        display: flex;
+        gap: 10px;
+        background: rgba(10, 18, 16, 0.9);
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--bg-highlight);
       }
 
-      @media (max-width: 720px) {
-        .game-shell {
-          padding: 12px 10px;
-        }
+      .build-btn {
+        background: var(--bg-mid);
+        border: 1px solid var(--bg-highlight);
+        color: var(--ink);
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        transition: all 0.2s;
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .game-shell {
-          animation: none;
-        }
+      .build-btn:hover:not(:disabled) { background: var(--bg-highlight); }
+      .build-btn.active { border-color: var(--accent); background: var(--bg-highlight); box-shadow: 0 0 10px var(--accent); }
+      .build-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+      .build-icon { font-size: 24px; }
+      .build-name { font-size: 12px; margin-top: 4px; }
+      .build-cost { font-size: 10px; opacity: 0.7; }
+
+      #tile-info-panel {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(10, 18, 16, 0.8);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--bg-highlight);
+        width: 200px;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s;
+        pointer-events: none;
+      }
+
+      #tile-info-panel.visible { opacity: 1; transform: translateX(0); }
+
+      .notification {
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .notification.visible { opacity: 1; }
+      .notification.success { background: var(--bg-highlight); border: 1px solid var(--accent); }
+      .notification.error { background: #441100; border: 1px solid var(--error); }
+
+      #error-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        color: var(--error);
+        display: none;
+        place-items: center;
+        z-index: 1000;
+        font-size: 24px;
       }
     </style>
   </head>
   <body>
-    <main class="game-shell" aria-label="SeedWorld Spielansicht">
-      <div id="tile-grid-container"></div>
-    </main>
+    <div id="game-container"></div>
 
-    <script type="module" src="./src/main.js?rev=20260328b"></script>
+    <div class="hud-top">
+      <div class="stat-item">
+        <span class="stat-label">Erz</span>
+        <span class="stat-value" id="hud-ore">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Eisen</span>
+        <span class="stat-value" id="hud-iron">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Tick</span>
+        <span class="stat-value" id="hud-tick">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Seed</span>
+        <span class="stat-value" id="hud-seed">-</span>
+      </div>
+    </div>
+
+    <div id="tile-info-panel"></div>
+    <div id="notification" class="notification"></div>
+    <div id="error-overlay"></div>
+
+    <div class="hud-bottom">
+      <div id="build-menu">
+        <!-- Buttons werden dynamisch gerendert -->
+      </div>
+      <div style="font-size: 10px; opacity: 0.5;">Klicke auf ein Feld zum Bauen | Rechtsklick/Mausrad zum Bewegen</div>
+    </div>
+
+    <script type="module" src="./src/voxel-main.js"></script>
   </body>
 </html>
