@@ -1,43 +1,37 @@
 // @doc-anchor ENGINE-CORE
-// CanvasVoxelRenderer – Isometrischer Voxel-Renderer mit Canvas + DOM-Overlay.
-// Nutzt 2D Canvas fuer das Zeichnen der Voxel und DOM fuer Interaktionen.
+// CanvasVoxelRenderer V4 – Erweitertes 8x8 Sub-Tile Rendering mit Konturen und Schatten.
+// Nutzt isometrische Projektion mit dynamischer Sättigung für Tiefe.
 
 const TERRAIN_COLORS = {
-  water:   { top: "#1a6fa8", side1: "#145a8a", side2: "#0e456b" },
-  meadow:  { top: "#4a8c3f", side1: "#3a6e31", side2: "#2a4f23" },
-  forest:  { top: "#2d6e2a", side1: "#235621", side2: "#193e18" },
-  scrub:   { top: "#8a7a3d", side1: "#6d6030", side2: "#504623" },
-  steppe:  { top: "#b8a45a", side1: "#918147", side2: "#6a5e34" },
-  rock:    { top: "#6b6b6b", side1: "#555555", side2: "#3f3f3f" },
-  trees:   { top: "#1e5c1a", side1: "#184915", side2: "#123610" },
-  dry:     { top: "#a08840", side1: "#7e6b32", side2: "#5c4e24" },
-  dust:    { top: "#c4a855", side1: "#9b8543", side2: "#726231" },
-  default: { top: "#555555", side1: "#444444", side2: "#333333" }
+  water:   { h: 200, s: 70, l: 40 },
+  meadow:  { h: 110, s: 50, l: 45 },
+  forest:  { h: 120, s: 60, l: 35 },
+  rock:    { h: 0,   s: 0,  l: 45 },
+  dry:     { h: 45,  s: 40, l: 50 },
+  default: { h: 0,   s: 0,  l: 35 }
 };
 
 const RESOURCE_COLORS = {
-  ore:  { top: "#c0a060", side1: "#9a804d", side2: "#74603a" },
-  coal: { top: "#333333", side1: "#292929", side2: "#1f1f1f" }
+  ore:  { h: 40,  s: 50, l: 60 },
+  coal: { h: 0,   s: 0,  l: 20 }
 };
 
 const STRUCTURE_COLORS = {
-  mine:     { top: "#d4a017", side1: "#a98012", side2: "#7f600e" },
-  smelter:  { top: "#e05a00", side1: "#b34800", side2: "#863600" },
-  conveyor: { top: "#888888", side1: "#6d6d6d", side2: "#525252" }
+  mine:     { h: 45,  s: 80, l: 50 },
+  smelter:  { h: 20,  s: 90, l: 45 },
+  conveyor: { h: 0,   s: 0,  l: 55 }
 };
 
-const TERRAIN_HEIGHT = {
-  water:   0.3,
-  meadow:  1.0,
-  forest:  1.0,
-  scrub:   0.9,
-  steppe:  0.8,
-  rock:    1.2,
-  trees:   1.0,
-  dry:     0.85,
-  dust:    0.75,
-  default: 1.0
-};
+function hslToHex(h, s, l) {
+  l /= 100;
+  const a = s * Math.min(l, 1 - l) / 100;
+  const f = n => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
 
 export class CanvasVoxelRenderer {
   constructor(container, options = {}) {
@@ -57,21 +51,15 @@ export class CanvasVoxelRenderer {
     this.ctx = this.canvas.getContext("2d");
     this.container.appendChild(this.canvas);
 
-    // DOM Overlay fuer Interaktion
-    this.overlay = document.createElement("div");
-    this.overlay.className = "voxel-overlay";
-    this.overlay.style.position = "absolute";
-    this.overlay.style.top = "0";
-    this.overlay.style.left = "0";
-    this.overlay.style.width = "100%";
-    this.overlay.style.height = "100%";
-    this.container.appendChild(this.overlay);
-
     // Isometrische Parameter
     this.tileW = 64;
     this.tileH = 32;
+    this.subDiv = 8; // 8x8 Sub-Tiles
+    this.subW = this.tileW / this.subDiv;
+    this.subH = this.tileH / this.subDiv;
+    
     this.offsetX = this.width / 2;
-    this.offsetY = 100;
+    this.offsetY = 150;
 
     this._setupClickHandler();
   }
@@ -87,80 +75,109 @@ export class CanvasVoxelRenderer {
     const tiles = gameState?.world?.tiles;
     if (!Array.isArray(tiles)) return;
 
-    const size = gameState?.world?.size || { width: 16, height: 12 };
     const structures = gameState?.structures || {};
 
-    // Tiles sortieren fuer korrektes Painter's Algorithm (von hinten nach vorne)
+    // Painter's Algorithm: Sortiere nach Tiefe (x+y)
     const sortedTiles = [...tiles].sort((a, b) => (a.x + a.y) - (b.x + b.y));
 
     for (const tile of sortedTiles) {
-      const x = tile.x;
-      const y = tile.y;
-      const h = TERRAIN_HEIGHT[tile.terrain] || TERRAIN_HEIGHT[tile.biome] || 1.0;
-      const colors = (tile.resource && tile.resource !== "none") 
-        ? RESOURCE_COLORS[tile.resource] 
-        : (TERRAIN_COLORS[tile.terrain] || TERRAIN_COLORS[tile.biome] || TERRAIN_COLORS.default);
+      this._drawTileGroup(tile, structures[`${tile.x},${tile.y}`], tick);
+    }
+  }
 
-      this._drawVoxel(x, y, 0, h, colors);
+  _drawTileGroup(tile, structure, tick) {
+    const { x, y, terrain, resource } = tile;
+    const baseColor = TERRAIN_COLORS[terrain] || TERRAIN_COLORS.default;
+    
+    // Zeichne 8x8 Sub-Tiles für ein Haupt-Tile
+    for (let sy = 0; sy < this.subDiv; sy++) {
+      for (let sx = 0; sx < this.subDiv; sx++) {
+        const subX = x + sx / this.subDiv;
+        const subY = y + sy / this.subDiv;
+        
+        let h = 1.0;
+        let color = baseColor;
+        
+        // Ressourcen-Visualisierung (zentriert im 8x8 Gitter)
+        if (resource === "ore" && sx >= 2 && sx <= 5 && sy >= 2 && sy <= 5) {
+          color = RESOURCE_COLORS.ore;
+          h = 1.2;
+        }
 
-      // Struktur zeichnen falls vorhanden
-      const struct = structures[`${x},${y}`];
-      if (struct) {
-        const sColors = STRUCTURE_COLORS[struct.id] || STRUCTURE_COLORS.mine;
-        this._drawVoxel(x, y, h, 0.6, sColors);
+        // Struktur-Visualisierung
+        if (structure) {
+          const sColor = STRUCTURE_COLORS[structure.id] || STRUCTURE_COLORS.mine;
+          // Strukturen nehmen den Großteil des 8x8 Platzes ein
+          if (sx >= 1 && sx <= 6 && sy >= 1 && sy <= 6) {
+            color = sColor;
+            h = 1.5 + Math.sin(tick / 10 + sx + sy) * 0.1; // Leichte Animation
+          }
+        }
+
+        this._drawSubVoxel(subX, subY, 0, h, color);
       }
     }
   }
 
-  _drawVoxel(tx, ty, baseH, height, colors) {
+  _drawSubVoxel(tx, ty, baseH, height, color) {
     const { ctx, tileW, tileH, offsetX, offsetY } = this;
 
-    // Isometrische Projektion
+    // Isometrische Projektion für Sub-Tiles
     const screenX = offsetX + (tx - ty) * (tileW / 2);
     const screenY = offsetY + (tx + ty) * (tileH / 2) - (baseH * tileH);
-    const hPx = height * tileH;
+    const hPx = height * (tileH / 2);
+
+    // Dynamische Farben für Schatten und Konturen
+    const topColor = hslToHex(color.h, color.s, color.l + 10);
+    const side1Color = hslToHex(color.h, color.s - 10, color.l - 10); // Schattenseite 1
+    const side2Color = hslToHex(color.h, color.s - 20, color.l - 20); // Schattenseite 2
+    const strokeColor = hslToHex(color.h, color.s, color.l - 30); // Kontur
+
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = strokeColor;
 
     // 1. Top Face
     ctx.beginPath();
     ctx.moveTo(screenX, screenY - hPx);
-    ctx.lineTo(screenX + tileW / 2, screenY - tileH / 2 - hPx);
-    ctx.lineTo(screenX, screenY - tileH - hPx);
-    ctx.lineTo(screenX - tileW / 2, screenY - tileH / 2 - hPx);
+    ctx.lineTo(screenX + this.subW / 2, screenY - this.subH / 2 - hPx);
+    ctx.lineTo(screenX, screenY - this.subH - hPx);
+    ctx.lineTo(screenX - this.subW / 2, screenY - this.subH / 2 - hPx);
     ctx.closePath();
-    ctx.fillStyle = colors.top;
+    ctx.fillStyle = topColor;
     ctx.fill();
+    ctx.stroke();
 
-    if (height > 0) {
-      // 2. Left Face
-      ctx.beginPath();
-      ctx.moveTo(screenX - tileW / 2, screenY - tileH / 2 - hPx);
-      ctx.lineTo(screenX, screenY - hPx);
-      ctx.lineTo(screenX, screenY);
-      ctx.lineTo(screenX - tileW / 2, screenY - tileH / 2);
-      ctx.closePath();
-      ctx.fillStyle = colors.side1;
-      ctx.fill();
+    // 2. Left Face
+    ctx.beginPath();
+    ctx.moveTo(screenX - this.subW / 2, screenY - this.subH / 2 - hPx);
+    ctx.lineTo(screenX, screenY - hPx);
+    ctx.lineTo(screenX, screenY);
+    ctx.lineTo(screenX - this.subW / 2, screenY - this.subH / 2);
+    ctx.closePath();
+    ctx.fillStyle = side1Color;
+    ctx.fill();
+    ctx.stroke();
 
-      // 3. Right Face
-      ctx.beginPath();
-      ctx.moveTo(screenX, screenY - hPx);
-      ctx.lineTo(screenX + tileW / 2, screenY - tileH / 2 - hPx);
-      ctx.lineTo(screenX + tileW / 2, screenY - tileH / 2);
-      ctx.lineTo(screenX, screenY);
-      ctx.closePath();
-      ctx.fillStyle = colors.side2;
-      ctx.fill();
-    }
+    // 3. Right Face
+    ctx.beginPath();
+    ctx.moveTo(screenX, screenY - hPx);
+    ctx.lineTo(screenX + this.subW / 2, screenY - this.subH / 2 - hPx);
+    ctx.lineTo(screenX + this.subW / 2, screenY - this.subH / 2);
+    ctx.lineTo(screenX, screenY);
+    ctx.closePath();
+    ctx.fillStyle = side2Color;
+    ctx.fill();
+    ctx.stroke();
   }
 
   _setupClickHandler() {
-    this.overlay.addEventListener("click", (e) => {
+    this.canvas.addEventListener("click", (e) => {
       if (!this.clickCallback) return;
-      const rect = this.container.getBoundingClientRect();
+      const rect = this.canvas.getBoundingClientRect();
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
 
-      // Inverse isometrische Projektion (vereinfacht)
       const relX = mx - this.offsetX;
       const relY = my - this.offsetY;
 
@@ -173,7 +190,8 @@ export class CanvasVoxelRenderer {
 
   destroy() {
     this._destroyed = true;
-    this.container.removeChild(this.canvas);
-    this.container.removeChild(this.overlay);
+    if (this.canvas.parentNode) {
+      this.container.removeChild(this.canvas);
+    }
   }
 }

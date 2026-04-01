@@ -30,7 +30,7 @@ export class VoxelUIController {
     // 1. Initialzustand vom Kernel holen
     const initResult = await this.kernel.execute({
       domain: "game",
-      action: { type: "createInitialState" }
+      action: { type: "generate_world", payload: { seed: this.kernel.seed } }
     });
     this.gameState = initResult.result;
 
@@ -72,10 +72,10 @@ export class VoxelUIController {
       try {
         const result = await this.kernel.execute({
           domain: "game",
-          action: { type: "advanceTick", state: this.gameState, ticks: 1 }
+          action: { type: "advanceTick", payload: { state: this.gameState, ticks: 1 } }
         });
         this.gameState = result.result;
-        this.currentTick += 1;
+        this.currentTick = this.gameState.clock.tick;
         this.voxelRenderer.render(this.gameState, this.currentTick);
       } catch (err) {
         console.warn("[VOXEL_UI] Tick-Fehler:", err.message);
@@ -91,8 +91,8 @@ export class VoxelUIController {
 
     // Inspect
     const inspectResult = await this.kernel.execute({
-      domain: "game",
-      action: { type: "inspectTile", state: this.gameState, x, y }
+      domain: "query",
+      action: { type: "game.inspectTile", state: this.gameState, x, y }
     });
     const inspection = inspectResult.result;
 
@@ -113,10 +113,12 @@ export class VoxelUIController {
         domain: "game",
         action: {
           type: "placeStructure",
-          state: this.gameState,
-          x,
-          y,
-          structureId: this._selectedStructure
+          payload: {
+            state: this.gameState,
+            x,
+            y,
+            structureId: this._selectedStructure
+          }
         }
       });
       this.gameState = result.result;
@@ -133,8 +135,8 @@ export class VoxelUIController {
     if (!this.gameState) return;
     try {
       const result = await this.kernel.execute({
-        domain: "game",
-        action: { type: "getBuildOptions", state: this.gameState }
+        domain: "query",
+        action: { type: "game.getBuildOptions", state: this.gameState }
       });
       this._buildOptions = result.result;
       this._renderBuildMenu();

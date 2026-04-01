@@ -12,6 +12,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runPipeline } from "./policyEngine.mjs";
+import { generateEvidenceReport } from "./evidenceReporter.mjs";
 import { validateModuleContract, validateModuleSource } from "../../engine/kernel/moduleValidator.js";
 import { runReproductionProof } from "../../engine/proof/reproductionProof.js";
 import * as gameModule from "../../engine/game/gameModule.js";
@@ -73,6 +74,12 @@ async function main() {
   };
 
   const report = await runPipeline({ mode, context });
+
+  // 7. Detaillierten Evidence-Bericht generieren
+  const evidence = await generateEvidenceReport(context);
+  console.log(`[GOVERNANCE] evidence:report -> GENERATED (ID: ${evidence.id})`);
+  console.log(`  Path: ${evidence.path}`);
+  console.log(`  Integrity Hash: ${evidence.hash}`);
 
   console.log("");
   console.log("=== GOVERNANCE REPORT ===");

@@ -1,0 +1,31 @@
+{
+  "report_id": "3228e23627ae19d9",
+  "timestamp": "2026-04-01T01:27:11.372Z",
+  "environment": {
+    "node_version": "v22.13.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "evidence": {
+    "determinism": {
+      "status": "VERIFIED",
+      "fingerprint_a": "6f32e2173d3c1b7a7adf9b37f1573a5662874912ab20fa02c2a32570684b4d2b",
+      "fingerprint_b": "6f32e2173d3c1b7a7adf9b37f1573a5662874912ab20fa02c2a32570684b4d2b",
+      "match": true,
+      "ticks_simulated": 16,
+      "seed_used": "governance-check-seed",
+      "attestation": "15e69feb5c817cedf3c03ffd94bd67323bacc71581b7b996225f7ddc4ce418c1"
+    },
+    "module_contract": {
+      "status": "VERIFIED",
+      "exported_keys": [],
+      "errors": []
+    },
+    "source_hygiene": {
+      "status": "VERIFIED",
+      "forbidden_refs": [],
+      "warnings": []
+    }
+  },
+  "integrity_hash": "72507b4ffaddeb3e41b57fd4d5a06897eca69fa8a874081b890001a27b7f8288"
+}
